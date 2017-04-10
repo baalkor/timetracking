@@ -2,4 +2,27 @@
 
 {% block content %}
     <h1 class="mt-5">Zone liste</h1>
+    <table class="table table-bordered">
+        <thead>
+            <th>Zone</th>
+            <th>North west latitude</th>
+            <th>North west longitude</th>
+            <th>South west latitude</th>
+            <th>South west longitude</th>
+            <th>View / Update</th>
+            <th>Remove</th>
+        </thead>
+        <tbody>
+            {% for zone in zones %}
+                <tr>
+                    <td>{{ zone.name }} </td>
+                    <td>{{ zone.x1 }} </td>
+                    <td>{{ zone.y1 }} </td>
+                    <td>{{ zone.x2 }} </td>
+                    <td>{{ zone.y2 }} </td>
+                    <td>.</td>
+                    <td>.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
 {% endblock %}
