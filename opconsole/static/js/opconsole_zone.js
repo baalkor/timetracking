@@ -10,14 +10,25 @@
       var gmap_handle;
       var ZONES = undefined;
       var GOOGLE_API_KEY = "AIzaSyAlXMWGO1qTvsWIxo0W5bUloL0HzknfuOY"
-
+      var mapId = window.location.pathname;
 
      function getCoords(lat,long) {
         return new google.maps.LatLng(lat, long)
      }
 
+     function removeZone() {
+        $.ajax({
+            url : "/api"  + mapId,
+            type:'DELETE',
+            success:function(data)  {
+                console.log("Zone removed");
+                window.location.replace("/zones/");
+            }
+        });
+     }
+
      function initMap() {
-       var mapId = window.location.pathname;
+
        $.get("/api"  + mapId ).success(function(data)  {
             gmap_handle = new google.maps.Map(GMAP_ELEM, {zoom:13,center:defPos});
             gmap_handle.setCenter(getCoords(data.x1, data.y1));

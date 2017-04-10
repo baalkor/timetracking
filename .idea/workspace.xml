@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33da0dda-454d-4205-a8d6-665759c35b6e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/opconsole/rest/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/opconsole/rest/serializers.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/opconsole/rest/zoneCtrl.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/opconsole/static/js/opconsole_zone.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/opconsole/rest/zoneCtrl.py" afterPath="$PROJECT_DIR$/opconsole/rest/zoneCtrl.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/opconsole/static/js/opconsole_zone.js" afterPath="$PROJECT_DIR$/opconsole/static/js/opconsole_zone.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/opconsole/static/templates/opconsole_zone.html" afterPath="$PROJECT_DIR$/opconsole/static/templates/opconsole_zone.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/opconsole/views/zonesView.py" afterPath="$PROJECT_DIR$/opconsole/views/zonesView.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/timetracking/settings.py" afterPath="$PROJECT_DIR$/timetracking/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/timetracking/urls.py" afterPath="$PROJECT_DIR$/timetracking/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/opconsole/static/templates/opconsole_zones.html" afterPath="$PROJECT_DIR$/opconsole/static/templates/opconsole_zones.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -59,11 +56,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="opconsole_zones.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="opconsole_zones.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_zones.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="22" lean-forward="false" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
+            <state relative-caret-position="407">
+              <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -79,11 +76,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="opconsole_zone.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="opconsole_zone.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_zone.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="14" lean-forward="false" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
+            <state relative-caret-position="329">
+              <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -92,9 +89,21 @@
       <file leaf-file-name="opconsole_zone.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/opconsole/static/js/opconsole_zone.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+            <state relative-caret-position="195">
+              <caret line="20" column="18" lean-forward="false" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="zoneCtrl.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/opconsole/rest/zoneCtrl.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#53#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -102,8 +111,8 @@
       <file leaf-file-name="opconsole_zones_editor.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/opconsole/static/js/opconsole_zones_editor.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="48" column="27" lean-forward="true" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
+            <state relative-caret-position="136">
+              <caret line="128" column="55" lean-forward="true" selection-start-line="128" selection-start-column="20" selection-end-line="128" selection-end-column="55" />
               <folding />
             </state>
           </provider>
@@ -177,17 +186,17 @@
         <option value="$PROJECT_DIR$/opconsole/static/templates/opconsole_login.html" />
         <option value="$PROJECT_DIR$/opconsole/views/__init__.py" />
         <option value="$PROJECT_DIR$/opconsole/models/zones.py" />
-        <option value="$PROJECT_DIR$/opconsole/static/templates/opconsole_zones.html" />
         <option value="$PROJECT_DIR$/opconsole/static/templates/navbar.html" />
         <option value="$PROJECT_DIR$/timetracking/settings.py" />
         <option value="$PROJECT_DIR$/opconsole/rest/zoneViewSet.py" />
         <option value="$PROJECT_DIR$/opconsole/rest/__init__.py" />
-        <option value="$PROJECT_DIR$/opconsole/rest/zoneCtrl.py" />
         <option value="$PROJECT_DIR$/opconsole/rest/serializers.py" />
         <option value="$PROJECT_DIR$/opconsole/views/zonesView.py" />
         <option value="$PROJECT_DIR$/timetracking/urls.py" />
-        <option value="$PROJECT_DIR$/opconsole/static/js/opconsole_zone.js" />
+        <option value="$PROJECT_DIR$/opconsole/rest/zoneCtrl.py" />
         <option value="$PROJECT_DIR$/opconsole/static/templates/opconsole_zone.html" />
+        <option value="$PROJECT_DIR$/opconsole/static/js/opconsole_zone.js" />
+        <option value="$PROJECT_DIR$/opconsole/static/templates/opconsole_zones.html" />
       </list>
     </option>
   </component>
@@ -614,7 +623,14 @@
       <option name="project" value="LOCAL" />
       <updated>1491855255347</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added ListView generic 4">
+      <created>1491862363141</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1491862363141</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -652,7 +668,8 @@
     <MESSAGE value="Added ListView generic 1" />
     <MESSAGE value="Added ListView generic 2" />
     <MESSAGE value="Added ListView generic 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added ListView generic 3" />
+    <MESSAGE value="Added ListView generic 4" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added ListView generic 4" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -899,14 +916,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/opconsole/rest/zoneCtrl.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="40" lean-forward="false" selection-start-line="1" selection-start-column="35" selection-end-line="1" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/opconsole/rest/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -961,30 +970,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/opconsole/static/js/opconsole_zone.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/opconsole/static/js/opconsole_zones_editor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="48" column="27" lean-forward="true" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_zones.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="22" lean-forward="false" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/opconsole/static/css/zones-editor.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -1001,10 +986,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/opconsole/rest/zoneCtrl.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_zone.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="14" lean-forward="false" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
+        <state relative-caret-position="329">
+          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/opconsole/static/js/opconsole_zones_editor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="128" column="55" lean-forward="true" selection-start-line="128" selection-start-column="20" selection-end-line="128" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/opconsole/static/js/opconsole_zone.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="20" column="18" lean-forward="false" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_zones.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding />
         </state>
       </provider>

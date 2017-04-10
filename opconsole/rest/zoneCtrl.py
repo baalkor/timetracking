@@ -1,8 +1,8 @@
 from opconsole.rest.serializers import ZoneSerializer
 from opconsole.models.zones import Zones
-from rest_framework.generics import RetrieveUpdateDestroyAPIView
+from rest_framework.generics import RetrieveDestroyAPIView
 
-class ZoneDetail ( RetrieveUpdateDestroyAPIView ):
+class ZoneDetail ( RetrieveDestroyAPIView ):
 
     queryset = Zones.objects.all()
     serializer_class = ZoneSerializer

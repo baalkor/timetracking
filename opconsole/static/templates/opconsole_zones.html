@@ -10,20 +10,20 @@
             <th>South west latitude</th>
             <th>South west longitude</th>
             <th>active</th>
-            <th>View / Update</th>
-            <th>Remove</th>
+
+
         </thead>
         <tbody>
             {% for zone in object_list %}
                 <tr>
-                    <td>{{ zone.name }} </td>
+                    <td><a href="/zones/{{ zone.id }}">{{ zone.name }}</a></td>
                     <td>{{ zone.x1 }} </td>
                     <td>{{ zone.y1 }} </td>
                     <td>{{ zone.x2 }} </td>
                     <td>{{ zone.y2 }} </td>
                     <td>{{ zone.active|yesno }} </td>
-                    <td><a href="/zones/{{ zone.id }}">Watch</a> </td>
-                    <td>.</td>
+
+
                 </tr>
             {% endfor %}
         </tbody>
