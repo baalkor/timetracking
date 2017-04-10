@@ -22,7 +22,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    url(r'^login/*$', auth_views.login, {"template_name" : "opconsole_login.html"}, name="login"),
+    url(r'^login*$', auth_views.login, {"template_name" : "opconsole_login.html"}, name="login"),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'},name='logout'),
     url(r'^admin/', admin.site.urls),
     url(r'^zones/new*$', login_required(ZonesEditorView.as_view())),
