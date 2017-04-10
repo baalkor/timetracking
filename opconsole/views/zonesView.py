@@ -1,12 +1,9 @@
-from django.views.generic import TemplateView
-from django.shortcuts import render, redirect
-from django.template import Context
+from django.views.generic import  ListView
 from opconsole.models.zones import Zones
-import datetime
 
-class ZoneView(TemplateView):
+
+class ZoneView(ListView):
+
     template_name = "opconsole_zones.html"
+    model = Zones
 
-
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, Context({"zones":Zones.objects.all()}))

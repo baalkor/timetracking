@@ -10,7 +10,7 @@ class ZonesEditorView(TemplateView):
     template_name = "opconsole_zones_editor.html"
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, Context({"google_api_key":settings.GOOGLE_API_KEY}))
+        return render(request, self.template_name, {"google_api_key":settings.GOOGLE_API_KEY})
 
     def post(self, request):
         zoneDta = request.POST

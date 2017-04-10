@@ -9,4 +9,4 @@ class DashboardView(TemplateView):
 
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, Context({"time":datetime.datetime.now()}))
+        return render(request, self.template_name, {"time":datetime.datetime.now()})
