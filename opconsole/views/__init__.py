@@ -1,3 +1,4 @@
 from dashboardView import DashboardView
 from userLoginView import UserLoginView
-from zonesView import ZonesView
+from zonesEditorView import ZonesEditorView
+from zonesView import ZoneView

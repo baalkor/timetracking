@@ -1,11 +1,12 @@
 from django.views.generic import TemplateView
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template import Context
-from django.conf import settings
 
+import datetime
 
-class ZonesView(TemplateView):
+class ZoneView(TemplateView):
     template_name = "opconsole_zones.html"
 
+
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, Context({"google_api_key":settings.GOOGLE_API_KEY}))
+        return render(request, self.template_name, Context({"time":datetime.datetime.now()}))
