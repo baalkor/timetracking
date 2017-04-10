@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33da0dda-454d-4205-a8d6-665759c35b6e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/opconsole/forms/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/opconsole/forms/loginForm.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/opconsole/static/templates/opconsole_zone.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/timetracking.iml" afterPath="$PROJECT_DIR$/.idea/timetracking.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/opconsole/models/zones.py" afterPath="$PROJECT_DIR$/opconsole/models/zones.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/opconsole/static/templates/opconsole_zones.html" afterPath="$PROJECT_DIR$/opconsole/static/templates/opconsole_zones.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/opconsole/views/__init__.py" afterPath="$PROJECT_DIR$/opconsole/views/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/opconsole/views/zonesView.py" afterPath="$PROJECT_DIR$/opconsole/views/zonesView.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/timetracking/urls.py" afterPath="$PROJECT_DIR$/timetracking/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/opconsole/static/templates/navbar.html" afterPath="$PROJECT_DIR$/opconsole/static/templates/navbar.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,19 +18,7 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/timetracking/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="28" column="57" lean-forward="true" selection-start-line="28" selection-start-column="57" selection-end-line="28" selection-end-column="57" />
-              <folding>
-                <element signature="e#646#678#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="zonesView.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="zonesView.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/opconsole/views/zonesView.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="238">
@@ -52,34 +30,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="opconsole_zone.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_zone.html">
+      <file leaf-file-name="opconsole_baselayout.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_baselayout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state relative-caret-position="278">
+              <caret line="40" column="80" lean-forward="false" selection-start-line="40" selection-start-column="80" selection-end-line="40" selection-end-column="80" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/opconsole/views/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="39" lean-forward="false" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="userLoginView.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/opconsole/views/userLoginView.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="57" />
-              <folding>
-                <element signature="e#0#45#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -89,6 +45,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="68">
               <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="opconsole_zone.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_zone.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -114,23 +80,41 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dashboardView.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/opconsole/views/dashboardView.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#45#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="opconsole_zones_editor.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_zones_editor.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="306">
               <caret line="18" column="18" lean-forward="false" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="welcome.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/opconsole/static/templates/welcome.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="forbidden.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/opconsole/static/templates/forbidden.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="14" lean-forward="true" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="navbar.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/opconsole/static/templates/navbar.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="9" column="52" lean-forward="false" selection-start-line="9" selection-start-column="52" selection-end-line="9" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -151,6 +135,7 @@
       <find>STATICFILES_DIRS</find>
       <find>LOG</find>
       <find>dd-</find>
+      <find>GPS</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -176,7 +161,6 @@
         <option value="$PROJECT_DIR$/opconsole/static/templates/ddr-devices.html" />
         <option value="$PROJECT_DIR$/opconsole/static/templates/ddr-user.html" />
         <option value="$PROJECT_DIR$/opconsole/static/css/zones-editor.css" />
-        <option value="$PROJECT_DIR$/opconsole/static/templates/navbar.html" />
         <option value="$PROJECT_DIR$/opconsole/static/templates/opconsole_baselayout.html" />
         <option value="$PROJECT_DIR$/opconsole/static/templates/dialogs/opconsonsole_zones_new.html" />
         <option value="$PROJECT_DIR$/opconsole/static/js/common.js" />
@@ -196,6 +180,7 @@
         <option value="$PROJECT_DIR$/opconsole/models/zones.py" />
         <option value="$PROJECT_DIR$/opconsole/static/templates/opconsole_zones.html" />
         <option value="$PROJECT_DIR$/opconsole/views/zonesView.py" />
+        <option value="$PROJECT_DIR$/opconsole/static/templates/navbar.html" />
       </list>
     </option>
   </component>
@@ -564,7 +549,14 @@
       <option name="project" value="LOCAL" />
       <updated>1491850484187</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added ListView generic 3">
+      <created>1491855091315</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1491855091315</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -601,7 +593,8 @@
     <MESSAGE value="Added ListView generic" />
     <MESSAGE value="Added ListView generic 1" />
     <MESSAGE value="Added ListView generic 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added ListView generic 2" />
+    <MESSAGE value="Added ListView generic 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added ListView generic 3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -610,13 +603,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="19" lean-forward="true" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/opconsole/views/userLoginView.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -645,6 +631,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="935">
           <caret line="55" column="53" lean-forward="false" selection-start-line="55" selection-start-column="53" selection-end-line="55" selection-end-column="53" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -746,13 +733,6 @@
     <entry file="file://$PROJECT_DIR$/opconsole/static/templates/profile.html" />
     <entry file="file://$PROJECT_DIR$/opconsole/static/templates/company.html" />
     <entry file="file://$PROJECT_DIR$/opconsole/static/templates/content.html" />
-    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/forbidden.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="14" lean-forward="true" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/opconsole/static/css/zones-editor.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -760,24 +740,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/navbar.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="30" lean-forward="false" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/opconsole/static/templates/navbar-menus/ddr-devices.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="37" lean-forward="false" selection-start-line="3" selection-start-column="37" selection-end-line="3" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_baselayout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="40" column="21" lean-forward="false" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -872,14 +838,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/opconsole/views/dashboardView.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -895,7 +853,7 @@
         <state relative-caret-position="340">
           <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="57" />
           <folding>
-            <element signature="e#0#45#0" expanded="true" />
+            <element signature="e#0#45#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -918,26 +876,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_zone.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_zones_editor.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="18" lean-forward="false" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/opconsole/models/zones.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="5" lean-forward="false" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/opconsole/views/zonesView.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_baselayout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="40" column="80" lean-forward="false" selection-start-line="40" selection-start-column="80" selection-end-line="40" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_zone.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -950,13 +926,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/opconsole/views/zonesView.py">
+    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/opconsole_zones_editor.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#54#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="306">
+          <caret line="18" column="18" lean-forward="false" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/welcome.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/forbidden.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="14" lean-forward="true" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/opconsole/static/templates/navbar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="9" column="52" lean-forward="false" selection-start-line="9" selection-start-column="52" selection-end-line="9" selection-end-column="52" />
+          <folding />
         </state>
       </provider>
     </entry>
