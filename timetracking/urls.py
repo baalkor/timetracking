@@ -13,15 +13,21 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
+from rest_framework.urlpatterns import format_suffix_patterns
 from django.conf.urls.static import static
 from opconsole.views import *
+from opconsole.rest import *
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 
+
+
+
 urlpatterns = [
+    url(r'^api/zones/(?P<pk>[0-9]+)/$', ZoneDetail.as_view()),
     url(r'^login*$', auth_views.login, {"template_name" : "opconsole_login.html"}, name="login"),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'},name='logout'),
     url(r'^admin/', admin.site.urls),
@@ -30,3 +36,6 @@ urlpatterns = [
     url(r'^zones/(?P<pk>\w+)/$$', login_required(ZoneDetailView.as_view())),
     url(r'^$', login_required(DashboardView.as_view()))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
+urlpatterns = format_suffix_patterns(urlpatterns)

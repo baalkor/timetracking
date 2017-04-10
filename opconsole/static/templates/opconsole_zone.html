@@ -1,5 +1,7 @@
 {% extends "opconsole_baselayout.html" %}
-
+{% block head %}
+     <link href="/static/css/zones-editor.css" rel="stylesheet">
+{% endblock %}
 {% block content %}
     <h1 class="mt-5">Zone {{ object.name }} </h1>
     <table class="table table-bordered">
@@ -22,6 +24,17 @@
                     <td>.</td>
 
                 </tr>
-
+                <tr>
+                   <td colspan="5">
+                    <div id="map"></div>
+                    </td>
+                </tr>
         </tbody>
+    </table>
+{% endblock %}
+
+{% block footer %}
+    <script src="/static/js/js.cookie.js"></script>
+    <script src="/static/js/opconsole_zone.js"></script>
+    <script async defer  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlXMWGO1qTvsWIxo0W5bUloL0HzknfuOY&callback=initMap"></script>
 {% endblock %}
