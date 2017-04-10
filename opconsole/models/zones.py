@@ -7,3 +7,4 @@ class Zones(models.Model):
     y1   = models.FloatField()
     x2   = models.FloatField()
     y2   = models.FloatField()
+    #active = models.BooleanField(default=True)

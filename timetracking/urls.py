@@ -27,5 +27,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^zones/new*$', login_required(ZonesEditorView.as_view())),
     url(r'^zones/$', login_required(ZoneView.as_view())),
+    url(r'^zones/(?P<pk>\w+)/$$', login_required(ZoneDetailView.as_view())),
     url(r'^$', login_required(DashboardView.as_view()))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
