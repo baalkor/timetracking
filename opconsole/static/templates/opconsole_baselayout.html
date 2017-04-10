@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        {% load bootstrap3 %}
+        {% bootstrap_css %}
+        <link href="/static/css/logo-nav.css" rel="stylesheet">
+        <link href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css" rel="stylesheet">
+
+        <link rel="icon" type="image/png" href="/static/img/favicon.png" />
+        {% bootstrap_messages %}
+
+        <title>SmartTime</title>
+        <style>
+        .navbar-toggler {
+            z-index: 1;
+        }
+
+        @media (max-width: 576px) {
+            nav > .container {
+                width: 100%;
+            }
+        }
+        </style>
+    {% block head %}{% endblock %}
+    </head>
+    <body>
+
+        {% include "navbar.html" %}
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+
+
+        <script src="/static/js/vendor/tether/tether.min.js"></script>
+        {% bootstrap_javascript jquery=1 %}
+        <script  src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"  integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="  crossorigin="anonymous"></script>
+        {% block footer %}{% endblock %}
+    </body>
+</html>
