@@ -13,25 +13,24 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
-from django.contrib import admin
 from django.conf import settings
-from rest_framework.urlpatterns import format_suffix_patterns
+from django.conf.urls import url, include
 from django.conf.urls.static import static
-from opconsole.views import *
-from opconsole.rest import *
+from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
+from rest_framework.urlpatterns import format_suffix_patterns
 
-
-
+from opconsole.views import *
+from restgwy.controllers import *
 
 urlpatterns = [
     url(r'^api/zones/(?P<pk>[0-9]+)/$', ZoneDetail.as_view()),
     url(r'^login*$', auth_views.login, {"template_name" : "opconsole_login.html"}, name="login"),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'},name='logout'),
     url(r'^admin/', admin.site.urls),
-    url(r'^zones/new*$', login_required(ZonesEditorView.as_view())),
+    url(r'^zones/new/$', login_required(ZonesEditorView.as_view())),
+    url(r'^user/new/$', login_required(NewUserView.as_view())),
     url(r'^zones/$', login_required(ZoneView.as_view())),
     url(r'^zones/(?P<pk>\w+)/$$', login_required(ZoneDetailView.as_view())),
     url(r'^$', login_required(DashboardView.as_view()))

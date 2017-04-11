@@ -1,0 +1,13 @@
+{% extends "opconsole_baselayout.html" %}
+
+{% block content %}
+
+  <h2>Create a new user</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ user_form.as_ul }}
+    {{ address_form.as_ul }}
+    <button type="submit">Save</button>
+  </form>
+
+{% endblock %}

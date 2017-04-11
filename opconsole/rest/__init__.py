@@ -1,1 +1,0 @@
-from .zoneCtrl import ZoneDetail
