@@ -1,34 +1,39 @@
 from opconsole.forms.newUserForm import AddressUserForm, UserCreationFormLocal
 from django.shortcuts import redirect, render
-from django.views.generic import  ListView
+from django.views.generic import  ListView, DetailView
 from opconsole.models.employes import Employes
-from django.contrib.auth.models import User, Permission
+from django.contrib.auth.models import User
 from django.views import View
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import Group
 
+@method_decorator(permission_required('opconsole.add_employes', raise_exception=True), name='dispatch')
+class DetailUserView(DetailView):
+    template_name = "opconsole_user_info.html"
+    model = Employes
+
+@method_decorator(permission_required('opconsole.add_employes', raise_exception=True), name='dispatch')
 class ListUsers(ListView):
     template_name = "opconsole_list_users.html"
-    model =  Employes
+    model = Employes
 
     class Meta:
         proxy = True
 
 
+@method_decorator(permission_required('opconsole.add_employes', raise_exception=True), name='dispatch')
 class NewUserView(View):
     template_name = "opconsole_new_user.html"
 
     @never_cache
-    @method_decorator(permission_required('opconsole.add_employes', raise_exception=True))
     def get(self, request, *args, **kwargs):
         userfrm = UserCreationFormLocal()
         addrfrm = AddressUserForm()
         return render(request, self.template_name,{"user_form":userfrm,"address_form":addrfrm})
 
     @never_cache
-    @method_decorator(permission_required('opconsole.add_employes', raise_exception=True))
     def post(self, request, *args, **kwargs):
         data = request.POST
         userData = {
@@ -62,7 +67,8 @@ class NewUserView(View):
                 email=userData["email"],
                 password=userData["password1"],
                 first_name=userData["first_name"],
-                last_name=userData["last_name"]
+                last_name=userData["last_name"],
+                is_staff=True
             )
             employe = Employes(
                city=addressData["city"],
@@ -73,12 +79,11 @@ class NewUserView(View):
             )
 
             django.groups.add(Group.objects.get(name='employees'))
-            if admin:
-                django.groups.add(Group.objects.get(name='contentadmin'))
+            if admin: django.groups.add(Group.objects.get(name='contentadmin'))
             django.save()
             employe.save()
 
-            cemploye = Employes.objects.get(pk=employe.id)
+#           cemploye = Employes.objects.get(pk=employe.id)
 #
 #            assert cemploye.city == employe.city
 #            assert cemploye.address == employe.address

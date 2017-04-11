@@ -14,9 +14,11 @@
           {% if user.is_authenticated  %}
             <ul class="nav navbar-nav navbar-center">
               {% include "navbar-menus/ddr-timesheets.html" %}
+            {% if user.is_staff  %}
               {% include "navbar-menus/ddr-areas.html" %}
               {% include "navbar-menus/ddr-users.html" %}
               {% include "navbar-menus/ddr-devices.html" %}
+            {% endif %}
             </ul>
           {% endif %}
 

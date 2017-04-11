@@ -26,15 +26,16 @@ from restgwy.controllers import *
 
 urlpatterns = [
     url(r'^api/zones/(?P<pk>[0-9]+)/$', ZoneDetail.as_view()),
-    url(r'^login*$', auth_views.login, {"template_name" : "opconsole_login.html"}, name="login"),
-    url(r'^logout/$', auth_views.logout, {'next_page': '/'},name='logout'),
-    url(r'^admin/', admin.site.urls),
-    url(r'^zones/new/$', login_required(ZonesEditorView.as_view())),
-    url(r'^user/new/$', login_required(NewUserView.as_view())),
-    url(r'^user/$', login_required(ListUsers.as_view())),
-    url(r'^zones/$', login_required(ZoneView.as_view())),
-    url(r'^zones/(?P<pk>\w+)/$$', login_required(ZoneDetailView.as_view())),
-    url(r'^$', login_required(DashboardView.as_view()))
+    url(r'^login*$',                    auth_views.login, {"template_name" : "opconsole_login.html"}, name="login"),
+    url(r'^logout/$',                   auth_views.logout, {'next_page': '/'},name='logout'),
+    url(r'^admin/',                     admin.site.urls),
+    url(r'^zones/new/$',                ZonesEditorView.as_view()),
+    url(r'^user/new/$',                 NewUserView.as_view()),
+    url(r'^user/(?P<pk>\w+)/$',         DetailUserView.as_view()),
+    url(r'^user/$',                     ListUsers.as_view()),
+    url(r'^zones/$',                    ZoneView.as_view()),
+    url(r'^zones/(?P<pk>\w+)/$',        ZoneDetailView.as_view()),
+    url(r'^$',                          DashboardView.as_view())
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

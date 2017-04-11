@@ -1,0 +1,12 @@
+{% extends "opconsole_baselayout.html" %}
+{% block head %}
+     <link href="/static/css/zones-editor.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+    <h1 class="mt-5">Employee {{ object.user.last_name }}, {{ object.user.first_name }} </h1>
+    <ul>
+        <li>Admin : {{ object.user.is_staff|yesno  }}</li>
+        <li>Username : {{ object.user.username  }}</li>
+    </ul>
+{% endblock %}
