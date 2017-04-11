@@ -137,6 +137,8 @@ LOGIN_URL = '/login'
 GOOGLE_API_KEY="AIzaSyAlXMWGO1qTvsWIxo0W5bUloL0HzknfuOY"
 LOGIN_REDIRECT_URL = 'login'
 
+ADMIN_GROUP = 'contentadmin'
+
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.

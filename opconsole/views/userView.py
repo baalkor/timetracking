@@ -1,9 +1,9 @@
 from opconsole.forms.newUserForm import AddressUserForm, UserCreationFormLocal
 from django.shortcuts import redirect, render
-from django.views.generic import TemplateView, ListView
+from django.views.generic import  ListView
 from opconsole.models.employes import Employes
 from django.contrib.auth.models import User, Permission
-from django.core.exceptions import PermissionDenied
+from django.views import View
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
@@ -17,19 +17,19 @@ class ListUsers(ListView):
         proxy = True
 
 
-class NewUserView(TemplateView):
+class NewUserView(View):
     template_name = "opconsole_new_user.html"
 
     @never_cache
-    @method_decorator(permission_required("opconsole.add_user"))
-    def get(self, request):
+    @method_decorator(permission_required('opconsole.add_employes', raise_exception=True))
+    def get(self, request, *args, **kwargs):
         userfrm = UserCreationFormLocal()
         addrfrm = AddressUserForm()
         return render(request, self.template_name,{"user_form":userfrm,"address_form":addrfrm})
 
     @never_cache
-    @method_decorator(permission_required("opconsole.add_user"))
-    def post(self,request):
+    @method_decorator(permission_required('opconsole.add_employes', raise_exception=True))
+    def post(self, request, *args, **kwargs):
         data = request.POST
         userData = {
             'username':data.get("username"),
@@ -79,16 +79,16 @@ class NewUserView(TemplateView):
             employe.save()
 
             cemploye = Employes.objects.get(pk=employe.id)
-
-            assert cemploye.city == employe.city
-            assert cemploye.address == employe.address
-            assert cemploye.country == employe.country
-            assert cemploye.zip_code == employe.zip_code
-            assert cemploye.user.username == employe.user.username
-            assert cemploye.user.email == employe.user.email
-            assert cemploye.user.first_name == employe.user.first_name
-            assert cemploye.user.last_name == employe.user.last_name
-            assert "employees" in [g.name for g in cemploye.user.groups.all()]
+#
+#            assert cemploye.city == employe.city
+#            assert cemploye.address == employe.address
+#            assert cemploye.country == employe.country
+#            assert cemploye.zip_code == employe.zip_code
+#            assert cemploye.user.username == employe.user.username
+#            assert cemploye.user.email == employe.user.email
+#            assert cemploye.user.first_name == employe.user.first_name
+#            assert cemploye.user.last_name == employe.user.last_name
+#            assert "employees" in [g.name for g in cemploye.user.groups.all()]
 
 
             return redirect("/user/")
