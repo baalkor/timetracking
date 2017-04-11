@@ -6,23 +6,14 @@ from zones import Zones
 
 class Employes(models.Model):
 
-    id       = models.AutoField(primary_key=True)
     address  = models.CharField(max_length=255)
     city     = models.CharField(max_length=255)
     country  = models.CharField(max_length=255)
     zip_code = models.IntegerField()
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="django_user")
 
     zones   = models.ManyToManyField(Zones)
 
     def __str__(self):
         return self.id
-
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Employes.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
