@@ -9,6 +9,7 @@
             <th>username</th>
             <th>email</th>
             <th></th>
+            <th></th>
 
 
 
@@ -21,10 +22,12 @@
                     <td>{{ employee.user.last_name }} </td>
                     <td>{{ employee.user }} </td>
                     <td>{{ employee.user.email }} </td>
-                    <td><a href="#">Watch</a></td>
+                    <td><a href="/user/{{ employee.id }}">Watch</a></td>
+                    <td><a href="/timesheet/{{ employee.id }}">Timesheet</a></td>
 
 
                 </tr>
             {% endfor %}
         </tbody>
+    </table>
 {% endblock %}

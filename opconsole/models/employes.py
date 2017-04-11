@@ -13,7 +13,6 @@ class Employes(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="django_user")
 
-    zones   = models.ManyToManyField(Zones)
+    zones = models.ManyToManyField(Zones)
 
-    def __str__(self):
-        return self.id
+
