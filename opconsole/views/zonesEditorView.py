@@ -7,11 +7,11 @@ from opconsole.models.zones import Zones
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
 
-@method_decorator(permission_required('opconsole.add_zones', raise_exception=True), name='dispatch')
+
 class ZonesEditorView(TemplateView):
     template_name = "opconsole_zones_editor.html"
 
-
+    @method_decorator(permission_required('opconsole.add_zones', raise_exception=True), name='dispatch')
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, {"google_api_key":settings.GOOGLE_API_KEY})
 

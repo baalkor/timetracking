@@ -30,7 +30,8 @@
      function initMap() {
 
        $.get("/api"  + mapId ).success(function(data)  {
-            gmap_handle = new google.maps.Map(GMAP_ELEM, {zoom:13,center:defPos});
+            console.log(data.color);
+            gmap_handle = new google.maps.Map(GMAP_ELEM, {zoom:13,center:defPos,strokeColor:data.color});
             gmap_handle.setCenter(getCoords(data.x1, data.y1));
             drawZoneAt(data.x1,data.y1,data.x2,data.y2);
 

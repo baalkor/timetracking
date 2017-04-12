@@ -8,3 +8,4 @@ class ZoneSerializer(serializers.Serializer):
     x2 = serializers.FloatField()
     y2 = serializers.FloatField()
     active = serializers.BooleanField(required=False)
+    color = serializers.IntegerField()

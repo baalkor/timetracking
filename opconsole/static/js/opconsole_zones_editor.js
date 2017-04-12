@@ -31,6 +31,7 @@
 
 
      function getCoords(lat,long) {
+
         return new google.maps.LatLng(lat, long)
      }
      function initMap() {
@@ -67,18 +68,22 @@
 
       function newZone() {
 
-      /*
-        margin = 0;
-        ne_lat = gmap_handle.getBounds().getNorthEast().lat + margin;
-        ne_lng = gmap_handle.getBounds().getNorthEast().lng + margin;
-        sw_lat = gmap_handle.getBounds().getSouthWest().lat - margin;
-        sw_lng = gmap_handle.getBounds().getSouthWest().lng - margin;
+
+        xmargin = 0.02;
+        ymargin = 0.026;
+
+        ne_lat = gmap_handle.getBounds().getNorthEast().lat() - xmargin;
+        ne_lng = gmap_handle.getBounds().getNorthEast().lng() - ymargin;
+        sw_lat = gmap_handle.getBounds().getSouthWest().lat() + xmargin;
+        sw_lng = gmap_handle.getBounds().getSouthWest().lng() + ymargin;
 
         ne = getCoords(ne_lat,ne_lng);
         sw = getCoords(sw_lat,sw_lng);
 
-        var bounds = new google.maps.LatLngBounds(ne,sw);
-        */
+
+
+        var bounds = new google.maps.LatLngBounds(sw,ne);
+
 
         ZONES = new google.maps.Rectangle({
           editable: true,
@@ -88,7 +93,7 @@
           strokeWeight: 2,
           map:gmap_handle,
           fillColor: '#FF0000',
-          bounds:gmap_handle.getBounds()
+          bounds:bounds
         });
 
 
@@ -118,7 +123,7 @@
         "Save" : function() {
             zoneName = $("#zone_name").val();
             if (  zoneName !== "" && ZONES !== undefined ) {
-                $.post("/zones/new", {
+                $.post("/zones/new/", {
                     name:zoneName,
                     x1 : ZONES.getBounds().getNorthEast().lat,
                     y1 : ZONES.getBounds().getNorthEast().lng,

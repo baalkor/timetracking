@@ -11,3 +11,4 @@ class Zones(models.Model):
     x2   = models.FloatField()
     y2   = models.FloatField()
     active = models.BooleanField(default=True)
+    color = models.IntegerField(default=16711180)
