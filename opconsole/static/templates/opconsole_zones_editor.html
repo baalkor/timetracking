@@ -6,16 +6,50 @@
 
     <div class="row">
         <div class="col">
+            <input id="pac-input" class="controls" type="text" placeholder="Search Box" />
             <div id="map"></div>
         </div>
         <div class="col">
-            <div class="btn-group" role="group">
             <button type="button"  id="btnNewZone" class="btn btn-default" onclick="newZone();">Draw zone</button>
+
+		<div id="colorPicker" class="btn-group" data-toggle="buttons">
+
+			<label class="btn btn-success active">
+				<input type="radio" name="options" id="option2" autocomplete="off">
+				<span class="glyphicon"></span>
+			</label>
+
+			<label class="btn btn-primary">
+				<input type="radio" name="options" id="option1" autocomplete="off">
+				<span class="glyphicon"></span>
+			</label>
+
+			<label class="btn btn-info">
+				<input type="radio" name="options" id="option2" autocomplete="off">
+				<span class="glyphicon"></span>
+			</label>
+
+			<label class="btn btn-default">
+				<input type="radio" name="options" id="option2" autocomplete="off">
+				<span class="glyphicon"></span>
+			</label>
+
+			<label class="btn btn-warning">
+				<input type="radio" name="options" id="option2" autocomplete="off">
+				<span class="glyphicon"></span>
+			</label>
+
+			<label class="btn btn-danger">
+				<input type="radio" name="options" id="option2" autocomplete="off" checked>
+				<span class="glyphicon"></span>
+			</label>
+
+		</div>
+
+
             <button type="button"  id="btnClearZone" class="btn btn-default" onclick="clearZone();">Clear zone</button>
             <button type="button"  id="btnSaveZone" class="btn btn-default" onclick="saveZone();">Save zone</button>
-            <input type="text" id="addresse" >
-            <button type="button"  id="btnRecherche" class="btn btn-default" onclick="lookAt();">Rechercher</button>
-        <div>
+        </div>
     </div>
 {% include "dialogs/opconsonsole_zones_new.html" %}
 
@@ -23,6 +57,6 @@
 
 {% block footer %}
     <script src="/static/js/js.cookie.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&libraries=places&callback=initMap" async defer></script>
     <script src="/static/js/opconsole_zones_editor.js"></script>
-    <script async defer  src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&callback=initMap"></script>
 {% endblock %}
