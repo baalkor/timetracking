@@ -9,7 +9,6 @@
             <th>username</th>
             <th>email</th>
             <th></th>
-            <th></th>
 
 
 
@@ -18,11 +17,10 @@
             {% for employee in object_list %}
                 <tr>
 
-                    <td>{{ employee.user.first_name }} </td>
+                    <td><a href="/user/{{ employee.id }}">{{ employee.user.first_name }}</a></td>
                     <td>{{ employee.user.last_name }} </td>
                     <td>{{ employee.user }} </td>
                     <td>{{ employee.user.email }} </td>
-                    <td><a href="/user/{{ employee.id }}">Watch</a></td>
                     <td><a href="/timesheet/{{ employee.id }}">Timesheet</a></td>
 
 

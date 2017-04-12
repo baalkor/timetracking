@@ -1,6 +1,6 @@
 from opconsole.forms.newUserForm import AddressUserForm, UserCreationFormLocal
 from django.shortcuts import redirect, render
-from django.views.generic import  ListView, DetailView
+from django.views.generic import  ListView, UpdateView
 from opconsole.models.employes import Employes
 from django.contrib.auth.models import User
 from django.views import View
@@ -10,9 +10,11 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.models import Group
 
 @method_decorator(permission_required('opconsole.add_employes', raise_exception=True), name='dispatch')
-class DetailUserView(DetailView):
+class DetailUserView(UpdateView):
     template_name = "opconsole_user_info.html"
     model = Employes
+    fields = [ 'address', 'zip_code', 'city', 'country' ]
+    success_url = '/user/'
 
 @method_decorator(permission_required('opconsole.add_employes', raise_exception=True), name='dispatch')
 class ListUsers(ListView):
