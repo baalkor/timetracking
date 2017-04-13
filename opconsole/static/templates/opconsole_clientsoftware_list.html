@@ -1,0 +1,20 @@
+{% extends "opconsole_baselayout.html" %}
+
+{% block content %}
+    <h1 class="mt-5">{{ class_name }} </h1>
+    <table class="table table-bordered">
+        <thead>
+            <th>Name</th>
+        </thead>
+        <tbody>
+
+            {% for clientos in object_list %}
+                <td><a href="/clientos/edit/{{ clientos.id }}">{{ clientos.name  }}</a></td>
+                <td>{{ clientos.version  }}</td>
+            {% endfor %}
+            <tr>
+                <td><a href="/clientos/new/">Add entry</a></td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

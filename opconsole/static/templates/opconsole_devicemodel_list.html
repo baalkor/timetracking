@@ -1,0 +1,20 @@
+{% extends "opconsole_baselayout.html" %}
+
+{% block content %}
+    <h1 class="mt-5">{{ class_name }} </h1>
+    <table class="table table-bordered">
+        <thead>
+            <th>Name</th>
+        </thead>
+        <tbody>
+            {% for devmodel in object_list %}
+                <td><a href="/devmodel/edit/{{ devmodel.id }}">{{ devmodel.name  }}</a></td>
+                <td>{{ devmodel.brand  }}</td>
+                <td>{{ devmodel.os  }}</td>
+            {% endfor %}
+            <tr>
+                <td><a href="/devmodel/new/">Add entry</a></td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

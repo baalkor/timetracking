@@ -18,9 +18,7 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.decorators import login_required, permission_required
 from rest_framework.urlpatterns import format_suffix_patterns
-
 from opconsole.views import *
 from restgwy.controllers import *
 
@@ -31,6 +29,26 @@ urlpatterns = [
     url(r'^admin/',                     admin.site.urls),
     url(r'^zones/new/$',                ZonesEditorView.as_view()),
     url(r'^user/new/$',                 NewUserView.as_view()),
+
+    url(r'^devices/new/$',              NewDeviceView.as_view()),
+    url(r'^devices/$',                  ListDeviceView.as_view()),
+
+    url(r'^brands/$',                   BrandsList.as_view(), name='brand_list'),
+    url(r'^brands/edit/(?P<pk>\w+)/$',  BrandsUpdate.as_view()),
+    url(r'^brands/new/$',               BrandsCreate.as_view()),
+    url(r'^brands/delete/(?P<pk>\w+)/$',BrandsDelete.as_view()),
+
+    url(r'^clientos/$',                 ClientSoftwareList.as_view(), name='clientos_list'),
+    url(r'^clientos/edit/(?P<pk>\w+)/$',ClientSoftwareUpdate.as_view()),
+    url(r'^clientos/new/$',             ClientSoftwareCreate.as_view()),
+    url(r'^clientos/delete/(?P<pk>\w+)/$',ClientSoftwareDelete.as_view()),
+
+    url(r'^devmodel/$',                 DeviceModelList.as_view(), name='device_model_list'),
+    url(r'^devmodel/edit/(?P<pk>\w+)/$',DeviceModelUpdate.as_view()),
+    url(r'^devmodel/new/$',             DeviceModelCreate.as_view()),
+    url(r'^devmodel/delete/(?P<pk>\w+)/$',DeviceModelDelete.as_view()),
+
+
     url(r'^user/(?P<pk>\w+)/$',         DetailUserView.as_view()),
     url(r'^user/$',                     ListUsers.as_view()),
     url(r'^zones/$',                    ZoneView.as_view()),
