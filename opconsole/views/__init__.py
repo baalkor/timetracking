@@ -4,6 +4,3 @@ from zonesEditorView import ZonesEditorView
 from zonesView import ZoneView, ZoneDetailView
 from userView import NewUserView, ListUsers, DetailUserView
 from devicesView import NewDeviceView, ListDeviceView
-from devicesModelsView import BrandsCreate, BrandsDelete, BrandsList, BrandsUpdate,\
-                              ClientSoftwareCreate, ClientSoftwareDelete, ClientSoftwareList, ClientSoftwareUpdate,\
-                              DeviceModelCreate, DeviceModelList, DeviceModelDelete, DeviceModelUpdate
