@@ -1,0 +1,30 @@
+{% extends "opconsole_baselayout.html" %}
+
+{% block content %}
+   <h1 class="mt-5">Employees liste</h1>
+    <table class="table table-bordered">
+        <thead>
+            <th>Employee</th>
+            <th>Device</th>
+            <th>Recieved</th>
+            <th>Time</th>
+            <th>Device timezone</th>
+            <th>Coordinate</th>
+            <th>Status</th>
+        </thead>
+        <tbody>
+            {% for timestamp in object_list %}
+                <tr>
+                    <td>{{ timestamp.user.user.last_name }}, {{ timestamp.user.user.first_name }}</td>
+                    <td>{{ timestamp.device }}</td>
+                    <td>{{ timestamp.recptTime }}</td>
+                    <td>{{ timestamp.time |date:"m/j/Y H:i"  }}</td>
+                    <td>{{ timestamp.devTz }}</td>
+                    <td>{{ timestamp.latitude }}|{{ timestamp.longitude }}</td>
+                    <td>{{ timestamp.status }}</td>
+                    <td><a href="/timesheet/{{ timestamp.id }}">Watch</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

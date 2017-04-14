@@ -30,6 +30,9 @@ urlpatterns = [
     url(r'^zones/new/$',                ZonesEditorView.as_view()),
     url(r'^user/new/$',                 NewUserView.as_view()),
 
+    url(r'^timesheets/$',                TimesheetList.as_view()),
+    url(r'^timesheets/(?P<pk>\w+)/$',    TimestampDetail.as_view()),
+
     url(r'^devices/new/$',              NewDeviceView.as_view()),
     url(r'^devices/$',                  ListDeviceView.as_view()),
 

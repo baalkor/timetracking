@@ -4,3 +4,4 @@ from zonesEditorView import ZonesEditorView
 from zonesView import ZoneView, ZoneDetailView
 from userView import NewUserView, ListUsers, DetailUserView
 from devicesView import NewDeviceView, ListDeviceView
+from timesheetsView import TimesheetList, TimestampDetail
