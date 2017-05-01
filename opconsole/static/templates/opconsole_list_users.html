@@ -8,8 +8,8 @@
             <th>last name</th>
             <th>username</th>
             <th>email</th>
-            <th></th>
-
+            <th>Timesheets</th>
+            <th>Devices</th>
 
 
         </thead>
@@ -22,7 +22,20 @@
                     <td>{{ employee.user }} </td>
                     <td>{{ employee.user.email }} </td>
                     <td><a href="/timesheet/{{ employee.id }}">Timesheet</a></td>
-
+                    <td>
+                        <ul class="list-unstyled">
+                            <li>
+                                <form method="post" action="/devices/new/">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="{{ employee.id }}" />
+                                    <button type="submit" class="btn">Initialize new device</button>
+                                </form>
+                            </li>
+                            {% for device in employee.devices.all %}
+                                <li><a href="/device/{{device.id}}">{{device.deviceData}}</a></li>
+                            {% endfor %}
+                         </ul>
+                    </td>
 
                 </tr>
             {% endfor %}

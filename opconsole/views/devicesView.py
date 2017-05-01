@@ -1,14 +1,31 @@
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
-from django.views.generic.edit import CreateView
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from opconsole.models.devices import Device
+from django.shortcuts import  render, get_object_or_404
+from django.template import Context
+from django.http import HttpResponseForbidden, HttpResponseBadRequest
+from opconsole.models.employes import Employes
+from opconsole.models.devices import E_DEV_TYPE
 
 @method_decorator(permission_required('opconsole.add_employes', raise_exception=True), name='dispatch')
-class NewDeviceView(CreateView):
+class NewDeviceView(TemplateView):
     model = Device
-    fields = ['deviceData','serial','owner']
     template_name = "opconsole_add_device.html"
+
+    def get(self, request):
+        return HttpResponseForbidden()
+
+    def post(self, request):
+
+        data = request.POST.get('id')
+
+        try:
+            employee = get_object_or_404(Employes, pk=int(data))
+            return render(request, self.template_name, {"employee":employee, "devType":E_DEV_TYPE, "wizardList":[ ( "dialogs/wizard_" + n + ".html", n ) for i,n in E_DEV_TYPE]})
+        except TypeError as e:
+            print e.message
+            return HttpResponseBadRequest()
 
 @method_decorator(permission_required('opconsole.add_employes', raise_exception=True), name='dispatch')
 class ListDeviceView(ListView):

@@ -1,10 +1,26 @@
 {% extends "opconsole_baselayout.html" %}
 
 {% block content %}
-    <h1 class="mt-5">Add new device</h1>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Save" />
-    </form>
+
+  <h2>Initialize device</h2>
+  Device type :
+  <select id="devType" onchange="showFormForType();">
+    <option value="-1" default=""> </option>
+    {% for dt in devType %}
+      <option value="wizard_{{ dt.1 }}">{{dt.1}}</option>
+    {% endfor %}
+  </select>
+
+  {% for p,i in wizardList %}
+    <div  class="formWizard" id="wizard_{{i}}">
+      {% include p %}
+    </div>
+    {% endfor %}
+
+
+
+{% endblock %}
+
+{% block footer %}
+    <script src="/static/js/add_device.js"></script>
 {% endblock %}

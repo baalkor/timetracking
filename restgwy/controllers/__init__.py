@@ -1,2 +1,2 @@
 from .zoneCtrl import ZoneDetail
-from .deviceCtrl import DeviceInit
+from .deviceCtrl import SmartphoneInit
