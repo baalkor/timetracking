@@ -2,15 +2,15 @@
 
 {% block content %}
 
-  <h2>Device information [{{ form.id }}]</h2>
+  <h2>Device information</h2>
   <form method="post">
 
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Update" />
+    <button class="btn" type="submit">Update</button><button class="btn" id='requestSuperCookie' onclick="requestSuperCookie();">Get supercookie again!</button>
   </form>
+  <span id="error"></span>
 
-<button class="btn" onclick="getDevType();">Get supercookie again!</button>
 
 
 {% endblock %}

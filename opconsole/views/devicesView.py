@@ -11,7 +11,7 @@ from opconsole.models.devices import E_DEV_TYPE
 class DeviceDetail(UpdateView):
     template_name = "opconsole_device_details.html"
     model = Device
-    fields = ['id','status','deviceData','serial','owner', 'initDate', 'timezone' , 'devKey']
+    fields = ['status','serial',  'timezone' ]
 
 @method_decorator(permission_required('opconsole.add_employes', raise_exception=True), name='dispatch')
 class NewDeviceView(TemplateView):

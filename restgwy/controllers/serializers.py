@@ -19,7 +19,7 @@ class DeviceSerializer(serializers.Serializer):
     serial = serializers.CharField(max_length=255)
     initDate = serializers.DateTimeField()
     timezone = serializers.CharField(max_length=255)
-    owner = serializers.IntegerField()
+    owner = serializers.StringRelatedField()
     devKey = serializers.CharField(max_length=64)
     phoneNumber = serializers.CharField(max_length=255)
     devType = serializers.CharField(max_length=1)
