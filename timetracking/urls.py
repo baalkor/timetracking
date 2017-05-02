@@ -24,7 +24,7 @@ from restgwy.controllers import *
 
 urlpatterns = [
     url(r'^api/zones/(?P<pk>[0-9]+)/$', ZoneDetail.as_view()),
-    url(r'^api/device/smartphone/init$',          SmartphoneInit.as_view()),
+    url(r'^api/device/init/$',          InitProcess.as_view()),
     url(r'^login*$',                    auth_views.login, {"template_name" : "opconsole_login.html"}, name="login"),
     url(r'^logout/$',                   auth_views.logout, {'next_page': '/'},name='logout'),
     url(r'^admin/',                     admin.site.urls),

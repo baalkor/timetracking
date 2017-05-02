@@ -32,7 +32,13 @@
                                 </form>
                             </li>
                             {% for device in employee.devices.all %}
-                                <li><a href="/device/{{device.id}}">{{device.deviceData}}</a></li>
+                                {% if device.status != "2" %}
+                                    <li><a href="/device/{{device.id}}"> - {{ device.devData }}</a>
+
+                                {% else %}
+                                    <li>! pendind activation !
+                                {% endif %}
+                                <a href="/device/remove/{{device.id}}">[x]</a></li>
                             {% endfor %}
                          </ul>
                     </td>

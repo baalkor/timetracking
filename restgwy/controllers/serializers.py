@@ -1,5 +1,9 @@
 from rest_framework import serializers
 
+class TempCodeSerializer(serializers.Serializer):
+    tempCode = serializers.CharField(max_length=7)
+
+
 class ZoneSerializer(serializers.Serializer):
 
     name = serializers.CharField()

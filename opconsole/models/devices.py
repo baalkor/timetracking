@@ -2,6 +2,7 @@ from django.db import models
 from employes import Employes
 import hashlib
 import os
+import datetime
 
 SALT_LEN=100
 
@@ -19,18 +20,25 @@ E_DEV_TYPE = (
 class Device(models.Model):
     status = models.CharField(max_length=1, choices=E_STATUS, default=2)
     deviceData = models.CharField(max_length=255)
-    serial = models.CharField(max_length=255)
-    initDate = models.DateTimeField(blank=True)
+    serial = models.CharField(blank=True,max_length=255)
+    initDate = models.DateTimeField(default=datetime.datetime.now,blank=True)
     timezone = models.CharField(max_length=255)
     owner = models.ForeignKey(Employes,related_name="devices")
-    salt = models.IntegerField()
+    salt = models.CharField(max_length=SALT_LEN)
     devKey = models.CharField(max_length=64)
     phoneNumber = models.CharField(blank=True, max_length=255)
     devType = models.CharField(max_length=1, choices=E_STATUS, default=0)
+    tempCode = models.CharField(max_length=7, choices=E_STATUS)
+
 
     def save(self, *args, **kwargs):
-        salt = os.urandom(SALT_LEN)
-        devKey = hashlib.sha256( str(salt) + self.serial + self.deviceData ).hexdigest()
+        if self.status == 2:
+            self.salt = os.urandom(SALT_LEN).encode("base-64")
 
-        super(models.Model, self)
+        if self.status == 0:
+           self.devKey = hashlib.sha256(str(self.salt) +  str(self.serial) + self.deviceData).hexdigest()
+
+
+
+        super(Device, self).save(*args, **kwargs)
 
