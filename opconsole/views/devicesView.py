@@ -1,12 +1,17 @@
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, UpdateView
 from opconsole.models.devices import Device
 from django.shortcuts import  render, get_object_or_404
-from django.template import Context
 from django.http import HttpResponseForbidden, HttpResponseBadRequest
 from opconsole.models.employes import Employes
 from opconsole.models.devices import E_DEV_TYPE
+
+
+class DeviceDetail(UpdateView):
+    template_name = "opconsole_device_details.html"
+    model = Device
+    fields = ['status','deviceData','serial','owner', 'initDate', 'timezone' ]
 
 @method_decorator(permission_required('opconsole.add_employes', raise_exception=True), name='dispatch')
 class NewDeviceView(TemplateView):

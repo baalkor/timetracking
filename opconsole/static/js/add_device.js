@@ -5,6 +5,9 @@ function getEmployeeId() {
 function getWebOSData() {
     console.log(navigator)
 }
+
+
+
 function requestWebCode() {
 
     $.get("/api/device/init/?typeId=1&employeeId=" + getEmployeeId() , function(data) {

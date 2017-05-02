@@ -1,6 +1,7 @@
 {% extends "opconsole_baselayout.html" %}
 
 {% block content %}
+
     <h1 class="mt-5">Devices list</h1>
     <table class="table table-bordered">
         <thead>
@@ -11,10 +12,8 @@
             <th>Type</th>
             <th>Initialization date</th>
             <th></th>
-
-
-
         </thead>
+
         <tbody>
             {% for device in object_list %}
                 <tr>
@@ -27,10 +26,18 @@
                     <td>{{ device.initDate }} </td>
                     <td><a href="/devices/{{ device.id }}">Watch</a></td>
                     <td><a href="/user/{{ device.owner.id }}">{{ device.owner.user.username  }}</td>
+                    <td><button class="btn" onclick="removeDevice({{device.id}});">Remove device</button></td>
+
 
 
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+{% endblock %}
+
+{% block footer %}
+    <script src="/static/js/js.cookie.js"></script>
+    <script src="/static/js/csrf.js"></script>
+    <script src="/static/js/deviceDetails.js"></script>
 {% endblock %}

@@ -1,15 +1,27 @@
-from django.http import HttpResponseBadRequest, JsonResponse
-from django.shortcuts import   get_object_or_404
-from opconsole.models.devices import Device, E_STATUS
+from django.http import HttpResponseBadRequest, JsonResponse, HttpResponse
+from django.shortcuts import   get_object_or_404, redirect
+from opconsole.models.devices import Device
 from serializers import TempCodeSerializer
 from opconsole.models.employes import Employes
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.renderers import JSONRenderer
+
 import string
 import random
+
+
+class DeviceRemoval(APIView):
+
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        dev = get_object_or_404(Device,pk=int(request.POST.get("id")))
+        dev.delete()
+        return redirect("/devices/")
+
 
 class PhoneInit(APIView):
     def post(self, request, *args, **kwargs):
