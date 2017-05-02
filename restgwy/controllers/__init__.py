@@ -1,2 +1,2 @@
 from .zoneCtrl import ZoneDetail
-from .deviceCtrl import InitProcess, DeviceRemoval
+from .deviceCtrl import InitProcess, DeviceRemoval, DeviceInfo

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-  <h2>Device information</h2>
+  <h2>Device information [{{ form.id }}]</h2>
   <form method="post">
 
     {% csrf_token %}
@@ -10,8 +10,13 @@
     <input type="submit" value="Update" />
   </form>
 
+<button class="btn" onclick="getDevType();">Get supercookie again!</button>
+
+
 {% endblock %}
 
 {% block footer %}
+    <script src="/static/js/js.cookie.js"></script>
+    <script src="/static/js/csrf.js"></script>
     <script src="/static/js/deviceDetails.js"></script>
 {% endblock %}

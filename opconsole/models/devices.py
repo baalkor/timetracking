@@ -4,7 +4,7 @@ import hashlib
 import os
 import datetime
 
-SALT_LEN=100
+SALT_LEN=14
 
 E_STATUS = (
     (0, 'INITIALIZED'),
@@ -33,10 +33,13 @@ class Device(models.Model):
 
     def save(self, *args, **kwargs):
         if self.status == 2:
-            self.salt = os.urandom(SALT_LEN).encode("base-64")
+            sltFormat = "%Y%d%m%H%M%S"
+            iDate = self.initDate.strftime(sltFormat)
+            self.salt = iDate.encode("base-64")
 
         if self.status == 0:
-           self.devKey = hashlib.sha256(str(self.salt) +  str(self.serial) + self.deviceData).hexdigest()
+           self.devKey = hashlib.sha256(str(self.salt) + self.deviceData).hexdigest()
+           self.tempCode = "used"
 
 
 

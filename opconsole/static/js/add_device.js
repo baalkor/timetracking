@@ -2,17 +2,39 @@ function getEmployeeId() {
     return $("#employeeId").val();
 }
 
-function getWebOSData() {
-    console.log(navigator)
+function initDevice() {
+    data =  {
+        tempCode:$("#code").val(),
+        deviceData:navigator.userAgent,
+        timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,
+        serial:"undef",
+        employeeId:getEmployeeId(),
+        deviceId:$("#devId").val(),
+        phoneNumber:""
+    };
+
+    $.ajax({
+        method:"POST",
+        url:"/api/device/init/",
+        data:data,
+        success:function(data) {
+            Cookies.set("DEV_KEY",  data.devKey  );
+
+            location.replace("/devices/" + data.id);
+        }
+    }).fail(function(){
+        $("#error").text("Error check code");
+    });
 }
-
-
 
 function requestWebCode() {
 
     $.get("/api/device/init/?typeId=1&employeeId=" + getEmployeeId() , function(data) {
         $("#broswerCode").show();
+        $("#btnReqCode").prop('disabled', true);
         $("#lblCode").text ( data.tempCode ) ;
+        $("#devId").val(data.id);
+        $("#initDate").val(data.initDate);
     });
 }
 
@@ -23,4 +45,7 @@ function showFormForType() {
         $("#" + typeId).show();
    }
 }
-$(document).ready(function() {$(".formWizard").hide();});
+$(document).ready(function() {
+    setUpCSRFHeader();
+    $(".formWizard").hide();
+ });

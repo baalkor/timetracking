@@ -33,12 +33,15 @@
                             </li>
                             {% for device in employee.devices.all %}
                                 {% if device.status != "2" %}
-                                    <li><a href="/device/{{device.id}}"> - {{ device.devData }}</a>
-
+                                    {% if device.devType == "1" %}
+                                        <li><a href="/devices/{{device.id}}"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> Browser</a>
+                                    {% else %}
+                                        <li><a href="/devices/{{device.id}}">{{ device.deviceData }}</a>
+                                    {% endif %}
                                 {% else %}
                                     <li>! pendind activation !
                                 {% endif %}
-                                <a href="/device/remove/{{device.id}}">[x]</a></li>
+                                 <button class="btn" onclick="removeDevice({{device.id}});">Remove</button></li>
                             {% endfor %}
                          </ul>
                     </td>
@@ -47,4 +50,9 @@
             {% endfor %}
         </tbody>
     </table>
+{% endblock %}
+{% block footer %}
+    <script src="/static/js/js.cookie.js"></script>
+    <script src="/static/js/csrf.js"></script>
+    <script src="/static/js/deviceDetails.js"></script>
 {% endblock %}

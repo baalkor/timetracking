@@ -1,6 +1,15 @@
-<button class="btn btn-primary" onclick="requestWebCode();">Request code</button>
-<form id="broswerCode" style="display:None" method="post" action="/">
-    <label for="code">Please enter <span id="lblCode"></span></label>
-    <input type="text" id="code"/>
-    <button type="submit">Validate this station</button>
-</form>
+<button id="btnReqCode" class="btn btn-primary" onclick="requestWebCode();">Request code</button>
+
+<div id="broswerCode" style="display:None">
+
+    <ul class="list-unstyled">
+
+        <li><label for="code">Please enter the following code : <span id="lblCode"></span></label></li>
+        <li>Init date : <input readonly="true" type="text" id="initDate"/></li>
+        <li><input type="text" id="code"/></li>
+        <li><input type="hidden" id="devId"/></li>
+        <li><button class="btn" onclick="initDevice();">Validate this station</button></li>
+        <li><span id="error"></span></li>
+    </ul>
+
+</div>

@@ -1,7 +1,7 @@
 from django.http import HttpResponseBadRequest, JsonResponse, HttpResponse
 from django.shortcuts import   get_object_or_404, redirect
 from opconsole.models.devices import Device
-from serializers import TempCodeSerializer
+from serializers import TempCodeSerializer, SupercookieSerializer, DeviceSerializer
 from opconsole.models.employes import Employes
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
@@ -11,6 +11,14 @@ from rest_framework.views import APIView
 import string
 import random
 
+class DeviceInfo(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        dev = get_object_or_404(Device, pk=int(request.GET.get("id")))
+        serializer = DeviceSerializer(dev)
+        return JsonResponse(serializer.data)
 
 class DeviceRemoval(APIView):
 
@@ -54,20 +62,24 @@ class InitProcess(APIView):
         return JsonResponse(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        try:
 
-            device = Device.create()
-            device.timezone = request.POST.get("timezone")
-            device.deviceData = request.POST.get("deviceData")
-            device.serial = request.POST.get("serial")
-            device.owner = request.user
-            device.phoneNumber = request.POST.get("phone_number")
-            device.save()
-            device.status = 0
-            device.save()
-            return Response("Device initalized")
+        pData = request.POST
 
-        except:
-            return HttpResponseBadRequest
+
+        dev = get_object_or_404(Device, pk=int(pData.get("deviceId")))
+        empId = get_object_or_404(Employes, pk=int(pData.get("employeeId")))
+
+        if dev.tempCode == pData.get("tempCode"):
+            dev.deviceData = pData.get("deviceData")
+            dev.timezone = pData.get("timezone")
+            dev.serial = pData.get("serial")
+            dev.phoneNumber = pData.get("phoneNumber")
+            dev.status = 0
+            dev.save()
+            serializer = SupercookieSerializer(dev)
+            return JsonResponse(serializer.data);
+        else:
+            return HttpResponseBadRequest()
+
 
 
