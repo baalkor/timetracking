@@ -9,6 +9,18 @@ function removeDevice(devId) {
     });
 }
 
+function deviceToggle(devId) {
+    $.ajax({
+        type:"POST",
+        url:"/api/device/toggle/",
+        data:{id:devId},
+        success:function() {
+            location.href = "/devices/";
+        },
+
+    });
+}
+
 function userToggle(userId) {
     $.ajax({
         type:"POST",

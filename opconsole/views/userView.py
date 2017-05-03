@@ -13,8 +13,9 @@ from django.contrib.auth.models import Group
 class DetailUserView(UpdateView):
     template_name = "opconsole_user_info.html"
     model = Employes
-    fields = [ 'address', 'zip_code', 'city', 'country' ]
+    fields = [ 'address', 'zip_code', 'city', 'country', 'enableDeviceCheck' , 'enableGeoCheck']
     success_url = '/user/'
+
 
 @method_decorator(permission_required('opconsole.add_employes', raise_exception=True), name='dispatch')
 class ListUsers(ListView):

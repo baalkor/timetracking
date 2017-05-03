@@ -13,7 +13,16 @@
     {{ form.as_p }}
     <button class="btn" type="submit">Update</button>
   </form>
-<button class="btn" id='requestSuperCookie' onclick="requestSuperCookie();">Get supercookie again!</button><br><span id="error"></span>
+<button class="btn" id='requestSuperCookie' onclick="requestSuperCookie();">Get supercookie again!</button><br>
+<button class="btn" id='deviceToggle' onclick="deviceToggle({{object.id}});">
+    {% if object.status == '0' %}
+        Disable device
+    {% else %}
+        Enable device
+    {% endif %}
+</button>
+
+<span id="error"></span>
 
 
 

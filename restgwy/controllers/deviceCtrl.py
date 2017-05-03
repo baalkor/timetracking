@@ -11,6 +11,21 @@ from rest_framework.views import APIView
 import string
 import random
 
+
+class DeviceStatusToggle(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        dev = get_object_or_404(Device,pk=int(request.POST.get("id")))
+        if dev.status == '1':
+            dev.status = '0'
+        else:
+            dev.status = '1'
+
+        dev.save()
+        return HttpResponse()
+
 class DeviceInfo(APIView):
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)

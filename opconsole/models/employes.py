@@ -14,5 +14,8 @@ class Employes(models.Model):
     zones = models.ManyToManyField(Zones)
     enable = models.BooleanField(default=True)
 
+    enableGeoCheck = models.BooleanField(default=True)
+    enableDeviceCheck = models.BooleanField(default=True)
+
 
 

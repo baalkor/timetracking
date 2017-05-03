@@ -15,7 +15,6 @@
         </thead>
 
         <tbody>
-            <script>console.log(document.cookie);</script>
             {% for device in object_list %}
                 <tr>
 
@@ -29,7 +28,7 @@
                             INSERTED [pending validation]
                         {% endif %}
                     </td>
-                    <td>{{ serial }} </td>
+                    <td>{{ device.serial }} </td>
                     <td>{{ device.timezone }} </td>
                     <td>{{ device.deviceData }} </td>
                     <td>{{ device.initDate }} </td>
