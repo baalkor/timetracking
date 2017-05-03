@@ -10,7 +10,7 @@
             <th>email</th>
             <th>Timesheets</th>
             <th>Devices</th>
-
+            <th>Status</th>
 
         </thead>
         <tbody>
@@ -41,11 +41,13 @@
                                 {% else %}
                                     <li>! pendind activation !
                                 {% endif %}
+
                                  <button class="btn" onclick="removeDevice({{device.id}});">Remove</button></li>
                             {% endfor %}
+
                          </ul>
                     </td>
-
+                    <td><button class="btn" onclick="userToggle({{employee.id}});">{% if employee.enable %} Disable {% else %} Enable {% endif %}</button></li></td>
                 </tr>
             {% endfor %}
         </tbody>

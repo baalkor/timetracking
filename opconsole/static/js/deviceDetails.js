@@ -9,6 +9,16 @@ function removeDevice(devId) {
     });
 }
 
+function userToggle(userId) {
+    $.ajax({
+        type:"POST",
+        url:"/api/user/toggle/",
+        data:{id:userId},
+        success:function() {location.reload();},
+
+    });
+}
+
 function requestSuperCookie() {
     Cookies.set("DEV_KEY",devKey);
     $("#requestSuperCookie").prop('disabled', true);

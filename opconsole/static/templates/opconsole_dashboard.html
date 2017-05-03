@@ -1,6 +1,22 @@
 {% extends "opconsole_baselayout.html" %}
+{% block footer %}
+    <script src="/static/js/csrf.js"></script>
+    <script src="/static/js/js.cookie.js"></script>
+    <script src="/static/js/webtimestamps.js"></script>
 
+{% endblock %}
 {% block content %}
     <h1 class="mt-5">Welcome</h1>
-    Time is {{ time }}
+    <p>
+        Current server time is {{ time }}
+    </p>
+    <p>
+    {% if hasWebDevice %}
+        <button id="timestamp" class="btn btn-primary btn-lg" onclick="webTimestamp();">Timestamp now!</button>
+        <b><span id="error"></span></b>
+    {% else %}
+
+            Your current profile doesn't include any web device, ask your support team to initialize a new one.
+    </p>
+    {% endif %}
 {% endblock %}

@@ -1,5 +1,9 @@
 {% extends "opconsole_baselayout.html" %}
-
+{% block head %}
+    <script  defer=false src="/static/js/js.cookie.js"></script>
+    <script  defer=false src="/static/js/csrf.js"></script>
+    <script  defer=false src="/static/js/deviceDetails.js"></script>
+{% endblock %}
 {% block content %}
 
   <h2>Device information</h2>
@@ -7,16 +11,12 @@
 
     {% csrf_token %}
     {{ form.as_p }}
-    <button class="btn" type="submit">Update</button><button class="btn" id='requestSuperCookie' onclick="requestSuperCookie();">Get supercookie again!</button>
+    <button class="btn" type="submit">Update</button>
   </form>
+<button class="btn" id='requestSuperCookie' onclick="requestSuperCookie();">Get supercookie again!</button>
   <span id="error"></span>
 
 
 
 {% endblock %}
 
-{% block footer %}
-    <script src="/static/js/js.cookie.js"></script>
-    <script src="/static/js/csrf.js"></script>
-    <script src="/static/js/deviceDetails.js"></script>
-{% endblock %}
