@@ -21,13 +21,15 @@ from django.contrib.auth import views as auth_views
 from rest_framework.urlpatterns import format_suffix_patterns
 from opconsole.views import *
 from restgwy.controllers import *
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     url(r'^api/zones/(?P<pk>[0-9]+)/$', ZoneDetail.as_view()),
     url(r'^api/device/init/$',          InitProcess.as_view()),
     url(r'^api/device/remove/$',        DeviceRemoval.as_view()),
     url(r'^api/device/$', DeviceInfo.as_view()),
-    url(r'^api/user/toggle/$', UserToggle.as_view()),
+    url(r'^api/user/toggle/$',          UserToggle.as_view()),
+    url(r'^api/timesheet/new/$',        TimestampReciever.as_view()),
 
 
     url(r'^login*$',                    auth_views.login, {"template_name" : "opconsole_login.html"}, name="login"),

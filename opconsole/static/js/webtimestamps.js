@@ -23,7 +23,7 @@ function webTimestamp() {
 
            $.ajax({
             method:"POST",
-            url:"/api/timesheet/post",
+            url:"/api/timesheet/new/",
             success:function() {
                 console.log("Sent timestamp sucessfuly!");
             }
