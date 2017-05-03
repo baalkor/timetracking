@@ -1,15 +1,52 @@
+function clearError() {
+    $("#error").text( "" );
+}
 function addError(msg){
     var oldText=$("#error").text();
     $("#error").text( oldText + msg);
 }
 function webTimestamp() {
+    clearError();
     $("#timestamp").prop('disabled', true);
-    devKey = Cookies.get("DEV_KEY");
-    if ( devKey.length != 63 ) {
+    var devKey = Cookies.get("DEV_KEY");
+    if ( devKey.length != 64 ) {
         addError("Supercookie correctly set. Ask support team to download it.")
+    } else {
+        navigator.geolocation.getCurrentPosition(function(position) {
+               var latitude = position.coords.latitude;
+               var longitude = position.coords.longitude;
+               data = {
+                longitude:longitude,
+                latitude:latitude,
+                time:Date.now(),
+                devKey:devKey
+               }
+               console.log(data);
+               $.ajax({
+                method:"POST",
+                url:"/api/timesheet/post",
+                success:function() {
+                    console.log("Sent timestamp sucessfuly!");
+                }
+               }).fail(function(error){
+                    addError(error.message);
+               })
+
+
+        }, function(error) {
+            if (error.code == error.PERMISSION_DENIED) {
+                addError("You declined, could not process, try reloading the page");
+                $("#timestamp").prop('disabled', false);
+             } else {
+                addError(error.message);
+             }
+        });
     }
 }
 
 $(document).ready(function(){
     setUpCSRFHeader();
+    if ( ! navigator.geolocation) {
+        addError("Your browser doesnt support geolocation.");
+    }
 });
