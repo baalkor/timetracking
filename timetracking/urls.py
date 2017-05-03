@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^api/zones/(?P<pk>[0-9]+)/$', ZoneDetail.as_view()),
     url(r'^api/device/init/$',          InitProcess.as_view()),
     url(r'^api/device/remove/$',        DeviceRemoval.as_view()),
-    url(r'^api/device/$', DeviceInfo.as_view()),
+    url(r'^api/device/$',               DeviceInfo.as_view()),
     url(r'^api/user/toggle/$',          UserToggle.as_view()),
     url(r'^api/timesheet/new/$',        TimestampReciever.as_view()),
 
@@ -46,6 +46,7 @@ urlpatterns = [
     url(r'^devices/$',                  ListDeviceView.as_view()),
     url(r'^devices/new/$',              NewDeviceView.as_view()),
     url(r'^devices/(?P<pk>[0-9]+)/$',   DeviceDetail.as_view(),name='device-info'),
+    url(r'^assign/(?P<pk>\d+)/$',       AssignDeviceToZone.as_view(), name='device-assign'),
     url(r'^user/(?P<pk>\w+)/$',         DetailUserView.as_view()),
     url(r'^user/$',                     ListUsers.as_view()),
     url(r'^zones/$',                    ZoneView.as_view()),

@@ -1,12 +1,26 @@
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, TemplateView, UpdateView
+from django.views.generic import ListView, TemplateView, UpdateView, DetailView
 from opconsole.models.devices import Device
+from opconsole.models.zones import Zones
 from django.shortcuts import  render, get_object_or_404
 from django.http import HttpResponseForbidden, HttpResponseBadRequest
 from opconsole.models.employes import Employes
 from opconsole.models.devices import E_DEV_TYPE
 
+
+@method_decorator(permission_required('opconsole.add_employes', raise_exception=True), name='dispatch')
+class AssignDeviceToZone(DetailView):
+
+    template_name = "opconsole_device_assign_zone.html"
+    model = Device
+    context_object_name = "device"
+
+    def get_context_data(self, **kwargs):
+        context = super(AssignDeviceToZone, self).get_context_data(**kwargs)
+        context['zones'] = Zones.objects.all()
+
+        return context
 
 class DeviceDetail(UpdateView):
     template_name = "opconsole_device_details.html"

@@ -11,7 +11,7 @@ class Employes(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="django_user")
 
-    zones = models.ManyToManyField(Zones)
+
     enable = models.BooleanField(default=True)
 
     enableGeoCheck = models.BooleanField(default=True)

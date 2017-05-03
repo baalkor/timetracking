@@ -31,6 +31,10 @@ function userToggle(userId) {
     });
 }
 
+function showZoneAssignment(devId) {
+    window.location = "/assign/" + devId + "/";
+}
+
 function requestSuperCookie() {
     Cookies.set("DEV_KEY",devKey);
     $("#requestSuperCookie").prop('disabled', true);

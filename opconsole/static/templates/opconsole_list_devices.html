@@ -11,7 +11,9 @@
             <th>Timezone</th>
             <th>Type</th>
             <th>Initialization date</th>
+            <th>Assigned Zones</th>
             <th>Action</th>
+
         </thead>
 
         <tbody>
@@ -32,7 +34,10 @@
                     <td>{{ device.timezone }} </td>
                     <td>{{ device.deviceData }} </td>
                     <td>{{ device.initDate }} </td>
-                    <td><button class="btn" onclick="removeDevice({{device.id}});">Remove device</button></td>
+                    <td><button class="btn" onclick="showZoneAssignment({{device.id}});">Assign zone</button></td>
+                    <td>
+                        <button class="btn" onclick="removeDevice({{device.id}});">Remove device</button>
+                    </td>
 
 
 

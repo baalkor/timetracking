@@ -1,5 +1,6 @@
 from django.db import models
 from employes import Employes
+from zones import Zones
 import hashlib
 import os
 import datetime
@@ -29,7 +30,7 @@ class Device(models.Model):
     phoneNumber = models.CharField(blank=True, max_length=255)
     devType = models.CharField(max_length=1, choices=E_STATUS, default=0)
     tempCode = models.CharField(max_length=7, choices=E_STATUS)
-
+    zones = models.ManyToManyField(Zones)
 
     def save(self, *args, **kwargs):
         if self.status == 2:

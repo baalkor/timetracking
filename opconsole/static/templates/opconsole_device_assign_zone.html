@@ -1,0 +1,30 @@
+{% extends "opconsole_baselayout.html" %}
+{% block head %}
+    <script  defer=false src="/static/js/js.cookie.js"></script>
+    <script  defer=false src="/static/js/csrf.js"></script>
+    <script  defer=false src="/static/js/deviceDetails.js"></script>
+{% endblock %}
+{% block content %}
+
+  <h2>Device to zone assignation </h2>
+
+
+  <table class="table table-bordered">
+      <thead>
+        <th>Zone name</th>
+        <th>Map</th>
+        <th></th>
+      </thead>
+      <tbody>
+      {% for zone in zones %}
+        <tr>
+            <td>{{ zone.name }} </td>
+            <td><a href="/zones/{{ zone.id }}" target="_blank">Show map</a></td>
+            <td><button class="btn">Assign</button></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+
+{% endblock %}
+

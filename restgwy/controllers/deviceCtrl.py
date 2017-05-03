@@ -1,4 +1,4 @@
-from django.http import HttpResponseBadRequest, JsonResponse, HttpResponse
+from django.http import HttpResponseBadRequest, JsonResponse, HttpResponse, Http404
 from django.shortcuts import   get_object_or_404, redirect
 from opconsole.models.devices import Device
 from serializers import TempCodeSerializer, SupercookieSerializer, DeviceSerializer
@@ -31,9 +31,12 @@ class DeviceInfo(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
-        dev = get_object_or_404(Device, pk=int(request.GET.get("id")))
-        serializer = DeviceSerializer(dev)
-        return JsonResponse(serializer.data)
+        if request.GET.get("id") is None:
+            return Http404
+        else:
+            dev = get_object_or_404(Device, pk=int())
+            serializer = DeviceSerializer(dev)
+            return JsonResponse(serializer.data)
 
 class DeviceRemoval(APIView):
 
