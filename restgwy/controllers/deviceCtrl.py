@@ -12,6 +12,38 @@ from rest_framework.views import APIView
 import string
 import random
 
+class ZoneAssignedToDevice(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        device = get_object_or_404(Device, pk=int(request.GET.get("devId")))
+        zone = get_object_or_404(Zones, pk=int(request.GET.get("zoneId")))
+        return JsonResponse({"assigned":Zones.objects.filter(pk=zone.id, device__pk=device.id).exists()})
+
+class AssignZoneToDevice(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        device = get_object_or_404(Device, pk=int(request.POST.get("devId")))
+        zone = get_object_or_404(Zones, pk=int(request.POST.get("zoneId")))
+        device.zones.add(zone)
+        device.save()
+
+        return HttpResponse()
+class UnAssignZoneToDevice(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        device = get_object_or_404(Device, pk=int(request.POST.get("devId")))
+        zone = get_object_or_404(Zones, pk=int(request.POST.get("zoneId")))
+        device.zones.remove(zone)
+        device.save()
+
+        return HttpResponse()
+
 class ZonesByDevId(APIView):
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)

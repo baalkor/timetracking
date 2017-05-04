@@ -1,9 +1,7 @@
 from rest_framework import serializers
 
-class ZonesListSerializer(serializers.Serializer):
-    zones = serializers.ListField(
-        zoneId = serializers.IntegerField()
-    )
+class ZonesListSerializer(serializers.ListField):
+    zoneId=serializers.IntegerField()
 
 class SupercookieSerializer(serializers.Serializer):
     id = serializers.IntegerField()
