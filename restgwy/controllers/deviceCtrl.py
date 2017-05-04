@@ -1,8 +1,9 @@
 from django.http import HttpResponseBadRequest, JsonResponse, HttpResponse, Http404
 from django.shortcuts import   get_object_or_404, redirect
 from opconsole.models.devices import Device
-from serializers import TempCodeSerializer, SupercookieSerializer, DeviceSerializer
+from serializers import TempCodeSerializer, SupercookieSerializer, DeviceSerializer, ZonesListSerializer
 from opconsole.models.employes import Employes
+from opconsole.models.zones import Zones
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.response import Response
@@ -11,6 +12,14 @@ from rest_framework.views import APIView
 import string
 import random
 
+class ZonesByDevId(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        device = get_object_or_404(Device, pk=int(request.GET.get("id")))
+        zonesJSon = ZonesListSerializer(Zones.objetcs.filter(device__id=device.id))
+        return zonesJSon.data
 
 class DeviceStatusToggle(APIView):
     authentication_classes = (SessionAuthentication, BasicAuthentication)

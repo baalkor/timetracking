@@ -2,13 +2,13 @@
 {% block head %}
     <script  defer=false src="/static/js/js.cookie.js"></script>
     <script  defer=false src="/static/js/csrf.js"></script>
-    <script  defer=false src="/static/js/deviceDetails.js"></script>
+    <script  defer=false src="/static/js/deviceAssign.js"></script>
 {% endblock %}
 {% block content %}
 
   <h2>Device to zone assignation </h2>
 
-
+    <input type="hidden" id="devId" value="{{device.id}}" />
   <table class="table table-bordered">
       <thead>
         <th>Zone name</th>
@@ -20,7 +20,7 @@
         <tr>
             <td>{{ zone.name }} </td>
             <td><a href="/zones/{{ zone.id }}" target="_blank">Show map</a></td>
-            <td><button class="btn">Assign</button></td>
+            <td> <label class="btn btn-primary"><input id="{{ zone.id }}" class="zone" type="checkbox" autocomplete="off"> Assign</label></td>
         </tr>
       {% endfor %}
       </tbody>

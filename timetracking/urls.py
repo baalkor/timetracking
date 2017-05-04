@@ -26,6 +26,7 @@ from django.views.decorators.csrf import csrf_exempt
 urlpatterns = [
     url(r'^api/zones/(?P<pk>[0-9]+)/$', ZoneDetail.as_view()),
     url(r'^api/device/init/$',          InitProcess.as_view()),
+    url(r'^api/devicezones/$',          ZonesByDevId.as_view()),
     url(r'^api/device/remove/$',        DeviceRemoval.as_view()),
     url(r'^api/device/$',               DeviceInfo.as_view()),
     url(r'^api/user/toggle/$',          UserToggle.as_view()),
