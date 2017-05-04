@@ -17,9 +17,10 @@ function cipherDict(key,dict) {
         var bKey = btoa(key);
         var bData = btoa(dict[key]);
 
-        bKey = encryptLongString(crcKey,bKey);
-        bData = encryptLongString(crcKey,bData);
-
+        //bKey  = encryptLongString(crcKey,bKey);
+        //bData = encryptLongString(crcKey,bData);
+        bKey  = bKey;
+        bData = bData;
         bDict[bKey] = bData;
     }
 
@@ -37,6 +38,7 @@ function webTimestamp() {
            var latitude = position.coords.latitude;
 
            var longitude = position.coords.longitude;
+
            data = cipherDict(devKey.substring(0,16),{
                 deviceData:navigator.userAgent,
                 longitude:longitude,
@@ -46,13 +48,12 @@ function webTimestamp() {
            });
 
 
-
            $.ajax({
             method:"POST",
             data:data,
             url:"/api/timesheet/new/",
             success:function() {
-                console.log("Sent timestamp sucessfuly!");
+                $("#timestamp").prop('disabled', false);
             }
            }).fail(function(error){
                 addError(error.message);
