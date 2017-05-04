@@ -72,12 +72,9 @@ class DeviceInfo(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
-        if request.GET.get("id") is None:
-            return Http404
-        else:
-            dev = get_object_or_404(Device, pk=int())
-            serializer = DeviceSerializer(dev)
-            return JsonResponse(serializer.data)
+        dev = get_object_or_404(Device, pk=int(request.GET.get("id")))
+        serializer = DeviceSerializer(dev)
+        return JsonResponse(serializer.data)
 
 class DeviceRemoval(APIView):
 

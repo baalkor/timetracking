@@ -36,20 +36,26 @@ function showZoneAssignment(devId) {
 }
 
 function requestSuperCookie() {
-    Cookies.set("DEV_KEY",devKey);
+    getDevKey();
     $("#requestSuperCookie").prop('disabled', true);
-    $("#requestSuperCookie").text("Done.")
+    if ( devKey === "") {
+        console.log(devKey);
+        $("#requestSuperCookie").text("error.")
+    } else {
+        Cookies.set("DEV_KEY",devKey);
+        $("#requestSuperCookie").text("Done.")
+    }
 }
-var devKey = "";
-$(document).ready(function() {
 
-    setUpCSRFHeader();
+
+function getDevKey() {
     var url = window.location.pathname;
 
     var devId = url.split("/")[2];
-    $.get("/api/device" ,  { id:devId }   ).done(function(data){
+    $.get("/api/device/info/" ,  { id:devId }   ).done(function(data){
         if ( data.devType == "1" ) {
             devKey = data.devKey;
+
             $("#requestSuperCookie").show()
             if (Cookies.get("DEV_KEY") != data.devKey ) {
                 $("#error").text( "Warning, current browser key is not matching our records.You will not be able to timestamp with this browser." )
@@ -59,11 +65,15 @@ $(document).ready(function() {
             $("#requestSuperCookie").hide()
 
         }
-
-
-
-
+    }).fail(function(error) {
+        alert("Unable to retreive key :(HTTP_" + error.status + ")");
     });
 
+}
 
+var devKey = "";
+$(document).ready(function() {
+    var devKey = "";
+    setUpCSRFHeader();
+    getDevKey();
 });

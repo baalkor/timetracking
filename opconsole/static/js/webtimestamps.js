@@ -6,23 +6,50 @@ function addError(msg){
     $("#error").text( oldText + msg);
 }
 
+function cipherDict(key,dict) {
+
+    var bDict = {};
+
+    var crcKey = init(key);
+
+    for (var key in dict) {
+
+        var bKey = btoa(key);
+        var bData = btoa(dict[key]);
+
+        bKey = encryptLongString(crcKey,bKey);
+        bData = encryptLongString(crcKey,bData);
+
+        bDict[bKey] = bData;
+    }
+
+    return bDict;
+
+}
+
 function webTimestamp() {
     clearError();
     $("#timestamp").prop('disabled', true);
     var devKey = Cookies.get("DEV_KEY");
+    if (devKey === undefined )  { return; }
 
     navigator.geolocation.getCurrentPosition(function(position) {
            var latitude = position.coords.latitude;
+
            var longitude = position.coords.longitude;
-           data = {
-            longitude:longitude,
-            latitude:latitude,
-            time:Date.now(),
-            devKey:devKey
-           }
+           data = cipherDict(devKey.substring(0,16),{
+                deviceData:navigator.userAgent,
+                longitude:longitude,
+                latitude:latitude,
+                time:Date.now(),
+                devKey:devKey
+           });
+
+
 
            $.ajax({
             method:"POST",
+            data:data,
             url:"/api/timesheet/new/",
             success:function() {
                 console.log("Sent timestamp sucessfuly!");
@@ -45,7 +72,8 @@ function webTimestamp() {
 
 $(document).ready(function(){
     setUpCSRFHeader();
-    if ( ! navigator.geolocation) {
-        addError("Your browser doesnt support geolocation.");
+    if ( ! navigator.geolocation && ! ( window.btoa && window.atob) ) {
+        addError("Your browser doesnt meet requirement.");
+        $("#timestamp").prop('disabled','true');
     }
 });
