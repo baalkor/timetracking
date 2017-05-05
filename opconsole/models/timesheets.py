@@ -7,13 +7,14 @@ TIMB_STATUS = (
     (1, 'REFUSED_WRONG_TZ'),
     (2, 'REFUSED_DEV_DATA_MISMATCH'),
     (3, 'REFUSED_NOT_IN_ZONE'),
-    (4, 'USER_DEACTIVATED')
+    (4, 'USER_DEACTIVATED'),
+    (5, 'DEVICE_DEACTIVATED')
 )
 
 class Timesheets(models.Model):
 
     user = models.ForeignKey(Employes, related_name="timesheets")
-    device = models.ForeignKey(Employes, related_name="tms")
+    device = models.ForeignKey(Device, related_name="tms")
     recptTime = models.DateTimeField(auto_now_add=timezone.now() )
     time = models.DateTimeField()
     devTz = models.CharField(max_length=255)

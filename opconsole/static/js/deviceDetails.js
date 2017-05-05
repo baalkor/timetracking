@@ -66,7 +66,7 @@ function getDevKey() {
 
         }
     }).fail(function(error) {
-        alert("Unable to retreive key :(HTTP_" + error.status + ")");
+        console.log("Unable to retreive key :(HTTP_" + error.status + ")");
     });
 
 }

@@ -17,8 +17,6 @@ function cipherDict(key,dict) {
         var bKey = btoa(key);
         var bData = btoa(dict[key]);
 
-        //bKey  = encryptLongString(crcKey,bKey);
-        //bData = encryptLongString(crcKey,bData);
         bKey  = bKey;
         bData = bData;
         bDict[bKey] = bData;
@@ -31,8 +29,12 @@ function cipherDict(key,dict) {
 function webTimestamp() {
     clearError();
     $("#timestamp").prop('disabled', true);
+
     var devKey = Cookies.get("DEV_KEY");
-    if (devKey === undefined )  { return; }
+    if (devKey === undefined )  {
+        addError("Supercookie expired!, ask support te retrive it");
+        return;
+    }
 
     navigator.geolocation.getCurrentPosition(function(position) {
            var latitude = position.coords.latitude;
@@ -44,7 +46,8 @@ function webTimestamp() {
                 longitude:longitude,
                 latitude:latitude,
                 time:Date.now(),
-                devKey:devKey
+                devKey:devKey,
+                timezone:Intl.DateTimeFormat().resolvedOptions().timeZone
            });
 
 
@@ -52,8 +55,13 @@ function webTimestamp() {
             method:"POST",
             data:data,
             url:"/api/timesheet/new/",
-            success:function() {
+            success:function(data) {
                 $("#timestamp").prop('disabled', false);
+                if ( data.code > 0 ) {
+                    addError(data.status);
+                } else {
+                    addError("Success!");
+                }
             }
            }).fail(function(error){
                 addError(error.message);
