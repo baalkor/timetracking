@@ -19,6 +19,7 @@ E_DEV_TYPE = (
     (2, 'PHONE'),
 )
 class Device(models.Model):
+    name = models.CharField(max_length=255,default="unnamed")
     status = models.CharField(max_length=1, choices=E_STATUS, default=2)
     deviceData = models.CharField(max_length=255)
     serial = models.CharField(blank=True,max_length=255)

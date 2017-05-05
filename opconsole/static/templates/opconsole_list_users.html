@@ -34,9 +34,9 @@
                             {% for device in employee.devices.all %}
                                 {% if device.status != "2" %}
                                     {% if device.devType == "1" %}
-                                        <li><a href="/devices/{{device.id}}"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> Browser</a>
+                                        <li><a href="/devices/{{device.id}}"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span>{{device.name}}</a>
                                     {% else %}
-                                        <li><a href="/devices/{{device.id}}">{{ device.deviceData }}</a>
+                                        <li><a href="/devices/{{device.id}}">{{device.name}}</a>
                                     {% endif %}
                                 {% else %}
                                     <li>! pendind activation !

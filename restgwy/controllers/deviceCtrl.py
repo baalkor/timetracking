@@ -130,6 +130,7 @@ class InitProcess(APIView):
             dev.timezone = pData.get("timezone")
             dev.serial = pData.get("serial")
             dev.phoneNumber = pData.get("phoneNumber")
+            dev.name = pData.get("name") if pData.get("name") != None else "unnamed"
             dev.status = 0
             dev.save()
             serializer = SupercookieSerializer(dev)

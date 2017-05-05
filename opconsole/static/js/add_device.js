@@ -10,7 +10,8 @@ function initDevice() {
         serial:"undef",
         employeeId:getEmployeeId(),
         deviceId:$("#devId").val(),
-        phoneNumber:""
+        phoneNumber:"",
+        name:$("#name").val()
     };
 
     $.ajax({

@@ -25,7 +25,8 @@ class AssignDeviceToZone(DetailView):
 class DeviceDetail(UpdateView):
     template_name = "opconsole_device_details.html"
     model = Device
-    fields = ['status','serial',  'timezone' ]
+    success_url = "/devices/"
+    fields = ['name','serial',  'timezone' ]
 
 @method_decorator(permission_required('opconsole.add_employes', raise_exception=True), name='dispatch')
 class NewDeviceView(TemplateView):
@@ -49,6 +50,6 @@ class NewDeviceView(TemplateView):
 @method_decorator(permission_required('opconsole.add_employes', raise_exception=True), name='dispatch')
 class ListDeviceView(ListView):
     model = Device
-    fields = ['status','deviceData','serial','owner', 'initDate', 'timezone' ]
+    fields = ['name','status','deviceData','serial','owner', 'initDate', 'timezone' ]
     template_name = "opconsole_list_devices.html"
 
