@@ -2,15 +2,16 @@
 
 {% block content %}
 
-  <h2>Login</h2>
+  <h2>Access operator console</h2>
   <form method="post">
-    {% csrf_token %}
+
     <ul class="list-unstyled">
-    {{ form.as_ul }}
+      {% csrf_token %}
+      {{ form.as_ul }}
     </ul>
 
-    <button class="btn btn-primary" type="submit">Login</button>
-    <button class="btn btn-secondary" type="reset">Reset</button>
+    <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok-circle"></span> Login</button>
+    <button class="btn btn-secondary" type="reset"><span class="glyphicon glyphicon-remove-circle"></span>Reset</button>
   </form>
 
 {% endblock %}

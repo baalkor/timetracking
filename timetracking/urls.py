@@ -21,45 +21,44 @@ from django.contrib.auth import views as auth_views
 from rest_framework.urlpatterns import format_suffix_patterns
 from opconsole.views import *
 from restgwy.controllers import *
-from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
-    url(r'^api/zones/(?P<pk>[0-9]+)/$', ZoneDetail.as_view()),
+    url(r'^api/zones/(?P<pk>[0-9]+)/$', ZoneDetail.as_view(), name="api-zone-detail"),
 
-    url(r'^api/devicezones/$',          ZonesByDevId.as_view()),
+    url(r'^api/devicezones/$',          ZonesByDevId.as_view(),name="api-zone-by-device"),
 
-    url(r'^api/device/init/$',          InitProcess.as_view()),
-    url(r'^api/device/unassign/$',      UnAssignZoneToDevice.as_view()),
-    url(r'^api/device/assigned/$',      ZoneAssignedToDevice.as_view()),
-    url(r'^api/device/assign/$',        AssignZoneToDevice.as_view()),
-    url(r'^api/device/remove/$',        DeviceRemoval.as_view()),
-    url(r'^api/device/info/$',          DeviceInfo.as_view()),
-    url(r'^api/device/toggle/$',        DeviceStatusToggle.as_view()),
+    url(r'^api/device/init/$',          InitProcess.as_view(),name="api-device-init"),
+    url(r'^api/device/unassign/$',      UnAssignZoneToDevice.as_view(),name="api-device-unassign"),
+    url(r'^api/device/assigned/$',      ZoneAssignedToDevice.as_view(),name="api-zone-assign"),
+    url(r'^api/device/assign/$',        AssignZoneToDevice.as_view(),name="api-zone-assigned"),
+    url(r'^api/device/remove/$',        DeviceRemoval.as_view(),name="api-device-remove"),
+    url(r'^api/device/info/$',          DeviceInfo.as_view(),name="api-device-info"),
+    url(r'^api/device/toggle/$',        DeviceStatusToggle.as_view(),name="api-device-status-toggle"),
 
-    url(r'^api/user/toggle/$',          UserToggle.as_view()),
-    url(r'^api/timesheet/new/$',        TimestampReciever.as_view()),
+    url(r'^api/user/toggle/$',          UserToggle.as_view(),name="api-user-status-toggle"),
+    url(r'^api/timesheet/new/$',        TimestampReciever.as_view(),name="api-recveive-timestamp"),
 
 
     url(r'^login*$',                    auth_views.login, {"template_name" : "opconsole_login.html"}, name="login"),
     url(r'^logout/$',                   auth_views.logout, {'next_page': '/'},name='logout'),
     url(r'^admin/',                     admin.site.urls),
-    url(r'^zones/new/$',                ZonesEditorView.as_view()),
-    url(r'^user/new/$',                 NewUserView.as_view()),
+    url(r'^zones/new/$',                ZonesEditorView.as_view(),name="zone-new"),
+    url(r'^user/new/$',                 NewUserView.as_view(),name="user-new"),
 
-    url(r'^timesheets/$',               TimesheetList.as_view()),
-    url(r'^timesheets/(?P<pk>\w+)/$',   TimestampDetail.as_view()),
-    url(r'^mytimesheet/$',              TimesheetView.as_view()),
+    url(r'^timesheets/$',               TimesheetList.as_view(),name="timesheets-list"),
+    url(r'^timesheets/(?P<pk>\w+)/$',   TimestampDetail.as_view(),name="timesheet-detail"),
+    url(r'^mytimesheet/$',              TimesheetView.as_view(),name="timesheet-mine"),
 
 
-    url(r'^devices/$',                  ListDeviceView.as_view()),
-    url(r'^devices/new/$',              NewDeviceView.as_view()),
-    url(r'^devices/(?P<pk>[0-9]+)/$',   DeviceDetail.as_view(),name='device-info'),
-    url(r'^assign/(?P<pk>\d+)/$',       AssignDeviceToZone.as_view(), name='device-assign'),
-    url(r'^user/(?P<pk>\w+)/$',         DetailUserView.as_view()),
-    url(r'^user/$',                     ListUsers.as_view()),
-    url(r'^zones/$',                    ZoneView.as_view()),
-    url(r'^zones/(?P<pk>\w+)/$',        ZoneDetailView.as_view()),
-    url(r'^$',                          DashboardView.as_view())
+    url(r'^devices/$',                  ListDeviceView.as_view(),name="devices-list"),
+    url(r'^devices/new/$',              NewDeviceView.as_view(),name="device-new"),
+    url(r'^devices/(?P<pk>[0-9]+)/$',   DeviceDetail.as_view(),name="device-detail"),
+    url(r'^assign/(?P<pk>\d+)/$',       AssignDeviceToZone.as_view(),name="device-assign-zone"),
+    url(r'^user/(?P<pk>\w+)/$',         DetailUserView.as_view(),name="user-detail"),
+    url(r'^user/$',                     ListUsers.as_view(),name="user-list"),
+    url(r'^zones/$',                    ZoneView.as_view(),name="zone-list"),
+    url(r'^zones/(?P<pk>\w+)/$',        ZoneDetailView.as_view(),name="zone-detail"),
+    url(r'^$',                          DashboardView.as_view(),name="dashboard-view")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
