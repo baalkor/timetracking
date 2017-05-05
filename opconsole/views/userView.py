@@ -13,7 +13,7 @@ from django.contrib.auth.models import Group
 class DetailUserView(UpdateView):
     template_name = "opconsole_user_info.html"
     model = Employes
-    fields = [ 'address', 'zip_code', 'city', 'country', 'enableDeviceCheck' , 'enableGeoCheck']
+    fields = [ 'address', 'zip_code', 'city', 'country' ]
     success_url = '/user/'
 
 

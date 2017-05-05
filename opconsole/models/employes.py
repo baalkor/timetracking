@@ -14,8 +14,7 @@ class Employes(models.Model):
 
     enable = models.BooleanField(default=True)
 
-    enableGeoCheck = models.BooleanField(default=True)
-    enableDeviceCheck = models.BooleanField(default=True)
+
 
 
 

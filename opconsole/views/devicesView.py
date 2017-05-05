@@ -26,7 +26,7 @@ class DeviceDetail(UpdateView):
     template_name = "opconsole_device_details.html"
     model = Device
     success_url = "/devices/"
-    fields = ['name','serial',  'timezone' ]
+    fields = ['name','serial',  'timezone', 'enableDeviceCheck' , 'enableGeoCheck' ]
 
 @method_decorator(permission_required('opconsole.add_employes', raise_exception=True), name='dispatch')
 class NewDeviceView(TemplateView):

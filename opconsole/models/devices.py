@@ -32,7 +32,8 @@ class Device(models.Model):
     devType = models.CharField(max_length=1, choices=E_STATUS, default=0)
     tempCode = models.CharField(max_length=7, choices=E_STATUS)
     zones = models.ManyToManyField(Zones)
-
+    enableGeoCheck = models.BooleanField(default=True)
+    enableDeviceCheck = models.BooleanField(default=True)
     def save(self, *args, **kwargs):
         if self.status == 2:
             sltFormat = "%Y%d%m%H%M%S"

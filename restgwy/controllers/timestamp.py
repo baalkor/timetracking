@@ -28,10 +28,10 @@ class TimestampReciever(APIView):
 
 
     def doDeviceCheck(self, device):
-        return device.owner.enableDeviceCheck
+        return device.enableDeviceCheck
 
     def doGeolocCheck(self, device):
-        return device.owner.enableGeoCheck
+        return device.enableGeoCheck
 
     def InspectTimestamp(self, device,timestamp, **kwargs):
 
