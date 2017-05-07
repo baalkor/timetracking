@@ -2,16 +2,22 @@
 
 {% block content %}
 
-  <h2>Access operator console</h2>
+
   <form method="post">
 
-    <ul class="list-unstyled">
+    <table class="table">
+      <tr>
+        <td colspan="2" align="center"><h2>SmartTime - Login</h2></td>
+      </tr>
       {% csrf_token %}
-      {{ form.as_ul }}
-    </ul>
-
-    <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok-circle"></span> Login</button>
-    <button class="btn btn-secondary" type="reset"><span class="glyphicon glyphicon-remove-circle"></span>Reset</button>
+      {{ form.as_table }}
+    <tr>
+      <td></td>
+    <td>
+      <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok-circle"></span> Login</button>
+      <button class="btn btn-secondary" type="reset"><span class="glyphicon glyphicon-remove-circle"></span>Reset</button>
+    </td>
+  </tr>
   </form>
 
 {% endblock %}

@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView, TemplateView
 from django.contrib.auth.decorators import  login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
-from opconsole.models import Timesheets, Employes
+from opconsole.models import Timesheets, Employes, Device
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 
@@ -16,10 +16,19 @@ class TestIsMyTimestampOrStaff(UserPassesTestMixin):
 class TimesheetView(ListView):
     context_object_name = 'timestamps'
     template_name = "opconsole_my_timesheet.html"
+    model = Timesheets
+
+    def get_context_data(self, **kwargs):
+        hasWebDevice = Device.objects.filter(owner=self.request.user).filter(devType='1').count() == 0
+        context = super(TimesheetView, self).get_context_data(**kwargs)
+        context["hasWebDevice"] = hasWebDevice
+        return context
 
     def get_queryset(self):
         employee = Employes.objects.filter(user=self.request.user)
+
         return Timesheets.objects.filter(user=employee)
+
 
 
 @method_decorator(login_required, name='dispatch')

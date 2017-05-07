@@ -11,7 +11,6 @@ class DashboardView(TemplateView):
     template_name = "opconsole_dashboard.html"
 
     def get(self, request, *args, **kwargs):
-        employee = Employes.objects.filter(user=self.request.user)
-        hasWebDevice =  Device.objects.filter(owner=employee).filter(devType='1').count() == 0
 
-        return render(request, self.template_name, {"hasWebDevice":hasWebDevice,"time":datetime.datetime.now()})
+
+        return render(request, self.template_name)

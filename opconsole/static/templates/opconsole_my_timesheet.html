@@ -25,4 +25,12 @@
             {% endfor %}
         </tbody>
     </table>
+    {% if hasWebDevice %}
+        <button id="timestamp" class="btn btn-primary btn-lg" onclick="webTimestamp();">Timestamp now!</button>
+        <b><span id="error"></span></b>
+    {% else %}
+
+            Your current profile doesn't include any web device, ask your support team to initialize a new one.
+    </p>
+    {% endif %}
 {% endblock %}

@@ -1,23 +1,19 @@
    <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">SmartTime</a>
+          <a class="navbar-brand" href="/about/">SmartTime </a>
+          <a class="navbar-brand" href="/about/"><img src="/static/img/logo.png"></image></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
 
           {% if user.is_authenticated  %}
             <ul class="nav navbar-nav navbar-center">
-              {% include "navbar-menus/ddr-timesheets.html" %}
-            {% if user.is_staff  %}
-              {% include "navbar-menus/ddr-areas.html" %}
-              {% include "navbar-menus/ddr-users.html" %}
-              {% include "navbar-menus/ddr-devices.html" %}
+              {% if user.is_staff  %}
+                {% include "navbar-menus/ddr-dashboard.html" %}
+                {% include "navbar-menus/ddr-timesheets.html" %}
+                {% include "navbar-menus/ddr-areas.html" %}
+                {% include "navbar-menus/ddr-users.html" %}
+                {% include "navbar-menus/ddr-devices.html" %}
             {% endif %}
             </ul>
           {% endif %}

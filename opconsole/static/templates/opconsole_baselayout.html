@@ -14,7 +14,7 @@
         <link rel="icon" type="image/png" href="/static/img/favicon.png" />
         {% bootstrap_messages %}
 
-        <title>SmartTime</title>
+        <title>{{ title|default:"SmartTime"}}</title>
         <style>
         .navbar-toggler {
             z-index: 1;
@@ -37,7 +37,9 @@
 
 
         <script src="/static/js/vendor/tether/tether.min.js"></script>
+
         {% bootstrap_javascript jquery=1 %}
+        <script src="/static/js/menus.js"></script>
         <script  src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"  integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="  crossorigin="anonymous"></script>
         {% block footer %}{% endblock %}
     </body>

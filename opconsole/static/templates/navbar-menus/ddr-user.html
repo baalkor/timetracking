@@ -3,7 +3,7 @@
         <li><a href="#">Preference</a></li>
         <li><a href="/profile">Profile</a></li>
 
-        {% if user.is_staff  %}
+        {% if user.is_superuser %}
             <li><a href="/admin" target="_blank">Django admin</a></li>
         {% endif %}
 
