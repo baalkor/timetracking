@@ -5,13 +5,14 @@
     <script src="/static/js/jsaes.js"></script>
     <script src="/static/js/jsaes_wrapper.js"></script>
     <script src="/static/js/webtimestamps.js"></script>
+    <script src="/static/js/menus.js"></script>
 
 {% endblock %}
 {% block content %}
 
     <div class="row">
         <div class="col-xs-6 col-md-4">
-            <button class="btn-primary-outline">
+            <button class="btn-primary-outline" onclick="gotTo('reports/statistics');">
                 <table>
                     <tr>
                         <td><image class="img-rounded" src="/static/img/128x128/statistics.png"></image></td>
@@ -23,7 +24,7 @@
             </button>
         </div>
         <div class="col-xs-6 col-md-4">
-            <button class="btn-primary-outline">
+            <button class="btn-primary-outline" onclick="gotTo('reports/view');">
                 <table>
                     <tr>
                         <td><image class="img-rounded" src="/static/img/128x128/reports.png"></image></td>
@@ -35,7 +36,7 @@
             </button>
         </div>
         <div class="col-xs-6 col-md-4">
-            <button class="btn-primary-outline">
+            <button class="btn-primary-outline" onclick="gotTo('reports/export');">
                 <table>
                     <tr>
                         <td><image class="img-rounded" src="/static/img/128x128/print-and-export.png"></image></td>
@@ -51,7 +52,7 @@
 
     <div class="row">
         <div class="col-xs-6 col-md-4">
-            <button class="btn-primary-outline">
+            <button class="btn-primary-outline" onclick="gotTo('timesheets','filter',warn');">
                 <table>
                     <tr>
                         <td><image class="img-rounded" src="/static/img/128x128/anomalies.png"></image></td>
@@ -63,7 +64,7 @@
             </button>
         </div>
         <div class="col-xs-6 col-md-4">
-            <button class="btn-primary-outline">
+            <button class="btn-primary-outline" onclick="gotTo('timesheets');">
                 <table>
                     <tr>
                         <td><image class="img-rounded" src="/static/img/128x128/timesheets.png"></image></td>
@@ -75,7 +76,7 @@
             </button>
         </div>
          <div class="col-xs-6 col-md-4">
-                <button class="btn-primary-outline">
+                <button class="btn-primary-outline" onclick="gotTo('timesheets','filter',manual');">
                     <table>
                         <tr>
                             <td><image class="img-rounded" src="/static/img/128x128/manual-request.png"></image></td>
@@ -89,7 +90,7 @@
     </div>
     <div class="row">
         <div class="col-xs-6 col-md-4">
-            <button class="btn-primary-outline">
+            <button class="btn-primary-outline" onclick="gotTo('user');">
                 <table>
                     <tr>
                         <td><image class="img-rounded" src="/static/img/128x128/edit-user.png"></image></td>
@@ -101,7 +102,7 @@
             </button>
         </div>
         <div class="col-xs-6 col-md-4">
-            <button class="btn-primary-outline">
+            <button class="btn-primary-outline" onclick="gotTo('devices');">
                 <table>
                     <tr>
                         <td><image class="img-rounded" src="/static/img/128x128/devices.png"></image></td>
@@ -113,7 +114,7 @@
             </button>
         </div>
          <div class="col-xs-6 col-md-4">
-                <button class="btn-primary-outline">
+                <button class="btn-primary-outline" onclick="gotTo('zones');">
                     <table>
                         <tr>
                             <td><image class="img-rounded" src="/static/img/128x128/view-zones.png"></image></td>
