@@ -2,14 +2,7 @@
 
 {% block content %}
 <h2>Timesheet for the <i>{{ currentDate|date:"Y-m-d" }}</i></h2>
-    <div class="form-group">
-        <div class='input-group date' id='datetimepicker1'>
-            <input type='text' class="form-control" />
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </span>
-        </div>
-    </div>
+    <input type='text' id='datechooser' /><button class="btn" onclick="showDateAt();">Go</button>
     <table class="table table-bordered table-hover">
         <thead>
             <th>Device</th>
