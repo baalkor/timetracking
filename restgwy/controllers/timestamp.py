@@ -71,7 +71,7 @@ class TimestampReciever(APIView):
             pytz.timezone(timestps["timezone"])
         ).strftime('%Y-%m-%d %H:%M:%S')
         eTms.device = dev
-
+        eTms.devTz = timestps["timezone"]
         eTms.devKey = timestps["devKey"]
         eTms.user = dev.owner
         eTms.latitude = float(timestps["latitude"])

@@ -1,7 +1,15 @@
 {% extends "opconsole_baselayout.html" %}
 
 {% block content %}
-   <h1 class="mt-5">My timesheet</h1>
+<h2>Timesheet for the <i>{{ currentDate|date:"Y-m-d" }}</i></h2>
+    <div class="form-group">
+        <div class='input-group date' id='datetimepicker1'>
+            <input type='text' class="form-control" />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+    </div>
     <table class="table table-bordered table-hover">
         <thead>
             <th>Device</th>
@@ -15,8 +23,8 @@
             {% for timestamp in timestamps %}
                 <tr>
                     <td>{{ timestamp.device.name }}</td>
-                    <td>{{ timestamp.recptTime }}</td>
-                    <td>{{ timestamp.time |date:"m/j/Y H:i"  }}</td>
+                    <td>{{ timestamp.recptTime |date:"Y-m-d H:i" }}</td>
+                    <td>{{ timestamp.time |date:"Y-m-d H:i"  }}</td>
                     <td>{{ timestamp.devTz }}</td>
                     <td>{{ timestamp.latitude }}|{{ timestamp.longitude }}</td>
                     <td>
@@ -35,7 +43,7 @@
                         {% endif %}
 
                     </td>
-                    <td><a href="/timesheet/{{ timestamp.id }}">Watch</a></td>
+                    <td><a href="/timestamp/{{ timestamp.id }}">Watch</a></td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -52,5 +60,6 @@
 {% block footer %}
     <script src="/static/js/js.cookie.js"></script>
     <script src="/static/js/csrf.js"></script>
+    <script src="/static/js/mytimesheet.js"></script>
     <script src="/static/js/webtimestamps.js"></script>
 {% endblock %}

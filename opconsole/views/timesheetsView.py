@@ -6,6 +6,8 @@ from opconsole.models import Timesheets, Employes, Device
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 
+import datetime
+
 class TestIsMyTimestampOrStaff(UserPassesTestMixin):
     def test_func(self, request, timeid):
         return self.request.user.is_staff() or \
@@ -19,17 +21,30 @@ class TimesheetView(ListView):
     model = Timesheets
 
     def get_context_data(self, **kwargs):
+
         employee = get_object_or_404(Employes,user=self.request.user)
         hasWebDevice = Device.objects.filter(owner=employee).filter(devType='1').exists()
         context = super(TimesheetView, self).get_context_data(**kwargs)
         context["hasWebDevice"] = hasWebDevice
-        context["STATUS"] = E_STATUS
+        context["currentDate"] = self.getDate()
         return context
+
+    def getDate(self):
+        try:
+            date = datetime.datetime.strptime(self.request.GET.get('date'), "%Y-%m-%d")
+        except ( ValueError , TypeError ):
+            date = datetime.datetime.now()
+        finally:
+            return date
 
     def get_queryset(self):
         employee = Employes.objects.filter(user=self.request.user)
-
-        return Timesheets.objects.filter(user=employee)
+        date = self.getDate()
+        return Timesheets.objects.filter(user=employee).filter(
+            recptTime__year=date.year,
+            recptTime__day=date.day,
+            recptTime__month=date.month
+        )
 
 
 
@@ -41,6 +56,7 @@ class TimesheetList(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
-class TimestampDetail(TestIsMyTimestampOrStaff, DetailView):
+class TimestampDetail(DetailView):
     model = Timesheets
     template_name = "opconsole_timestamp.html"
+
