@@ -10,7 +10,7 @@ function cipherDict(key,dict) {
 
     var bDict = {};
 
-    var crcKey = init(key);
+
 
     for (var key in dict) {
 

@@ -1,6 +1,8 @@
 from django.db import models
 from employes import Employes
 from zones import Zones
+
+
 import hashlib
 import os
 import datetime

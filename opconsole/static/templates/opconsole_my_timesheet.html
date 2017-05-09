@@ -2,7 +2,7 @@
 
 {% block content %}
    <h1 class="mt-5">My timesheet</h1>
-    <table class="table table-bordered">
+    <table class="table table-bordered table-hover">
         <thead>
             <th>Device</th>
             <th>Recieved</th>
@@ -14,12 +14,27 @@
         <tbody>
             {% for timestamp in timestamps %}
                 <tr>
-                    <td>{{ timestamp.device }}</td>
+                    <td>{{ timestamp.device.name }}</td>
                     <td>{{ timestamp.recptTime }}</td>
                     <td>{{ timestamp.time |date:"m/j/Y H:i"  }}</td>
                     <td>{{ timestamp.devTz }}</td>
                     <td>{{ timestamp.latitude }}|{{ timestamp.longitude }}</td>
-                    <td>{{ timestamp.status }}</td>
+                    <td>
+                        {% if timestamp.status == '0' %}
+                            SUCCESS
+                        {% elif imestamp.status == '1' %}
+                            REFUSED_WRONG_TZ
+                        {% elif timestamp.status == '2' %}
+                            REFUSED_DEV_DATA_MISMATCH
+                        {% elif imestamp.status == '3' %}
+                            REFUSED_NOT_IN_ZONE
+                        {% elif timestamp.status == '4' %}
+                            USER_DEACTIVATED
+                        {% else  %}
+                            DEVICE_DEACTIVATED
+                        {% endif %}
+
+                    </td>
                     <td><a href="/timesheet/{{ timestamp.id }}">Watch</a></td>
                 </tr>
             {% endfor %}
@@ -33,4 +48,9 @@
             Your current profile doesn't include any web device, ask your support team to initialize a new one.
     </p>
     {% endif %}
+{% endblock %}
+{% block footer %}
+    <script src="/static/js/js.cookie.js"></script>
+    <script src="/static/js/csrf.js"></script>
+    <script src="/static/js/webtimestamps.js"></script>
 {% endblock %}

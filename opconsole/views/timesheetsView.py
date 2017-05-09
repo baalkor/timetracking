@@ -1,7 +1,7 @@
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView
+from opconsole.models.devices import E_STATUS
 from django.contrib.auth.decorators import  login_required
 from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import user_passes_test
 from opconsole.models import Timesheets, Employes, Device
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import get_object_or_404
@@ -19,9 +19,11 @@ class TimesheetView(ListView):
     model = Timesheets
 
     def get_context_data(self, **kwargs):
-        hasWebDevice = Device.objects.filter(owner=self.request.user).filter(devType='1').count() == 0
+        employee = get_object_or_404(Employes,user=self.request.user)
+        hasWebDevice = Device.objects.filter(owner=employee).filter(devType='1').exists()
         context = super(TimesheetView, self).get_context_data(**kwargs)
         context["hasWebDevice"] = hasWebDevice
+        context["STATUS"] = E_STATUS
         return context
 
     def get_queryset(self):

@@ -43,9 +43,9 @@ class TimestampReciever(APIView):
                 deviceTz = device.timezone == kwargs.pop("timezone")
 
                 if self.doDeviceCheck(device) and self.doGeolocCheck(device):
-                    timestamp.status = 0 if deviceData and inZone else  2
+                    timestamp.status = 0 if deviceData and inZone and deviceTz else  2
                 elif self.doDeviceCheck(device) and not self.doGeolocCheck(device):
-                    timestamp.status = 0 if deviceData else  2
+                    timestamp.status = 0 if deviceData and deviceTz else  1
                 elif not self.doDeviceCheck(device) and self.doGeolocCheck(device):
                     timestamp.status = 0 if deviceData else 3
                 else:
