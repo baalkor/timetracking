@@ -3,6 +3,10 @@ from django.shortcuts import   get_object_or_404, redirect
 from opconsole.models.devices import Device
 from opconsole.models.timesheets import Timesheets, TIMB_STATUS
 from rest_framework.views import APIView
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from serializers import TimestampSerializer
+
 import pickle
 import base64
 import pytz
@@ -86,3 +90,13 @@ class TimestampReciever(APIView):
         eTms.save()
 
         return JsonResponse({"code":eTms.status, "status":TIMB_STATUS[eTms.status]})
+
+
+class TimestampDetailCtrl(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        timestamp = get_object_or_404(Timesheets, pk=int(request.POST.get("id")))
+        timestampInfo = TimestampSerializer(timestamp)
+        return JsonResponse(timestampInfo.data)

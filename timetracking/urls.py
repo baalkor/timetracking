@@ -37,6 +37,7 @@ urlpatterns = [
 
     url(r'^api/user/toggle/$',          UserToggle.as_view(),name="api-user-status-toggle"),
     url(r'^api/timesheet/new/$',        TimestampReciever.as_view(),name="api-recveive-timestamp"),
+    url(r'^api/timestamp/$',            TimestampDetailCtrl.as_view(),name="api-timestamp-info"),
 
 
     url(r'^login*$',                    auth_views.login, {"template_name" : "opconsole_login.html"}, name="login"),

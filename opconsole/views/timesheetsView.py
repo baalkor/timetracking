@@ -5,6 +5,7 @@ from django.utils.decorators import method_decorator
 from opconsole.models import Timesheets, Employes, Device
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import get_object_or_404
+from django.conf import settings
 
 import datetime
 
@@ -20,9 +21,22 @@ class TimesheetView(ListView):
     template_name = "opconsole_my_timesheet.html"
     model = Timesheets
 
-    def get_context_data(self, **kwargs):
+    def getEmployee(self):
+        try:
+            uid = self.request.GET.get('userId')
+            if uid == None:
+                emp = get_object_or_404(Employes,user=self.request.user)
+            else:
+                emp = get_object_or_404(Employes, pk=int(uid))
+        except ValueError:
+            emp = get_object_or_404(Employes, user=self.request.user)
+        finally:
+            print emp.id
+            return emp
 
-        employee = get_object_or_404(Employes,user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        employee = self.getEmployee()
         hasWebDevice = Device.objects.filter(owner=employee).filter(devType='1').exists()
         context = super(TimesheetView, self).get_context_data(**kwargs)
         context["hasWebDevice"] = hasWebDevice
@@ -38,7 +52,7 @@ class TimesheetView(ListView):
             return date
 
     def get_queryset(self):
-        employee = Employes.objects.filter(user=self.request.user)
+        employee = self.getEmployee()
         date = self.getDate()
         return Timesheets.objects.filter(user=employee).filter(
             recptTime__year=date.year,
@@ -60,3 +74,7 @@ class TimestampDetail(DetailView):
     model = Timesheets
     template_name = "opconsole_timestamp.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(TimestampDetail, self).get_context_data(**kwargs)
+        context["google_api_key"] = settings.GOOGLE_API_KEY
+        return context

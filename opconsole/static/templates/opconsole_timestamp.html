@@ -1,4 +1,7 @@
 {% extends "opconsole_baselayout.html" %}
+{% block head %}
+     <link href="/static/css/zones-editor.css" rel="stylesheet">
+{% endblock %}
 {% block content %}
 
   <h2>Timestamp detail :</h2>
@@ -11,10 +14,16 @@
       <li>{{ object.recptTime |date:"Y-m-d H:i" }}</li>
       <li>{{ object.time |date:"Y-m-d H:i"  }}</li>
       <li>{{ object.devTz }}</li>
-      <li>{{ object.latitude }}|{{ object.longitude }}</li>
     </ul>
   </form>
+  <div id="map"></div>
 
 
+{% endblock %}
 
+{% block footer %}
+    <script src="/static/js/js.cookie.js"></script>
+    <script src="/static/js/csrf.js"></script>
+    <script src="/static/js/showtimestamps.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&libraries=places&callback=initMap" async defer></script>
 {% endblock %}

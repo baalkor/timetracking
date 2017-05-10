@@ -1,4 +1,9 @@
 from rest_framework import serializers
+from opconsole.models import Timesheets
+class TimestampSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Timesheets
+        fields = ["id","user","device", "recptTime", "time", "latitude", "longitude", "status"]
 
 class ZonesListSerializer(serializers.ListField):
     zoneId=serializers.IntegerField()
