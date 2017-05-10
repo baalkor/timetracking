@@ -11,32 +11,34 @@ Phase 2 : Based on feedback, adapt layout, add/remove features
 Phase 3 : Integration testing 
 Phase 4 : Freeze branch 
 
+
+
 ### Roadmap for initial version
 System allows to : 
-*. Register devices
-*. Manipulate devices
-*. Register new users
-*. Manipulate users
-*. Timestamping with 'web browser'
-*. Manipulate timestamps
-..* Manual request (Holiday, sickness, etc..)
-*. Detect anomalies (eg. odd number of timestamp, refused timestamps)
-*. Manipulate timestamping zones
-*. Compute following statistics
-..* Zones where timestamps appears (based on a defined radius) in order
-..* Number of denied timestamps (avg error type)
-..* Avergae of work hours
-..* % timestamp request success / request error 
-*. Export 
-..* Employee weekly-monthly-annualy time at work
-..* All company weekly-monthly-annualy time at work
+1. Register devices
+2. Manipulate devices
+3. Register new users
+3. Manipulate users
+4. Timestamping with 'web browser'
+5. Manipulate timestamps
+  1. Manual request (Holiday, sickness, etc..)
+6. Detect anomalies (eg. odd number of timestamp, refused timestamps)
+7. Manipulate timestamping zones
+8. Compute following statistics
+  1. Zones where timestamps appears (based on a defined radius) in order
+  2. Number of denied timestamps (avg error type)
+  3. Avergae of work hours
+  4. % timestamp request success / request error 
+9. Export 
+  1. Employee weekly-monthly-annualy time at work
+  2. All company weekly-monthly-annualy time at work
 
 
 ### Roadmap next version
 
-*. Add Android support (Timestamp / get own timesheet on device)
-*. LDAP intgration
-*. Outlook/Calendar support
+1. Add Android support (Timestamp / get own timesheet on device)
+2. LDAP intgration
+3. Outlook/Calendar support
 
 
 # Developpment
