@@ -47,7 +47,7 @@ function webTimestamp() {
                 latitude:latitude,
                 time:Date.now(),
                 devKey:devKey,
-                timezone:Intl.DateTimeFormat().resolvedOptions().timeZone
+                timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,
            });
 
 

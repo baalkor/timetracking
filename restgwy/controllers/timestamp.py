@@ -1,13 +1,14 @@
 from django.http import HttpResponseBadRequest, JsonResponse, HttpResponse
 from django.shortcuts import   get_object_or_404, redirect
 from opconsole.models.devices import Device
+from opconsole.models.employes import Employes
 from opconsole.models.timesheets import Timesheets, TIMB_STATUS
 from rest_framework.views import APIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from serializers import TimestampSerializer
 
-import pickle
+
 import base64
 import pytz
 import datetime
@@ -67,6 +68,8 @@ class TimestampReciever(APIView):
         for key, entry in request.POST.items():
             timestps[base64.b64decode(key).encode("utf-8")] = base64.b64decode(entry)
         dev = get_object_or_404(Device, devKey=timestps["devKey"])
+#        user = get_object_or_404(Employes, user=request.user)
+
 
 
         eTms = Timesheets()
@@ -77,7 +80,7 @@ class TimestampReciever(APIView):
         eTms.device = dev
         eTms.devTz = timestps["timezone"]
         eTms.devKey = timestps["devKey"]
-        eTms.user = dev.owner
+        eTms.user = dev.owner # request.user if dev.owner != user else dev.owner
         eTms.latitude = float(timestps["latitude"])
         eTms.longitude = float(timestps["longitude"])
 
