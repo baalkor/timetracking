@@ -8,20 +8,41 @@
 
   <form method="post">
     {% csrf_token %}
-    <ul class="list-unstyled">
-      <li>{{ object.user.user.username }}</li>
-      <li>{{ object.device.name }}</li>
-      <li>{{ object.recptTime |date:"Y-m-d H:i" }}</li>
-      <li>{{ object.time |date:"Y-m-d H:i"  }}</li>
-      <li>{{ object.devTz }}</li>
-    </ul>
+    <table class="table">
+        <tr>
+            <td>First name </td>
+             <td>
+                 <a href="/user/{{ object.user.id }}">
+                    {{ object.user.user.first_name }}, {{ object.user.user.last_name }}
+                 </a>
+             </td>
+        </tr>
+        <tr>
+            <td>Device </td>
+            <td><li><a href="/devices/{{object.device.id}}">{{object.device.name}}</a></td>
+        </tr>
+        <tr>
+            <td>Server time</td>
+            <td>{{ object.recptTime |date:"Y-m-d H:i" }}</td>
+        </tr>
+        <tr>
+            <td>Device time</td>
+            <td>{{ object.time |date:"Y-m-d H:i"  }}</td>
+        </tr>
+         <tr>
+            <td>Device timezone</td>
+            <td>{{ object.devTz }}</td>
+        </tr>
+    </table>
   </form>
+  <div id="loading"></div>
   <div id="map"></div>
 
 
 {% endblock %}
 
 {% block footer %}
+    <script src="/static/js/spin.min.js"></script>
     <script src="/static/js/js.cookie.js"></script>
     <script src="/static/js/csrf.js"></script>
     <script src="/static/js/showtimestamps.js"></script>
