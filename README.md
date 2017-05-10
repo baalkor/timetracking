@@ -6,10 +6,10 @@ I'm wirting this on free time, but any help is welcome if you have comment or ad
 ## Projet  
 ### Project phases
 
-Phase 1 : Get a demonstration version <- (Current)
-Phase 2 : Based on feedback, adapt layout, add/remove features 
-Phase 3 : Integration testing 
-Phase 4 : Freeze branch 
+1. Get a demonstration version <- (Current)
+2. Based on feedback, adapt layout, add/remove features 
+3. Integration testing 
+4. Freeze branch 
 
 
 
