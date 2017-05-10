@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
@@ -60,6 +61,7 @@ urlpatterns = [
     url(r'^user/$',                     ListUsers.as_view(),name="user-list"),
     url(r'^zones/$',                    ZoneView.as_view(),name="zone-list"),
     url(r'^zones/(?P<pk>\w+)/$',        ZoneDetailView.as_view(),name="zone-detail"),
+    url(r'about/$',                     TemplateView.as_view(template_name='about.html'), name="about"),
     url(r'^$',                          DashboardView.as_view(),name="dashboard-view")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
