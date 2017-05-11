@@ -8,8 +8,6 @@
             <th>Device</th>
             <th>Recieved</th>
             <th>Time</th>
-            <th>Device timezone</th>
-            <th>Coordinate</th>
             <th>Status</th>
         </thead>
         <tbody>
@@ -18,8 +16,6 @@
                     <td>{{ timestamp.device.name }}</td>
                     <td>{{ timestamp.recptTime |date:"Y-m-d H:i" }}</td>
                     <td>{{ timestamp.time |date:"Y-m-d H:i"  }}</td>
-                    <td>{{ timestamp.devTz }}</td>
-                    <td>{{ timestamp.latitude }}|{{ timestamp.longitude }}</td>
                     <td>
                         {% if timestamp.status == '0' %}
                             SUCCESS
