@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from opconsole.models.devices import E_STATUS
+from django.http.response import HttpResponseForbidden
 from django.contrib.auth.decorators import  login_required
 from django.utils.decorators import method_decorator
 from opconsole.models import Timesheets, Employes, Device
@@ -22,17 +22,25 @@ class TimesheetView(ListView):
     model = Timesheets
 
     def getEmployee(self):
+
         try:
-            uid = self.request.GET.get('userId')
-            if uid == None:
+
+            uid = int(self.request.GET.get('userId'))
+
+            isContentAdmin = self.request.user.groups.filter(name=settings.ADMIN_GROUP).exists()
+            myId = uid == self.request.user
+
+            isNotAllowedCheckingAnotherUserTMS = not myId and not isContentAdmin
+
+            if uid == None or isNotAllowedCheckingAnotherUserTMS:
                 emp = get_object_or_404(Employes,user=self.request.user)
             else:
-                emp = get_object_or_404(Employes, pk=int(uid))
-        except ValueError:
-            emp = get_object_or_404(Employes, user=self.request.user)
-        finally:
-            print emp.id
+                 emp = get_object_or_404(Employes, pk=uid)
             return emp
+        except (TypeError, ValueError):
+            return get_object_or_404(Employes, user=self.request.user)
+
+
 
 
     def get_context_data(self, **kwargs):
