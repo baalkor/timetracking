@@ -1,4 +1,4 @@
-from django.http import HttpResponseBadRequest, JsonResponse, HttpResponse
+from django.http import HttpResponseBadRequest, JsonResponse, HttpResponse, HttpResponseForbidden
 from django.shortcuts import   get_object_or_404, redirect
 from opconsole.models.devices import Device
 from opconsole.models.employes import Employes
@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from serializers import TimestampSerializer
-
+from django.conf import settings
 
 import base64
 import pytz
@@ -22,10 +22,41 @@ class AskTmpsDeletion(APIView):
         try:
             tms = get_object_or_404(Timesheets, pk=int(request.POST.get("id")))
             tms.deletion = request.POST.get("deletion") == "true"
-            print request.POST.get("deletion")
-            print tms.deletion
             tms.save()
             return HttpResponse()
+        except (TypeError, ValueError):
+            return HttpResponseBadRequest()
+
+class ApproveAskTmpsDeletion(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        try:
+            isContentAdmin = self.request.user.groups.filter(name=settings.ADMIN_GROUP).exists()
+            if isContentAdmin:
+                tms = get_object_or_404(Timesheets, pk=int(request.POST.get("id")))
+                tms.delete()
+                return HttpResponse(status=200)
+            else:
+                return HttpResponseForbidden
+        except (TypeError, ValueError):
+            return HttpResponseBadRequest()
+
+class RejectAskTmpsDeletion(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        try:
+            isContentAdmin = self.request.user.groups.filter(name=settings.ADMIN_GROUP).exists()
+            if isContentAdmin:
+                tms = get_object_or_404(Timesheets, pk=int(request.POST.get("id")))
+                tms.deletion = False
+                tms.save()
+                return HttpResponse(status=200)
+            else:
+                return HttpResponseForbidden
         except (TypeError, ValueError):
             return HttpResponseBadRequest()
 

@@ -8,7 +8,8 @@ TIMB_STATUS = (
     (2, 'REFUSED_DEV_DATA_MISMATCH'),
     (3, 'REFUSED_NOT_IN_ZONE'),
     (4, 'USER_DEACTIVATED'),
-    (5, 'DEVICE_DEACTIVATED')
+    (5, 'DEVICE_DEACTIVATED'),
+    (6, 'WAITING_APPROVAL')
 )
 
 class Timesheets(models.Model):
@@ -22,5 +23,7 @@ class Timesheets(models.Model):
     longitude = models.FloatField()
     status = models.CharField(max_length=1, choices=TIMB_STATUS)
     deletion = models.BooleanField(default=False)
+
+
 
 

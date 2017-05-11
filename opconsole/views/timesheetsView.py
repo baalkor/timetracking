@@ -6,6 +6,7 @@ from opconsole.models import Timesheets, Employes, Device
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.conf import settings
+from django.db.models import Q
 
 import datetime
 
@@ -72,9 +73,13 @@ class TimesheetView(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
-class TimesheetList(ListView):
-    template_name = "opconsole_timesheets_list.html"
+class ManualTimesheetList(ListView):
+    template_name = "opconsole_manual_request.html"
     model = Timesheets
+
+
+    def get_queryset(self):
+        return Timesheets.objects.filter(Q(deletion=True) | Q( status='6'))
 
 
 

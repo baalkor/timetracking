@@ -17,7 +17,8 @@ E_STATUS = (
 
 E_DEV_TYPE = (
     (0, 'SMARTPHONE'),
-    (1, 'WEBBROWSER')
+    (1, 'WEBBROWSER'),
+    (2, 'MANUAL_REQUEST')
 
 )
 class Device(models.Model):
