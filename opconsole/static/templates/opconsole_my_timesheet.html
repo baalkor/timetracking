@@ -1,7 +1,7 @@
 {% extends "opconsole_baselayout.html" %}
 
 {% block content %}
-<h2>Timesheet for the <i>{{ currentDate|date:"Y-m-d" }}</i></h2>
+<h2>Timesheet for {{ fullname }} the <i>{{ currentDate|date:"Y-m-d" }}</i></h2>
     <input type='text' id='datechooser' /><button class="btn" onclick="showDateAt();">Go</button>
     <table class="table table-bordered table-hover">
         <thead>
@@ -53,6 +53,7 @@
 {% block footer %}
     <script src="/static/js/js.cookie.js"></script>
     <script src="/static/js/csrf.js"></script>
+    <script src="/static/js/jquery.query-object.js"></script>
     <script src="/static/js/mytimesheet.js"></script>
     <script src="/static/js/webtimestamps.js"></script>
 {% endblock %}

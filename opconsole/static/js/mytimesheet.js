@@ -1,21 +1,13 @@
-function setURL(parm, val) {
-      url = location.href;
-      if ( url.indexOf("?") === -1 ) {
-            location.href = url + "?" + parm + '='+ val;
-        } else {
-            if ( url.indexOf(param) === -1 ) {
-                location.href += "&" + parm + '='+ val;
-            } else {
 
-                posParm = url.indexOf(param) + parm.length + 1;
+function updateDate(newVal) {
 
-            }
-        }
+    var newUrl = $.query.set("date", newVal).toString();
+
+    location.href = newUrl;
 }
 
-
 function showDateAt() {
-    setURL( "date", $("#datechooser").val());
+    updateDate($("#datechooser").val());
 }
 
 $(document).ready(function(){
@@ -23,6 +15,6 @@ $(document).ready(function(){
       "dateFormat":"yy-mm-dd",
       showButtonPanel: false
     }).on("change", function(){
-        setURL("date", $(this).val());
+        updateDate($(this).val());
     });
 } );

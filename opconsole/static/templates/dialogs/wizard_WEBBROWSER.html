@@ -1,17 +1,20 @@
-<button id="btnReqCode" class="btn btn-primary" onclick="requestWebCode();">Request code</button>
+<h3>Initialization wizard</h3>
+<p>
+    In order to initialize a new device, please click on the following button:
+    <button id="btnReqCode" class="btn btn-primary" onclick="requestWebCode();">Request code</button>
+    <div id="broswerCode" style="display:None">
 
-<div id="broswerCode" style="display:None">
+        <ul class="list-unstyled">
 
-    <ul class="list-unstyled">
+            <li>Init date : <input readonly="true" type="text" id="initDate"/></li>
+            <li>Friendly name : <input type="text" id="name" /></li>
+            <li><label for="code">Please enter the following code : <span id="lblCode"></span></label></li>
+            <li><input type="text" id="code" maxlength="6" minlength="6" value="here"/></li>
+            <li><input type="hidden" id="devId"/></li>
 
-        <li><label for="code">Please enter the following code : <span id="lblCode"></span></label></li>
-        <li>Init date : <input readonly="true" type="text" id="initDate"/></li>
-        <li>Friendly name : <input type="text" id="name" /></li>
-        <li><input type="text" id="code"/></li>
-        <li><input type="hidden" id="devId"/></li>
+            <li><button class="btn" onclick="initDevice();">Validate this station</button></li>
+            <li><span id="error"></span></li>
+        </ul>
 
-        <li><button class="btn" onclick="initDevice();">Validate this station</button></li>
-        <li><span id="error"></span></li>
-    </ul>
-
-</div>
+    </div>
+</p>

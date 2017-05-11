@@ -6,11 +6,17 @@
   <form method="post">
 
     <table class="table">
+    <thead>
       <tr>
-        <td colspan="2" align="center"><h2>SmartTime - Login</h2></td>
+        <td align="right"><h2>Sign in</h2></td>
+        <td align="center"><img style="position:absolute;" src="/static/img/64x64/login.png" /></td>
+
       </tr>
+      </thead>
+      <tbody>
       {% csrf_token %}
       {{ form.as_table }}
+      </tbody>
     <tr>
       <td></td>
     <td>

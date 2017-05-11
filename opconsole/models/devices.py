@@ -17,8 +17,8 @@ E_STATUS = (
 
 E_DEV_TYPE = (
     (0, 'SMARTPHONE'),
-    (1, 'WEBBROWSER'),
-    (2, 'PHONE'),
+    (1, 'WEBBROWSER')
+
 )
 class Device(models.Model):
     name = models.CharField(max_length=255,default="unnamed")

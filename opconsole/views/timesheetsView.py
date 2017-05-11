@@ -41,6 +41,7 @@ class TimesheetView(ListView):
         context = super(TimesheetView, self).get_context_data(**kwargs)
         context["hasWebDevice"] = hasWebDevice
         context["currentDate"] = self.getDate()
+        context["fullname"] = "%s, %s" % ( employee.user.last_name,employee.user.first_name )
         return context
 
     def getDate(self):
