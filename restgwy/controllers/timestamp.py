@@ -13,6 +13,23 @@ import base64
 import pytz
 import datetime
 
+
+class AskTmpsDeletion(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        try:
+            tms = get_object_or_404(Timesheets, pk=int(request.POST.get("id")))
+            tms.deletion = request.POST.get("deletion") == "true"
+            print request.POST.get("deletion")
+            print tms.deletion
+            tms.save()
+            return HttpResponse()
+        except (TypeError, ValueError):
+            return HttpResponseBadRequest()
+
+
 class TimestampReciever(APIView):
     authentication_classes = ()
     permission_classes = ()

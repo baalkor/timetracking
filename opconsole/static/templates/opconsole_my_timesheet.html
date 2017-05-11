@@ -9,6 +9,8 @@
             <th>Recieved</th>
             <th>Time</th>
             <th>Status</th>
+            <th>Info</th>
+            <th>Action</th>
         </thead>
         <tbody>
             {% for timestamp in timestamps %}
@@ -33,9 +35,19 @@
 
                     </td>
                     <td><a href="/timestamp/{{ timestamp.id }}">Watch</a></td>
+                    {% if timestamp.deletion %}
+                        <td class="danger"><button class="btn" onclick="$.post('/api/timestamp/deletion/',{id:{{timestamp.id}},deletion:false}, document.location.reload())">Un ask for deletion</button></td>
+                    {% else %}
+                        <td><button class="btn"                onclick="$.post('/api/timestamp/deletion/',{id:{{timestamp.id}},deletion:true}, document.location.reload())">Ask for deletion</button></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6"><button class="btn">Manual timestamp request</button> </td>
+            </tr>
+        </tfoot>
     </table>
     {% if hasWebDevice %}
         <button id="timestamp" class="btn btn-primary btn-lg" onclick="webTimestamp();">Timestamp now!</button>

@@ -21,5 +21,6 @@ class Timesheets(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     status = models.CharField(max_length=1, choices=TIMB_STATUS)
+    deletion = models.BooleanField(default=False)
 
 
