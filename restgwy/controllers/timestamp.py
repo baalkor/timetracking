@@ -13,11 +13,11 @@ import base64
 import pytz
 import datetime
 
-
+ALLOWED_MODIFICATION = [ "deletion", "manual"]
 
 class AskTmpsManual(APIView):
 
-    ALLOWED_MODIFICATION = [ "deletion", "manual"]
+
 
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
@@ -26,7 +26,7 @@ class AskTmpsManual(APIView):
         try:
 
             action = request.POST.get("action")
-            if action == None or action not in self.ALLOWED_MODIFICATION:
+            if action == None or action not in ALLOWED_MODIFICATION:
                 return HttpResponseBadRequest()
             else:
                 if action == "deletion":
@@ -55,36 +55,51 @@ class AskTmpsManual(APIView):
         except (TypeError, ValueError):
             return HttpResponseBadRequest()
 
-class ApproveAskTmpsDeletion(APIView):
+class ApproveAskTmpsDeletionManual(APIView):
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         try:
-            isContentAdmin = self.request.user.groups.filter(name=settings.ADMIN_GROUP).exists()
-            if isContentAdmin:
-                tms = get_object_or_404(Timesheets, pk=int(request.POST.get("id")))
-                tms.delete()
-                return HttpResponse(status=200)
+            action = request.POST.get("action")
+            if action == None or action not in ALLOWED_MODIFICATION:
+                return HttpResponseBadRequest()
             else:
-                return HttpResponseForbidden
+                isContentAdmin = self.request.user.groups.filter(name=settings.ADMIN_GROUP).exists()
+                if isContentAdmin:
+                    tms = get_object_or_404(Timesheets, pk=int(request.POST.get("id")))
+                    if action == "deletion":
+                        tms.delete()
+                    elif action == "manual":
+                        tms.status = 0
+                        tms.save()
+                    return HttpResponse(status=200)
+                else:
+                    return HttpResponseForbidden
         except (TypeError, ValueError):
             return HttpResponseBadRequest()
 
-class RejectAskTmpsDeletion(APIView):
+class RejectAskTmpsDeletionManual(APIView):
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         try:
-            isContentAdmin = self.request.user.groups.filter(name=settings.ADMIN_GROUP).exists()
-            if isContentAdmin:
-                tms = get_object_or_404(Timesheets, pk=int(request.POST.get("id")))
-                tms.deletion = False
-                tms.save()
-                return HttpResponse(status=200)
+            action = request.POST.get("action")
+            if action == None or action not in ALLOWED_MODIFICATION:
+                return HttpResponseBadRequest()
             else:
-                return HttpResponseForbidden
+                isContentAdmin = self.request.user.groups.filter(name=settings.ADMIN_GROUP).exists()
+                if isContentAdmin:
+                    tms = get_object_or_404(Timesheets, pk=int(request.POST.get("id")))
+                    if action == "deletion":
+                        tms.deletion = False
+                        tms.save()
+                    elif action == "manual":
+                        tms.delete()
+                    return HttpResponse(status=200)
+                else:
+                    return HttpResponseForbidden
         except (TypeError, ValueError):
             return HttpResponseBadRequest()
 

@@ -1,0 +1,14 @@
+{% extends "opconsole_baselayout.html" %}
+
+{% block content %}
+
+Odd timestamps per year / month / day
+<table class="table">
+{% for tms in timesheetsOddTimestamps %}
+  <tr>
+    <td>{{tms}}</td>
+  </tr>
+{% endfor%}
+  </table>
+
+{% endblock %}

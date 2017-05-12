@@ -41,8 +41,8 @@ urlpatterns = [
     url(r'^api/timestamp/$',            TimestampDetailCtrl.as_view(),name="api-timestamp-info"),
     url(r'^api/timestamp/modification/$',AskTmpsManual.as_view(), name="api-timestamp-ask-deletion"),
 
-    url(r'^api/timestamp/approve/$',ApproveAskTmpsDeletion.as_view(),name="api-timestamp-approve-deletion"),
-    url(r'^api/timestamp/reject/$',RejectAskTmpsDeletion.as_view(),name="api-timestamp-reject-deletion"),
+    url(r'^api/timestamp/approve/$', ApproveAskTmpsDeletionManual.as_view(), name="api-timestamp-approve-deletion"),
+    url(r'^api/timestamp/reject/$', RejectAskTmpsDeletionManual.as_view(), name="api-timestamp-reject-deletion"),
 
     url(r'^login*$',                    auth_views.login, {"template_name" : "opconsole_login.html"}, name="login"),
     url(r'^logout/$',                   auth_views.logout, {'next_page': '/'},name='logout'),
@@ -65,6 +65,7 @@ urlpatterns = [
     url(r'^zones/$',                    ZoneView.as_view(),name="zone-list"),
     url(r'^zones/(?P<pk>\w+)/$',        ZoneDetailView.as_view(),name="zone-detail"),
     url(r'about/$',                     TemplateView.as_view(template_name='about.html'), name="about"),
+    url(r'anomalies/$',                 AnomaliesView.as_view(), name="anomalies-show"),
     url(r'^$',                          DashboardView.as_view(),name="dashboard-view")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
