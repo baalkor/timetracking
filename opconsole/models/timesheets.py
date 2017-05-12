@@ -15,7 +15,7 @@ TIMB_STATUS = (
 class Timesheets(models.Model):
 
     user = models.ForeignKey(Employes, related_name="timesheets")
-    device = models.ForeignKey(Device, related_name="tms")
+    device = models.ForeignKey(Device, related_name="tms", null=True)
     recptTime = models.DateTimeField(auto_now_add=timezone.now() )
     time = models.DateTimeField()
     devTz = models.CharField(max_length=255)

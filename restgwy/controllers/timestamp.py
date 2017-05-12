@@ -14,15 +14,43 @@ import pytz
 import datetime
 
 
-class AskTmpsDeletion(APIView):
+
+class AskTmpsManual(APIView):
+
+    ALLOWED_MODIFICATION = [ "deletion", "manual"]
+
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         try:
-            tms = get_object_or_404(Timesheets, pk=int(request.POST.get("id")))
-            tms.deletion = request.POST.get("deletion") == "true"
+
+            action = request.POST.get("action")
+            if action == None or action not in self.ALLOWED_MODIFICATION:
+                return HttpResponseBadRequest()
+            else:
+                if action == "deletion":
+                    tms = get_object_or_404(Timesheets, pk=int(request.POST.get("id")))
+                    tms.deletion = not tms.deletion
+                elif action == "manual" :
+                    tms = Timesheets(
+                        user =  get_object_or_404(Employes,pk=int(request.POST.get("id"))),
+                        device=None,
+                        time=datetime.datetime.fromtimestamp(
+                                    float(request.POST.get("time")) / 1000 ,
+                                        pytz.timezone(request.POST.get("timezone"))
+                                ).strftime('%Y-%m-%d %H:%M:%S'),
+                            devTz=request.POST.get("timezone"),
+                        latitude=0.,
+                        longitude=0.,
+                        status='6'
+                    )
+                else:
+                    return HttpResponseBadRequest()
+
+
             tms.save()
+
             return HttpResponse()
         except (TypeError, ValueError):
             return HttpResponseBadRequest()

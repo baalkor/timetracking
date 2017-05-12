@@ -1,0 +1,12 @@
+<div id="dialog-form" title="Create new user">
+    <p class="validateTips">All form fields are required.</p>
+    <form>
+        <ul class="list-unstyled">
+        <li><label for="manualDate">Date : </label></li>
+        <li><input type='text' id='manualDate' value="{{ currentDate|date:'Y-m-d' }}"/></li>
+        <li><label for="time">Time : </label></li>
+        <li><input type='text' id='time' /></li>
+        <li><input type="hidden" id="userId" value="{{ employeeId }}" /></li>
+        </ul>
+    </form>
+</div>

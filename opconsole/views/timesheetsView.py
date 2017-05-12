@@ -50,6 +50,7 @@ class TimesheetView(ListView):
         context = super(TimesheetView, self).get_context_data(**kwargs)
         context["hasWebDevice"] = hasWebDevice
         context["currentDate"] = self.getDate()
+        context["employeeId"] = employee.id
         context["fullname"] = "%s, %s" % ( employee.user.last_name,employee.user.first_name )
         return context
 
@@ -68,7 +69,7 @@ class TimesheetView(ListView):
             recptTime__year=date.year,
             recptTime__day=date.day,
             recptTime__month=date.month
-        )
+        ).order_by("time")
 
 
 

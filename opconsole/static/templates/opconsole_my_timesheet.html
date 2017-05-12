@@ -1,5 +1,13 @@
 {% extends "opconsole_baselayout.html" %}
-
+{% block header %}
+    <script type="javascript">
+        $( document ).ready(function() {
+            console.log("hjjj");
+            initWebTimestampJS();
+            initMyTimeSheetJS();
+    });
+    </script>
+{% endblock %}
 {% block content %}
 <h2>Timesheet for {{ fullname }} the <i>{{ currentDate|date:"Y-m-d" }}</i></h2>
     <input type='text' id='datechooser' /><button class="btn" onclick="showDateAt();">Go</button>
@@ -29,23 +37,27 @@
                             REFUSED_NOT_IN_ZONE
                         {% elif timestamp.status == '4' %}
                             USER_DEACTIVATED
-                        {% else  %}
+                        {% elif timestamp.status == '5' %}
                             DEVICE_DEACTIVATED
+                        {% else  %}
+                            WAITING_APPROVAL
                         {% endif %}
 
                     </td>
                     <td><a href="/timestamp/{{ timestamp.id }}">Watch</a></td>
                     {% if timestamp.deletion %}
-                        <td class="danger"><button class="btn" onclick="$.post('/api/timestamp/deletion/',{id:{{timestamp.id}},deletion:false}, document.location.reload())">Un ask for deletion</button></td>
+                        <td class="danger"><button class="btn" onclick="$.post('/api/timestamp/modification/',{id:{{timestamp.id}},action:'deletion'}, document.location.reload())">Un ask for deletion</button></td>
                     {% else %}
-                        <td><button class="btn"                onclick="$.post('/api/timestamp/deletion/',{id:{{timestamp.id}},deletion:true}, document.location.reload())">Ask for deletion</button></td>
+                        <td><button class="btn"                onclick="$.post('/api/timestamp/modification/',{id:{{timestamp.id}},action:'deletion'}, document.location.reload())">Ask for deletion</button></td>
                     {% endif %}
                 </tr>
             {% endfor %}
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6"><button class="btn">Manual timestamp request</button> </td>
+                <td colspan="6"><button class="btn" onclick="$('#dialog-form').dialog('open');">Manual timestamp request</button>
+                    {% include "dialogs/opconsole_mytimesheet_manual.html" %}
+                </td>
             </tr>
         </tfoot>
     </table>
@@ -64,4 +76,5 @@
     <script src="/static/js/jquery.query-object.js"></script>
     <script src="/static/js/mytimesheet.js"></script>
     <script src="/static/js/webtimestamps.js"></script>
+
 {% endblock %}

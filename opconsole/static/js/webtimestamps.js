@@ -79,10 +79,10 @@ function webTimestamp() {
 
 }
 
-$(document).ready(function(){
-    setUpCSRFHeader();
+function initWebTimestampJS() {
+
     if ( ! navigator.geolocation && ! ( window.btoa && window.atob) ) {
         addError("Your browser doesnt meet requirement.");
         $("#timestamp").prop('disabled','true');
     }
-});
+}

@@ -28,7 +28,8 @@
         </style>
     {% block head %}{% endblock %}
     </head>
-    <body onload="$(document).ready(setUpCSRFHeader());">
+
+    <body  onload="setUpCSRFHeader();">
 
         {% include "navbar.html" %}
         <div class="container">
@@ -42,6 +43,8 @@
         <script src="/static/js/csrf.js"></script>
         <script src="/static/js/menus.js"></script>
         <script  src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"  integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="  crossorigin="anonymous"></script>
-        {% block footer %}{% endblock %}
+        {% block footer %}
+
+        {% endblock %}
     </body>
 </html>

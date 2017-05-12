@@ -39,7 +39,7 @@ urlpatterns = [
     url(r'^api/user/toggle/$',          UserToggle.as_view(),name="api-user-status-toggle"),
     url(r'^api/timesheet/new/$',        TimestampReciever.as_view(),name="api-recveive-timestamp"),
     url(r'^api/timestamp/$',            TimestampDetailCtrl.as_view(),name="api-timestamp-info"),
-    url(r'^api/timestamp/deletion/$',   AskTmpsDeletion.as_view(),name="api-timestamp-ask-deletion"),
+    url(r'^api/timestamp/modification/$',AskTmpsManual.as_view(), name="api-timestamp-ask-deletion"),
 
     url(r'^api/timestamp/approve/$',ApproveAskTmpsDeletion.as_view(),name="api-timestamp-approve-deletion"),
     url(r'^api/timestamp/reject/$',RejectAskTmpsDeletion.as_view(),name="api-timestamp-reject-deletion"),
