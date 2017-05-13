@@ -1,14 +1,25 @@
 {% extends "opconsole_baselayout.html" %}
 
 {% block content %}
-
-Odd timestamps per year / month / day
+QUERY:
+<pre>{{ query }}</pre>
 <table class="table">
-{% for tms in timesheetsOddTimestamps %}
-  <tr>
-    <td>{{tms}}</td>
-  </tr>
+    <thead>
+      <th>User</th>
+      <th>Date</th>
+      <th>Count</th>
+      <th>Watch</th>
+
+    </thead>
+{% for tms in anomalies %}
+
+    <tr>
+      <td>{{ tms.user__user__last_name }}, {{tms.user__user__first_name }}</td>
+      <td>{{ tms.year }}-{{ tms.month }}-{{ tms.day }}</td>
+      <td>{{ tms.nbTimb }}</td>
+      <td> <a href="/mytimesheet/?userId={{tms.user__user__id}}&date={{ tms.year }}-{{ tms.month }}-{{ tms.day }}">Watch</a></td>
+    </tr>
 {% endfor%}
-  </table>
+</table>
 
 {% endblock %}
