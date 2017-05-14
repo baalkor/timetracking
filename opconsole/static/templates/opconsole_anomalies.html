@@ -1,8 +1,8 @@
 {% extends "opconsole_baselayout.html" %}
 
 {% block content %}
-QUERY:
-<pre>{{ query }}</pre>
+<h3>Odd timestamp count</h3>
+Only successful timestamps are takent into account.
 <table class="table">
     <thead>
       <th>User</th>
@@ -14,10 +14,10 @@ QUERY:
 {% for tms in anomalies %}
 
     <tr>
-      <td>{{ tms.user__user__last_name }}, {{tms.user__user__first_name }}</td>
-      <td>{{ tms.year }}-{{ tms.month }}-{{ tms.day }}</td>
+      <td><a href="{% url 'user-detail' tms.user__id %}">{{ tms.user__user__last_name }}, {{tms.user__user__first_name }}</a></td>
+      <td>{{ tms.year }}-{{ tms.month|stringformat:"02d" }}-{{ tms.day|stringformat:"02d" }}</td>
       <td>{{ tms.nbTimb }}</td>
-      <td> <a href="/mytimesheet/?userId={{tms.user__user__id}}&date={{ tms.year }}-{{ tms.month }}-{{ tms.day }}">Watch</a></td>
+      <td> <a href="/mytimesheet/?userId={{tms.user__id}}&date={{ tms.year }}-{{ tms.month }}-{{ tms.day }}">Watch</a></td>
     </tr>
 {% endfor%}
 </table>
