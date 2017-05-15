@@ -52,6 +52,7 @@ function getDevKey() {
     var url = window.location.pathname;
 
     var devId = url.split("/")[2];
+    if ( devId !== "" ) {
     $.get("/api/device/info/" ,  { id:devId }   ).done(function(data){
         if ( data.devType == "1" ) {
             devKey = data.devKey;
@@ -68,7 +69,10 @@ function getDevKey() {
     }).fail(function(error) {
         console.log("Unable to retreive key :(HTTP_" + error.status + ")");
     });
+    } else {
 
+        console.log("unable to get devId ");
+    }
 }
 
 var devKey = "";

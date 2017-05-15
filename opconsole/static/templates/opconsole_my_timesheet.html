@@ -11,6 +11,16 @@
 {% block content %}
 <h2>Timesheet for {{ fullname }} the <i>{{ currentDate|date:"Y-m-d" }}</i></h2>
     <input type='text' id='datechooser' /><button class="btn" onclick="showDateAt();">Go</button>
+    {% if errors %}
+    <div class="alert alert-warning">
+      <strong>Warning!</strong> {{ errors }}
+    </div>
+    {% endif %}
+    <p>
+        <ul class="list-unstyled">
+            <li>Total hours : <b>{{totalHours}}</b> [100%]</li>
+        </ul>
+    </p>
     <table class="table table-bordered table-hover">
         <thead>
             <th>Device</th>
@@ -70,14 +80,7 @@
     </p>
     {% endif %}
 
-    <p>
-        <code>{{qryTotalHours}}</code>
-        <ul>
 
-            <li>{{totalHours}} </li>
-
-        </ul>
-    </p>
 
 {% endblock %}
 {% block footer %}

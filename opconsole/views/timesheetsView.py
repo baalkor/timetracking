@@ -2,11 +2,13 @@ from django.views.generic import ListView, DetailView
 from django.http.response import HttpResponseForbidden
 from django.contrib.auth.decorators import  login_required
 from django.utils.decorators import method_decorator
+from django.db.models import DateTimeField, TimeField
+from django.core.exceptions import ObjectDoesNotExist
 from opconsole.models import Timesheets, Employes, Device
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.conf import settings
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from time import mktime as mktime
 
@@ -26,6 +28,7 @@ class TimesheetView(ListView):
     context_object_name = 'timestamps'
     template_name = "opconsole_my_timesheet.html"
     model = Timesheets
+    errors = None
 
     def getEmployee(self):
 
@@ -46,29 +49,35 @@ class TimesheetView(ListView):
         except (TypeError, ValueError):
             return get_object_or_404(Employes, user=self.request.user)
 
-
     def computeHoursDaily(self, percentage, employee,):
         date = self.getDate()
-        querySet = Timesheets.objects.distinct().filter(
+        querySet = Timesheets.objects.distinct().annotate(
+            seconds=TruncSecond("time", output_field=DateTimeField())
+        ).filter(
+            status='0',
             user=employee,
             recptTime__year=date.year,
             recptTime__month=date.month,
             recptTime__day=date.day
-        ).annotate(
-           sec=TruncSecond("time", output_field=IntegerField()),
-        )
+        ).order_by("time").values("seconds")
 
-        listOfTimes = querySet.values()
+        cpt=0
+        s_time = None
+        e_time = None
+        hoursAtWork=timedelta()
+        for i in querySet:
 
-        if len(listOfTimes) % 2 != 0:
-            lastEntry = listOfTimes[len(listOfTimes)-1]
-            lastEntry["sec"] = datetime.datetime.strptime("23:59:59","%H:%M:%S")
+            if cpt % 2 == 0:
+                s_time = i["seconds"]
+            else:
+                tdelta = i["seconds"] - s_time
+                hoursAtWork += tdelta
+            cpt = cpt + 1
 
-        for entry in listOfTimes:
-            print entry
 
+        if cpt % 2 != 0: self.errors = "Odd number of valid timestamps!"
 
-        return querySet
+        return hoursAtWork
 
     def get_context_data(self, **kwargs):
         employee = self.getEmployee()
@@ -78,6 +87,7 @@ class TimesheetView(ListView):
         context["totalHours"] = self.computeHoursDaily(100,employee)
         context["hasWebDevice"] = hasWebDevice
         context["currentDate"] = self.getDate()
+        context["errors"] = self.errors
         context["employeeId"] = employee.id
         context["fullname"] = "%s, %s" % ( employee.user.last_name,employee.user.first_name )
         return context
