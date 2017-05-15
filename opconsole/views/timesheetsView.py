@@ -67,7 +67,7 @@ class TimesheetView(ListView):
         e_time = None
         hoursAtWork=timedelta()
         pauseBreak=timedelta()
-        freeTime = True
+        freeTime = False
         for i in querySet:
 
             if cpt % 2 == 0:

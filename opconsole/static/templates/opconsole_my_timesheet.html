@@ -1,12 +1,6 @@
 {% extends "opconsole_baselayout.html" %}
-{% block header %}
-    <script type="javascript">
-        $( document ).ready(function() {
-            console.log("hjjj");
-            initWebTimestampJS();
-            initMyTimeSheetJS();
-    });
-    </script>
+{% block head %}
+    <link href="/static/css/timesheet.css" rel="stylesheet" />
 {% endblock %}
 {% block content %}
 <h2>Timesheet for {{ fullname }} the <i>{{ currentDate|date:"Y-m-d" }}</i></h2>
@@ -22,7 +16,7 @@
             <li>Pause hours : <b>{{totalHours.1}}</b> </li>
         </ul>
     </p>
-    <table class="table table-bordered table-hover">
+    <table id="mysheet" class="table table-bordered table-hover my-table-class">
         <thead>
             <th>Device</th>
             <th>Recieved</th>
@@ -38,8 +32,8 @@
                     <td>{{ timestamp.device.name }}</td>
 
                     <td>{{ timestamp.recptTime |date:"Y-m-d H:i:s" }}</td>
-                    <td>{{ timestamp.time |date:"Y-m-d H:i:s"  }}</td>
-                    <td></td>
+                    <td><span class="time">{{ timestamp.time |date:"Y-m-d H:i:s"  }}</span></td>
+                    <td><span class="duration"></span> </td>
                     <td>
                         {% if timestamp.status == '0' %}
                             SUCCESS
