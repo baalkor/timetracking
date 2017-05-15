@@ -59,6 +59,10 @@
                         <td><button class="btn"                onclick="$.post('/api/timestamp/modification/',{id:{{timestamp.id}},action:'deletion'}, document.location.reload())">Ask for deletion</button></td>
                     {% endif %}
                 </tr>
+            {% empty  %}
+                <tr>
+                    <td colspan="7" align="center"><i>No timestamps detected</i></td>
+                </tr>
             {% endfor %}
         </tbody>
         <tfoot>

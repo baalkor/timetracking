@@ -141,3 +141,7 @@ class TimestampDetail(DetailView):
         context = super(TimestampDetail, self).get_context_data(**kwargs)
         context["google_api_key"] = settings.GOOGLE_API_KEY
         return context
+
+class TimesheetList(ListView):
+    template_name = "opconsole_timesheet_list.html"
+    model = Timesheets

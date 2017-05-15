@@ -3,7 +3,7 @@ from zonesEditorView import ZonesEditorView
 from zonesView import ZoneView, ZoneDetailView
 from userView import NewUserView, ListUsers, DetailUserView
 from devicesView import NewDeviceView, ListDeviceView, DeviceDetail, AssignDeviceToZone
-from timesheetsView import ManualTimesheetList, TimestampDetail, TimesheetView
+from timesheetsView import ManualTimesheetList, TimestampDetail, TimesheetView, TimesheetList
 from anonamliesView import AnomaliesView
 
 def inContentAdmin(user):

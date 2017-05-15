@@ -50,8 +50,8 @@ urlpatterns = [
     url(r'^zones/new/$',                ZonesEditorView.as_view(),name="zone-new"),
     url(r'^user/new/$',                 NewUserView.as_view(),name="user-new"),
 
-
-    url(r'^timesheets/$',               ManualTimesheetList.as_view(), name="timesheets-list"),
+    url(r'^manual/$',                   ManualTimesheetList.as_view(), name="timesheets-manual"),
+    url(r'^timesheets/$',               TimesheetList.as_view(), name="timesheets-list"),
     url(r'^timestamp/(?P<pk>[0-9]+)/$', TimestampDetail.as_view(),name="timesheet-detail"),
     url(r'^mytimesheet/$',              TimesheetView.as_view(),name="timesheet-mine"),
 
