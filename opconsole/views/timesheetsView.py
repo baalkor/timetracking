@@ -62,22 +62,32 @@ class TimesheetView(ListView):
         ).order_by("time").values("seconds")
 
         cpt=0
+
         s_time = None
         e_time = None
         hoursAtWork=timedelta()
+        pauseBreak=timedelta()
+        freeTime = True
         for i in querySet:
 
             if cpt % 2 == 0:
                 s_time = i["seconds"]
             else:
                 tdelta = i["seconds"] - s_time
-                hoursAtWork += tdelta
+                if not freeTime:
+                    print hoursAtWork
+                    hoursAtWork += tdelta
+                    freeTime = True
+                else:
+                    pauseBreak += tdelta
+                    freeTime = False
+
             cpt = cpt + 1
 
 
         if cpt % 2 != 0: self.errors = "Odd number of valid timestamps!"
 
-        return hoursAtWork
+        return ( hoursAtWork, pauseBreak )
 
     def get_context_data(self, **kwargs):
         employee = self.getEmployee()

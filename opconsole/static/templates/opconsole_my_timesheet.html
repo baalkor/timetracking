@@ -18,7 +18,8 @@
     {% endif %}
     <p>
         <ul class="list-unstyled">
-            <li>Total hours : <b>{{totalHours}}</b> [100%]</li>
+            <li>Total hours : <b>{{totalHours.0}}</b> [100%]</li>
+            <li>Pause hours : <b>{{totalHours.1}}</b> </li>
         </ul>
     </p>
     <table class="table table-bordered table-hover">
@@ -26,6 +27,7 @@
             <th>Device</th>
             <th>Recieved</th>
             <th>Time</th>
+            <th>Duration</th>
             <th>Status</th>
             <th>Info</th>
             <th>Action</th>
@@ -34,8 +36,10 @@
             {% for timestamp in timestamps %}
                 <tr>
                     <td>{{ timestamp.device.name }}</td>
-                    <td>{{ timestamp.recptTime |date:"Y-m-d H:i" }}</td>
-                    <td>{{ timestamp.time |date:"Y-m-d H:i"  }}</td>
+
+                    <td>{{ timestamp.recptTime |date:"Y-m-d H:i:s" }}</td>
+                    <td>{{ timestamp.time |date:"Y-m-d H:i:s"  }}</td>
+                    <td></td>
                     <td>
                         {% if timestamp.status == '0' %}
                             SUCCESS
