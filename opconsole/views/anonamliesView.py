@@ -1,7 +1,7 @@
 from django.views.generic import ListView
 from opconsole.models import Timesheets, Device, Employes
 from django.db.models import Count, F, Q
-from django.db.models.functions import Extract
+from django.db.models.functions import ExtractYear, ExtractDay, ExtractMonth
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 
@@ -31,9 +31,9 @@ class AnomaliesView(ListView):
             "user__user__first_name",
             "user__id"
         ).annotate(
-            year=Extract("recptTime", "year"),
-            month=Extract("recptTime", "month"),
-            day=Extract("recptTime", "day")
+            year=ExtractYear("recptTime"),
+            month=ExtractMonth("recptTime"),
+            day=ExtractDay("recptTime")
         ).filter(status='0').annotate(
             nbTimb=Count("day")
         ).annotate(

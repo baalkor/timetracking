@@ -6,7 +6,12 @@ from opconsole.models import Timesheets, Employes, Device
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.conf import settings
-from django.db.models import Q
+from datetime import datetime
+
+from time import mktime as mktime
+
+from django.db.models import Q,F, Sum ,IntegerField
+from django.db.models.functions import TruncHour, TruncMinute, TruncSecond
 
 import datetime
 
@@ -42,12 +47,35 @@ class TimesheetView(ListView):
             return get_object_or_404(Employes, user=self.request.user)
 
 
+    def computeHoursDaily(self, percentage, employee,):
+        date = self.getDate()
+        querySet = Timesheets.objects.distinct().filter(
+            user=employee,
+            recptTime__year=date.year,
+            recptTime__month=date.month,
+            recptTime__day=date.day
+        ).annotate(
+           sec=TruncSecond("time", output_field=IntegerField()),
+        )
 
+        listOfTimes = querySet.values()
+
+        if len(listOfTimes) % 2 != 0:
+            lastEntry = listOfTimes[len(listOfTimes)-1]
+            lastEntry["sec"] = datetime.datetime.strptime("23:59:59","%H:%M:%S")
+
+        for entry in listOfTimes:
+            print entry
+
+
+        return querySet
 
     def get_context_data(self, **kwargs):
         employee = self.getEmployee()
         hasWebDevice = Device.objects.filter(owner=employee).filter(devType='1').exists()
         context = super(TimesheetView, self).get_context_data(**kwargs)
+
+        context["totalHours"] = self.computeHoursDaily(100,employee)
         context["hasWebDevice"] = hasWebDevice
         context["currentDate"] = self.getDate()
         context["employeeId"] = employee.id

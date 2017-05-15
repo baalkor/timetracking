@@ -138,6 +138,7 @@ GOOGLE_API_KEY="AIzaSyAlXMWGO1qTvsWIxo0W5bUloL0HzknfuOY"
 LOGIN_REDIRECT_URL = 'login'
 
 ADMIN_GROUP = 'contentadmin'
+WORKING_HOUR=40
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
