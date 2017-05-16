@@ -4,7 +4,7 @@ from employes import Employes
 
 class ActivityRateHistory(models.Model):
 
-    user = ForeignKey(Employes)
+    user = ForeignKey(Employes, related_name="actrate")
     startDate = DateField()
     endDate = DateField(blank=True)
     activityRate = IntegerField(default=100)

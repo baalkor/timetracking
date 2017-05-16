@@ -1,5 +1,46 @@
 {% extends "opconsole_baselayout.html" %}
 
 {% block content %}
+<table class="table">
+    <thead>
+        <th>
+            <select id="year">
+                {% for y in years %}
+                    <option value="{{y}}">{{y}}</option>
+                {% endfor %}
+            </select>
+            <button class="btn" onclick="setyear();">Go</button>
+        </th>
+        <th>Employee</th>
+        {% for month in months %}
+            <th>{{month}}</th>
+        {% endfor %}
 
+        <th>Total</th>
+
+    </thead>
+    <tbody>
+    {% for timesheet in timesheets%}
+        <tr>
+
+            <td colspan="2">
+                <a href="/user/{{timesheet.user__id}}">
+                    {{timesheet.user__user__last_name}},{{timesheet.user__user__first_name}}
+                </a>
+            </td>
+            {% for m in month_num %}
+            <td>
+                {% if  timesheet.month == m %}
+                    {{ timesheet.total }}
+                {% else %}
+                    00:00:00
+                {% endif %}
+            </td>
+            <td>{{timesheet.total}} </td>
+            {% endfor %}
+
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

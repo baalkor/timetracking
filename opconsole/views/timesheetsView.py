@@ -2,14 +2,14 @@ from django.views.generic import ListView, DetailView
 from django.http.response import HttpResponseForbidden
 from django.contrib.auth.decorators import  login_required
 from django.utils.decorators import method_decorator
-from django.db.models import DateTimeField, TimeField
-from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import DateTimeField, F,  Min, Max, Count, DurationField, ExpressionWrapper
+from django.db.models.functions import ExtractYear, ExtractMonth, ExtractMinute, ExtractHour, ExtractSecond
 from opconsole.models import Timesheets, Employes, Device
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from datetime import datetime, timedelta
-
+import calendar
 from time import mktime as mktime
 
 from django.db.models import Q,F, Sum ,IntegerField
@@ -23,6 +23,33 @@ class TestIsMyTimestampOrStaff(UserPassesTestMixin):
             Timesheets.object.get(pk=timeid).user.user == self.request.user
 
 
+def get_date_or_now(request):
+    try:
+        date = datetime.datetime.strptime(request.GET.get('date'), "%Y-%m-%d")
+    except ( ValueError , TypeError ):
+        date = datetime.datetime.now()
+    finally:
+        return date
+
+def get_employee_or_request(request):
+    try:
+
+        uid = int(request.GET.get('userId'))
+
+        isContentAdmin = request.user.groups.filter(name=settings.ADMIN_GROUP).exists()
+        myId = uid == request.user
+
+        isNotAllowedCheckingAnotherUserTMS = not myId and not isContentAdmin
+
+        if uid == None or isNotAllowedCheckingAnotherUserTMS:
+            emp = get_object_or_404(Employes, user=request.user)
+        else:
+            emp = get_object_or_404(Employes, pk=uid)
+        return emp
+    except (TypeError, ValueError):
+        return get_object_or_404(Employes, user=request.user)
+
+
 @method_decorator(login_required, name='dispatch')
 class TimesheetView(ListView):
     context_object_name = 'timestamps'
@@ -31,23 +58,7 @@ class TimesheetView(ListView):
     errors = None
 
     def getEmployee(self):
-
-        try:
-
-            uid = int(self.request.GET.get('userId'))
-
-            isContentAdmin = self.request.user.groups.filter(name=settings.ADMIN_GROUP).exists()
-            myId = uid == self.request.user
-
-            isNotAllowedCheckingAnotherUserTMS = not myId and not isContentAdmin
-
-            if uid == None or isNotAllowedCheckingAnotherUserTMS:
-                emp = get_object_or_404(Employes,user=self.request.user)
-            else:
-                 emp = get_object_or_404(Employes, pk=uid)
-            return emp
-        except (TypeError, ValueError):
-            return get_object_or_404(Employes, user=self.request.user)
+        return get_employee_or_request(self.request)
 
     def computeHoursDaily(self, percentage, employee,):
         date = self.getDate()
@@ -103,12 +114,8 @@ class TimesheetView(ListView):
         return context
 
     def getDate(self):
-        try:
-            date = datetime.datetime.strptime(self.request.GET.get('date'), "%Y-%m-%d")
-        except ( ValueError , TypeError ):
-            date = datetime.datetime.now()
-        finally:
-            return date
+        return get_date_or_now(self.request)
+
 
     def get_queryset(self):
         employee = self.getEmployee()
@@ -145,3 +152,38 @@ class TimestampDetail(DetailView):
 class TimesheetList(ListView):
     template_name = "opconsole_timesheet_list.html"
     model = Timesheets
+    context_object_name = "timesheets"
+
+    def get_context_data(self, **kwargs):
+        context = super(TimesheetList, self).get_context_data(**kwargs)
+        context["months"] = [ calendar.month_name[x] for x in range(1,13)]
+        context["month_num"] = [ x for x in range(1,13)]
+        values = Timesheets.objects.distinct().annotate(
+            year=ExtractYear("time")
+        ).aggregate(
+            Min("time"),
+            Max("time")
+        )
+
+        ymin = values["time__min"].year
+        ymax = values["time__max"].year
+
+        context["years"] = range(ymin  , ymax + 1)
+        return context
+
+    def get_queryset(self):
+        date = get_date_or_now(self.request)
+
+        qrySet = Timesheets.objects.filter(
+            time__year=date.year
+        ).values(
+            "user__id",
+            "user__user__first_name",
+            "user__user__last_name",
+        ).annotate(month=ExtractMonth("time")).annotate(
+            total=ExpressionWrapper(
+                Sum(ExtractSecond("time")),
+            output_field=DurationField())
+        )
+        print qrySet.query
+        return qrySet
