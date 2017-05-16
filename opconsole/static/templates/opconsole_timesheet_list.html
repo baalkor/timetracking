@@ -21,26 +21,27 @@
     </thead>
     <tbody>
     {% for timesheet in timesheets%}
+
+
         <tr>
 
             <td colspan="2">
-                <a href="/user/{{timesheet.user__id}}">
-                    {{timesheet.user__user__last_name}},{{timesheet.user__user__first_name}}
-                </a>
+                <a href="/user/{{timesheet}}">{{fullname}}</a>
             </td>
             {% for m in month_num %}
             <td>
                 {% if  timesheet.month == m %}
-                    {{ timesheet.total }}
+                    {{ timesheet.duration }}
                 {% else %}
                     00:00:00
                 {% endif %}
             </td>
-            <td>{{timesheet.total}} </td>
-            {% endfor %}
 
+            {% endfor %}
+            <td>{{timesheet.total}} </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
+ {% for key,value in timesheets.items %}{{ value }}<br>{% endfor %}
 {% endblock %}

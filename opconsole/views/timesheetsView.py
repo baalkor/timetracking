@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView
 from django.http.response import HttpResponseForbidden
 from django.contrib.auth.decorators import  login_required
 from django.utils.decorators import method_decorator
-from django.db.models import DateTimeField, F,  Min, Max, Count, DurationField, ExpressionWrapper
+from django.db.models import DateTimeField, F,  Min, Max, Count, TimeField, ExpressionWrapper
 from django.db.models.functions import ExtractYear, ExtractMonth, ExtractMinute, ExtractHour, ExtractSecond
 from opconsole.models import Timesheets, Employes, Device
 from django.contrib.auth.mixins import UserPassesTestMixin
@@ -10,11 +10,11 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 from datetime import datetime, timedelta
 import calendar
-from time import mktime as mktime
+import time
 
 from django.db.models import Q,F, Sum ,IntegerField
 from django.db.models.functions import TruncHour, TruncMinute, TruncSecond
-
+from django.db.models import Aggregate
 import datetime
 
 class TestIsMyTimestampOrStaff(UserPassesTestMixin):
@@ -22,6 +22,8 @@ class TestIsMyTimestampOrStaff(UserPassesTestMixin):
         return self.request.user.is_staff() or \
             Timesheets.object.get(pk=timeid).user.user == self.request.user
 
+class TimeDelta(Aggregate):
+    function = ""
 
 def get_date_or_now(request):
     try:
@@ -177,27 +179,50 @@ class TimesheetList(ListView):
         qrySet = Timesheets.objects.filter(
             time__year=date.year
         ).values(
-
             "user__id",
             "user__user__first_name",
             "user__user__last_name",
-        ).annotate(month=ExtractMonth("time"))
 
+        ).annotate(month=ExtractMonth("time")).annotate(
+
+            seconds=ExtractSecond("time", output_field=IntegerField()),
+            minutes=ExtractMinute("time", output_field=IntegerField()),
+            hours=ExtractHour("time", output_field=IntegerField())
+        )
+
+        userId = "user__id"
         timeStampWithDuration = []
         for timestamp in qrySet:
+            currMonth = calendar.month_name[timestamp["month"]]
+            timeStr = "%d:%d:%d" % (timestamp["hours"], timestamp["minutes"], timestamp["seconds"])
+            tOb = datetime.datetime.strptime(timeStr, "%H:%M:%S")
 
-            print qrySet
+            if timestamp[userId] not in timeStampWithDuration.keys():
+
+                timeStampWithDuration.append(
+                    {
+                    "userId" : timestamp[userId],
+                     "fullname" : "%s, %s" % ( timestamp["user__user__last_name"], timestamp["user__user__first_name"]),
+                     "months" : {
+                         calendar.month_name[x]:{
+                             'inserted':0,
+                             'time':0,
+                             'temp_time':0
+                        } for x in range(1,13)
+                     }
+                    }
+                )
 
 
-            timeStampWithDuration.append(
-                {
-                    "user__id":timestamp["user__id"],
-                    "user__user__first_name":timestamp["user__user__last_name"],
-                    "user__user__last_name":timestamp["user__user__first_name"],
-                    "month":timestamp["month"],
-                    "time":timestamp["time"]
-                }
-            )
+            if timeStampWithDuration[timestamp[userId]][currMonth]["inserted"] % 2 == 0 and timeStampWithDuration[timestamp[userId]][currMonth]["inserted"] > 0:
+                e_time = tOb - timeStampWithDuration[timestamp[userId]][currMonth]["temp_time"]
+                timeStampWithDuration[timestamp[userId]][currMonth]["time"] += e_time.total_seconds()
+            else:
+                timeStampWithDuration[timestamp[userId]][currMonth]["temp_time"] =  tOb
 
-        print qrySet.query
+            timeStampWithDuration[timestamp[userId]][currMonth]["inserted"] = timeStampWithDuration[timestamp[userId]][currMonth]["inserted"] + 1
+
+
+        print timeStampWithDuration
+
         return timeStampWithDuration
