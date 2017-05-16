@@ -177,13 +177,27 @@ class TimesheetList(ListView):
         qrySet = Timesheets.objects.filter(
             time__year=date.year
         ).values(
+
             "user__id",
             "user__user__first_name",
             "user__user__last_name",
-        ).annotate(month=ExtractMonth("time")).annotate(
-            total=ExpressionWrapper(
-                Sum(ExtractSecond("time")),
-            output_field=DurationField())
-        )
+        ).annotate(month=ExtractMonth("time"))
+
+        timeStampWithDuration = []
+        for timestamp in qrySet:
+
+            print qrySet
+
+
+            timeStampWithDuration.append(
+                {
+                    "user__id":timestamp["user__id"],
+                    "user__user__first_name":timestamp["user__user__last_name"],
+                    "user__user__last_name":timestamp["user__user__first_name"],
+                    "month":timestamp["month"],
+                    "time":timestamp["time"]
+                }
+            )
+
         print qrySet.query
-        return qrySet
+        return timeStampWithDuration
