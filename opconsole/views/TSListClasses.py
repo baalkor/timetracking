@@ -2,65 +2,87 @@ import datetime
 class QrySetTimestamp(object):
 
     currUserId = ""
-    currMonth =  0
+    currScope =  0
     userfullName = ""
     tOb = None
 
-    def __init__(self, timestamps):
-        self.currUserId = timestamps["user__id"],
-        self.currMonth = timestamps["month"]
-        self.userfullName = "%s, %s" % (timestamps["user__user__last_name"], timestamps["user__user__first_name"])
-        timeStr = "%d-%d-%d %d:%d:%d" % ( timestamps["year"], timestamps["month"], timestamps["day"], timestamps["hours"], timestamps["minutes"], timestamps["seconds"])
-        self.tOb = datetime.datetime.strptime(timeStr, "%Y-%m-%d %H:%M:%S")
+    def parseFullName(self, timestamps): return "%s, %s" % (timestamps["user__user__last_name"], timestamps["user__user__first_name"])
+
+    def getDateStr(self, timestamps): return "%d-%d-%d %d:%d:%d" % ( timestamps["year"], timestamps["month"], timestamps["day"], timestamps["hours"], timestamps["minutes"], timestamps["seconds"])
+
+    def getTime(self, timestamps): return datetime.datetime.strptime(self.getDateStr(timestamps), "%Y-%m-%d %H:%M:%S")
 
     def getUserId(self): return self.currUserId
 
-    def getMonth(self):return self.currMonth
+    def getScopeVal(self ): return self.currScope
 
     def getFullName(self):return self.userfullName
 
-    def getTimestampObj(self):
-        return self.tOb
+    def getTimestampObj(self):return self.tOb
 
-    def getTimeInSeconds(self):
-        return self.getTimeDelta(self.getTimestampObj()).total_seconds()
+    def getTimeInSeconds(self):return self.getTimeDelta(self.getTimestampObj()).total_seconds()
 
-    def getTimeDelta(self, date):
-        return (date - datetime.datetime(1970, 1, 1))
+    def getTimeDelta(self, date): return (date - datetime.datetime(1970, 1, 1))
 
 
-def getDctNodeSkel(userfullName):
-    return {"fullname": userfullName,"total": 0,
-        "months": {x: {'inserted': 0,'time': 0,'temp_time': 0, "free":0, "temp_free":0} for x in range(1, 13)}}
+    def parseScope(self, scope):
+        scope = scope.lower()
+        if scope == "months":
+            scope="month"
+        elif scope == "weeks":
+            scope = "week"
+        elif scope == "days":
+            scope = "days"
+        else:
+            raise RuntimeError("Invalid scope %s" % scope)
+        return scope
 
 
-def computeAnnualHours(qrySet):
+
+    def __init__(self, timestamps, scope="months"):
+
+        scope = self.parseScope(scope)
+        self.currUserId = timestamps["user__id"],
+        self.currScope = timestamps[scope]
+        self.userfullName = self.parseFullName(timestamps)
+        self.tOb = self.getTime(timestamps)
+
+
+
+
+def genScopeDict(userfullName, scope="months"):
+    return {"fullname": userfullName,"total": 0,scope: {x: {'inserted': 0,'time': 0,'temp_time': 0, "free":0, "temp_free":0} for x in range(1, 13)}}
+
+def computeHours(qrySet, scope="months"):
+
+    if scope not in ["weeks", "days", "months"]: raise RuntimeError("Invalid scope supplied %s, available scopes are : weeks, days and months(default)" % scope)
+
     timeStampWithDuration = {}
-    free=False
+
     for timestamp in qrySet:
 
-        tmps = QrySetTimestamp(timestamp)
+        tmps = QrySetTimestamp(timestamp, scope)
 
-        if  tmps.getUserId() not in timeStampWithDuration.keys():
-            timeStampWithDuration[tmps.getUserId()] = getDctNodeSkel(tmps.getFullName())
+        if  tmps.getUserId() not in timeStampWithDuration.keys(): timeStampWithDuration[tmps.getUserId()] = genScopeDict(tmps.getFullName())
 
-        insertCount = timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["inserted"]
+        insertCount = timeStampWithDuration[tmps.getUserId()][scope][tmps.getScopeVal()]["inserted"]
         if insertCount % 2 != 0:
-            e_time = tmps.getTimeInSeconds() - timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_time"]
-            timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["time"] += e_time
-            timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_free"] = tmps.getTimeInSeconds()
+            e_time = tmps.getTimeInSeconds() - timeStampWithDuration[tmps.getUserId()][scope][tmps.getScopeVal()]["temp_time"]
+            timeStampWithDuration[tmps.getUserId()][scope][tmps.getScopeVal()]["time"] += e_time
+            timeStampWithDuration[tmps.getUserId()][scope][tmps.getScopeVal()]["temp_free"] = tmps.getTimeInSeconds()
         else:
             if insertCount > 0:
-                diffTime =  tmps.getTimeInSeconds() - timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_free"]
-                timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["free"] += diffTime
+                diffTime =  tmps.getTimeInSeconds() - timeStampWithDuration[tmps.getUserId()][scope][tmps.getScopeVal()]["temp_free"]
+                timeStampWithDuration[tmps.getUserId()][scope][tmps.getScopeVal()]["free"] += diffTime
 
-            timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_time"] = tmps.getTimeInSeconds()
+            timeStampWithDuration[tmps.getUserId()][scope][tmps.getScopeVal()]["temp_time"] = tmps.getTimeInSeconds()
 
 
-        timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["inserted"] = timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["inserted"] + 1
+        timeStampWithDuration[tmps.getUserId()][scope][tmps.getScopeVal()]["inserted"] = timeStampWithDuration[tmps.getUserId()][scope][tmps.getScopeVal()]["inserted"] + 1
 
     for user in timeStampWithDuration:
-        for month in timeStampWithDuration[user]["months"]:
-            timeStampWithDuration[user]["total"] += timeStampWithDuration[user]["months"][month]["time"]
+        for entry in timeStampWithDuration[user][scope]:
+            timeStampWithDuration[user]["total"] += timeStampWithDuration[user][scope][entry]["time"]
+
     return timeStampWithDuration
 

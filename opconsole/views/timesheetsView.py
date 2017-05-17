@@ -8,7 +8,7 @@ from django.conf import settings
 from datetime import timedelta
 from django.db.models import Q ,IntegerField
 from django.db.models.functions import  TruncSecond
-from TSListClasses import QrySetTimestamp, computeAnnualHours
+from TSListClasses import computeHours
 from utils import get_date_or_now, get_employee_or_request, isContentAdmin
 import calendar
 
@@ -157,5 +157,5 @@ class TimesheetList(ListView):
             hours=ExtractHour("time", output_field=IntegerField())
         ).filter(self.getFilterIfContentAdmin()).order_by("hours", "minutes", "seconds")
 
-        return computeAnnualHours(qrySet)
+        return computeHours(qrySet)
 
