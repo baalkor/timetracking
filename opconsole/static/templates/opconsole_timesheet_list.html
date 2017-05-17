@@ -20,24 +20,27 @@
 
     </thead>
     <tbody>
-    {% for timesheet in timesheets%}
+    {% for key, val in timesheets.items %}
 
 
         <tr>
 
             <td colspan="2">
-                <a href="/user/{{timesheet.userId}}">{{timesheet.fullname}}</a>
+                <a href="/user/{{key}}">{{val.fullname}}</a>
             </td>
-            {% for key, values in timesheet.months.items  %}
+            {% for key, values in val.months.items  %}
             <td>
+                {% if not values.inserted|divisibleby:2  %}
+                    <span class=" glyphicon glyphicon-time" alt="Warning!Invalid number of timestamps"></span>
+                {% endif %}
                 {{ values.time|duration }}
             </td>
 
             {% endfor %}
-            <td>{{timesheet.total}} </td>
+            <td>{{val.total|duration}} </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
- {% for key,value in timesheets.items %}{{ value }}<br>{% endfor %}
+
 {% endblock %}

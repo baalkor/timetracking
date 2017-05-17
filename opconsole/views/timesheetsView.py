@@ -174,14 +174,18 @@ class TimesheetList(ListView):
 
 
     def searchKeyVal(self, dataDict, key, val):
+        print dataDict
         found = False
         i=0
         while not found and i < len(dataDict):
-            cur_element = dataDict[i]
-            found = cur_element[key] == val
-            if not found: i=i+1
+            try:
+                found = dataDict[i][key] == val
+                if not found: i=i+1
 
-        return -1 if not found else i
+            except KeyError:
+                return -1
+
+        return False if not found else i
 
 
     def get_queryset(self):
@@ -206,45 +210,47 @@ class TimesheetList(ListView):
         ).filter(enableFilter)
 
         userId = "user__id"
-        timeStampWithDuration = []
+
+        timeStampWithDuration = {}
         for timestamp in qrySet:
+            currUserId = timestamp[userId]
             currMonth = timestamp["month"]
             userfullName = "%s, %s" % ( timestamp["user__user__last_name"], timestamp["user__user__first_name"])
             timeStr = "%d-%d-%d %d:%d:%d" % (timestamp["year"], timestamp["month"], timestamp["day"], timestamp["hours"], timestamp["minutes"], timestamp["seconds"])
-            dto = datetime.datetime.strptime(timeStr, "%Y-%m-%d %H:%M:%S")
+            tOb = ( datetime.datetime.strptime(timeStr, "%Y-%m-%d %H:%M:%S")  - datetime.datetime(1970, 1, 1) ).total_seconds()
 
-            tOb = ( dto - datetime.datetime(1970, 1, 1) ).total_seconds()
-            currUserId = timestamp[userId]
-            indexOf = self.searchKeyVal(timeStampWithDuration,"userId", currUserId)
-            if  indexOf == -1:
+            if  currUserId not in timeStampWithDuration.keys():
 
-                timeStampWithDuration.append(
-                    {
-                    "userId" : currUserId,
+                timeStampWithDuration[currUserId] = {
                      "fullname" : userfullName,
+                     "total" : 0,
                      "months" : {
                          x:{
                              'inserted':0,
-                             'time':0,
+                            'time':0,
                              'temp_time':0
                         } for x in range(1,13)
                      }
                     }
-                )
-                indexOf = self.searchKeyVal(timeStampWithDuration, "userId", currUserId)
 
 
 
-            if timeStampWithDuration[indexOf]["months"][currMonth]["inserted"] % 2 == 0 and timeStampWithDuration[indexOf]["months"][currMonth]["inserted"] > 0:
-                e_time = tOb - timeStampWithDuration[indexOf]["months"][currMonth]["temp_time"]
-                timeStampWithDuration[indexOf]["months"][currMonth]["time"] += e_time
-                timeStampWithDuration[indexOf]["months"][currMonth]["temp_time"] = 0
+
+            insertCount = timeStampWithDuration[currUserId]["months"][currMonth]["inserted"]
+            if insertCount % 2 != 0 and insertCount > 0:
+                e_time = tOb - timeStampWithDuration[currUserId]["months"][currMonth]["temp_time"]
+
+                timeStampWithDuration[currUserId]["months"][currMonth]["time"] += e_time
+                timeStampWithDuration[currUserId]["months"][currMonth]["temp_time"] = 0
             else:
-                timeStampWithDuration[indexOf]["months"][currMonth]["temp_time"] =  tOb
-
-            timeStampWithDuration[indexOf]["months"][currMonth]["inserted"] = timeStampWithDuration[indexOf]["months"][currMonth]["inserted"] + 1
+                timeStampWithDuration[currUserId]["months"][currMonth]["temp_time"] =  tOb
 
 
-        print timeStampWithDuration
+            timeStampWithDuration[currUserId]["months"][currMonth]["inserted"] = timeStampWithDuration[currUserId]["months"][currMonth]["inserted"] + 1
+
+
+        for user in timeStampWithDuration:
+            for month in timeStampWithDuration[user]["months"]:
+                timeStampWithDuration[user]["total"] += timeStampWithDuration[user]["months"][month]["time"]
 
         return timeStampWithDuration
