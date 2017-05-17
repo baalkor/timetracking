@@ -32,8 +32,9 @@
             <td>
                 {% if not values.inserted|divisibleby:2  %}
                     <span class=" glyphicon glyphicon-time" alt="Warning!Invalid number of timestamps"></span>
-                {% endif %}
+                {% else %}
                 {{ values.time|duration }}|{{ values.free|duration }}
+                {% endif %}
             </td>
 
             {% endfor %}

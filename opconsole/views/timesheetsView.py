@@ -8,7 +8,7 @@ from django.conf import settings
 from datetime import timedelta
 from django.db.models import Q ,IntegerField
 from django.db.models.functions import  TruncSecond
-from TSListClasses import QrySetTimestamp
+from TSListClasses import QrySetTimestamp, computeAnnualHours
 from utils import get_date_or_now, get_employee_or_request, isContentAdmin
 import calendar
 
@@ -137,40 +137,6 @@ class TimesheetList(ListView):
     def getFilterIfContentAdmin(self):
         return Q() if isContentAdmin(self.request) else Q(user=get_employee_or_request(self.request))
 
-    @staticmethod
-    def getDctNodeSkel(userfullName):
-        return {"fullname": userfullName,"total": 0,
-            "months": {x: {'inserted': 0,'time': 0,'temp_time': 0, "free":0, "temp_free":0} for x in range(1, 13)}}
-
-
-    @staticmethod
-    def computeAnnualHours(qrySet):
-        timeStampWithDuration = {}
-        free=False
-        for timestamp in qrySet:
-
-            tmps = QrySetTimestamp(timestamp)
-
-            if  tmps.getUserId() not in timeStampWithDuration.keys():
-                timeStampWithDuration[tmps.getUserId()] = TimesheetList.getDctNodeSkel(tmps.getFullName())
-
-            insertCount = timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["inserted"]
-            if insertCount % 2 != 0:
-                e_time = tmps.getTimeInSeconds() - timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_time"]
-                timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["time"] += e_time
-                timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_free"] = tmps.getTimeInSeconds()
-            else:
-                if insertCount > 0:
-                    diffTime =  tmps.getTimeInSeconds() - timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_free"]
-                    timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["free"] += diffTime
-
-                timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_time"] = tmps.getTimeInSeconds()
-
-
-            timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["inserted"] = timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["inserted"] + 1
-
-        TimesheetList.setTotal(timeStampWithDuration)
-        return timeStampWithDuration
 
     def get_queryset(self):
         date = get_date_or_now(self.request)
@@ -191,10 +157,5 @@ class TimesheetList(ListView):
             hours=ExtractHour("time", output_field=IntegerField())
         ).filter(self.getFilterIfContentAdmin()).order_by("hours", "minutes", "seconds")
 
-        return TimesheetList.computeAnnualHours(qrySet)
+        return computeAnnualHours(qrySet)
 
-    @staticmethod
-    def setTotal(tsDict):
-        for user in tsDict:
-            for month in tsDict[user]["months"]:
-                tsDict[user]["total"] += tsDict[user]["months"][month]["time"]
