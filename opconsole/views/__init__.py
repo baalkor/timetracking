@@ -6,6 +6,7 @@ from devicesView import NewDeviceView, ListDeviceView, DeviceDetail, AssignDevic
 from timesheetsView import ManualTimesheetList, TimestampDetail, TimesheetView, TimesheetList
 from anonamliesView import AnomaliesView
 
+
 def inContentAdmin(user):
     if user:
         return user.groups.filter(name='contentadmin').count() == 0

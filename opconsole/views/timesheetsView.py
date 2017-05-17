@@ -1,21 +1,19 @@
 from django.views.generic import ListView, DetailView
-from django.http.response import HttpResponseForbidden
 from django.contrib.auth.decorators import  login_required
 from django.utils.decorators import method_decorator
-from django.db.models import DateTimeField, F,  Min, Max, Count, TimeField, ExpressionWrapper
-from django.db.models.functions import ExtractYear, ExtractMonth, ExtractMinute, ExtractHour, ExtractSecond
+from django.db.models import DateTimeField, Min, Max
+from django.db.models.functions import ExtractYear, ExtractMonth, ExtractDay, ExtractMinute, ExtractHour, ExtractSecond
 from opconsole.models import Timesheets, Employes, Device
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from datetime import datetime, timedelta
-import calendar
-import time
-
 from django.db.models import Q,F, Sum ,IntegerField
-from django.db.models.functions import TruncHour, TruncMinute, TruncSecond
+from django.db.models.functions import  TruncSecond
 from django.db.models import Aggregate
 import datetime
+import calendar
+
 
 class TestIsMyTimestampOrStaff(UserPassesTestMixin):
     def test_func(self, request, timeid):
@@ -32,16 +30,17 @@ def get_date_or_now(request):
         date = datetime.datetime.now()
     finally:
         return date
+def isContentAdmin(request):return request.user.groups.filter(name=settings.ADMIN_GROUP).exists()
 
 def get_employee_or_request(request):
     try:
 
         uid = int(request.GET.get('userId'))
 
-        isContentAdmin = request.user.groups.filter(name=settings.ADMIN_GROUP).exists()
+
         myId = uid == request.user
 
-        isNotAllowedCheckingAnotherUserTMS = not myId and not isContentAdmin
+        isNotAllowedCheckingAnotherUserTMS = not myId and not isContentAdmin(request)
 
         if uid == None or isNotAllowedCheckingAnotherUserTMS:
             emp = get_object_or_404(Employes, user=request.user)
@@ -173,9 +172,21 @@ class TimesheetList(ListView):
         context["years"] = range(ymin  , ymax + 1)
         return context
 
+
+    def searchKeyVal(self, dataDict, key, val):
+        found = False
+        i=0
+        while not found and i < len(dataDict):
+            cur_element = dataDict[i]
+            found = cur_element[key] == val
+            if not found: i=i+1
+
+        return -1 if not found else i
+
+
     def get_queryset(self):
         date = get_date_or_now(self.request)
-
+        enableFilter = Q() if isContentAdmin(self.request) else Q(user=get_employee_or_request(self.request))
         qrySet = Timesheets.objects.filter(
             time__year=date.year
         ).values(
@@ -183,28 +194,36 @@ class TimesheetList(ListView):
             "user__user__first_name",
             "user__user__last_name",
 
-        ).annotate(month=ExtractMonth("time")).annotate(
+        ).annotate(
+            year=ExtractYear("time", output_field=IntegerField()),
+            month=ExtractMonth("time", output_field=IntegerField()),
 
+        ).annotate(
+            day=ExtractDay("time", output_field=IntegerField()),
             seconds=ExtractSecond("time", output_field=IntegerField()),
             minutes=ExtractMinute("time", output_field=IntegerField()),
             hours=ExtractHour("time", output_field=IntegerField())
-        )
+        ).filter(enableFilter)
 
         userId = "user__id"
         timeStampWithDuration = []
         for timestamp in qrySet:
-            currMonth = calendar.month_name[timestamp["month"]]
-            timeStr = "%d:%d:%d" % (timestamp["hours"], timestamp["minutes"], timestamp["seconds"])
-            tOb = datetime.datetime.strptime(timeStr, "%H:%M:%S")
+            currMonth = timestamp["month"]
+            userfullName = "%s, %s" % ( timestamp["user__user__last_name"], timestamp["user__user__first_name"])
+            timeStr = "%d-%d-%d %d:%d:%d" % (timestamp["year"], timestamp["month"], timestamp["day"], timestamp["hours"], timestamp["minutes"], timestamp["seconds"])
+            dto = datetime.datetime.strptime(timeStr, "%Y-%m-%d %H:%M:%S")
 
-            if timestamp[userId] not in timeStampWithDuration.keys():
+            tOb = ( dto - datetime.datetime(1970, 1, 1) ).total_seconds()
+            currUserId = timestamp[userId]
+            indexOf = self.searchKeyVal(timeStampWithDuration,"userId", currUserId)
+            if  indexOf == -1:
 
                 timeStampWithDuration.append(
                     {
-                    "userId" : timestamp[userId],
-                     "fullname" : "%s, %s" % ( timestamp["user__user__last_name"], timestamp["user__user__first_name"]),
+                    "userId" : currUserId,
+                     "fullname" : userfullName,
                      "months" : {
-                         calendar.month_name[x]:{
+                         x:{
                              'inserted':0,
                              'time':0,
                              'temp_time':0
@@ -212,15 +231,18 @@ class TimesheetList(ListView):
                      }
                     }
                 )
+                indexOf = self.searchKeyVal(timeStampWithDuration, "userId", currUserId)
 
 
-            if timeStampWithDuration[timestamp[userId]][currMonth]["inserted"] % 2 == 0 and timeStampWithDuration[timestamp[userId]][currMonth]["inserted"] > 0:
-                e_time = tOb - timeStampWithDuration[timestamp[userId]][currMonth]["temp_time"]
-                timeStampWithDuration[timestamp[userId]][currMonth]["time"] += e_time.total_seconds()
+
+            if timeStampWithDuration[indexOf]["months"][currMonth]["inserted"] % 2 == 0 and timeStampWithDuration[indexOf]["months"][currMonth]["inserted"] > 0:
+                e_time = tOb - timeStampWithDuration[indexOf]["months"][currMonth]["temp_time"]
+                timeStampWithDuration[indexOf]["months"][currMonth]["time"] += e_time
+                timeStampWithDuration[indexOf]["months"][currMonth]["temp_time"] = 0
             else:
-                timeStampWithDuration[timestamp[userId]][currMonth]["temp_time"] =  tOb
+                timeStampWithDuration[indexOf]["months"][currMonth]["temp_time"] =  tOb
 
-            timeStampWithDuration[timestamp[userId]][currMonth]["inserted"] = timeStampWithDuration[timestamp[userId]][currMonth]["inserted"] + 1
+            timeStampWithDuration[indexOf]["months"][currMonth]["inserted"] = timeStampWithDuration[indexOf]["months"][currMonth]["inserted"] + 1
 
 
         print timeStampWithDuration

@@ -1,5 +1,5 @@
 {% extends "opconsole_baselayout.html" %}
-
+{% load duration %}
 {% block content %}
 <table class="table">
     <thead>
@@ -26,15 +26,11 @@
         <tr>
 
             <td colspan="2">
-                <a href="/user/{{timesheet}}">{{fullname}}</a>
+                <a href="/user/{{timesheet.userId}}">{{timesheet.fullname}}</a>
             </td>
-            {% for m in month_num %}
+            {% for key, values in timesheet.months.items  %}
             <td>
-                {% if  timesheet.month == m %}
-                    {{ timesheet.duration }}
-                {% else %}
-                    00:00:00
-                {% endif %}
+                {{ values.time|duration }}
             </td>
 
             {% endfor %}
