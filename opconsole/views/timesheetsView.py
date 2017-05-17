@@ -150,6 +150,36 @@ class TimestampDetail(DetailView):
         context["google_api_key"] = settings.GOOGLE_API_KEY
         return context
 
+class QrySetTimestamp(object):
+
+    currUserId = ""
+    currMonth =  0
+    userfullName = ""
+    tOb = None
+
+    def __init__(self, timestamps):
+        self.currUserId = timestamps["user__id"],
+        self.currMonth = timestamps["month"]
+        self.userfullName = "%s, %s" % (timestamps["user__user__last_name"], timestamps["user__user__first_name"])
+        timeStr = "%d-%d-%d %d:%d:%d" % ( timestamps["year"], timestamps["month"], timestamps["day"], timestamps["hours"], timestamps["minutes"], timestamps["seconds"])
+        self.tOb = datetime.datetime.strptime(timeStr, "%Y-%m-%d %H:%M:%S")
+
+    def getUserId(self): return self.currUserId
+
+    def getMonth(self):return self.currMonth
+
+    def getFullName(self):return self.userfullName
+
+    def getTimestampObj(self):
+        return self.tOb
+
+    def getTimeInSeconds(self):
+        return self.getTimeDelta(self.getTimestampObj()).total_seconds()
+
+    def getTimeDelta(self, date):
+        return (date - datetime.datetime(1970, 1, 1))
+
+
 class TimesheetList(ListView):
     template_name = "opconsole_timesheet_list.html"
     model = Timesheets
@@ -172,32 +202,46 @@ class TimesheetList(ListView):
         context["years"] = range(ymin  , ymax + 1)
         return context
 
+    def getFilterIfContentAdmin(self):
+        return Q() if isContentAdmin(self.request) else Q(user=get_employee_or_request(self.request))
 
-    def searchKeyVal(self, dataDict, key, val):
-        print dataDict
-        found = False
-        i=0
-        while not found and i < len(dataDict):
-            try:
-                found = dataDict[i][key] == val
-                if not found: i=i+1
+    @staticmethod
+    def getDctNodeSkel(userfullName):
+        return {"fullname": userfullName,"total": 0,
+            "months": {x: {'inserted': 0,'time': 0,'temp_time': 0} for x in range(1, 13)}}
 
-            except KeyError:
-                return -1
 
-        return False if not found else i
+    @staticmethod
+    def computeAnnualHours(qrySet):
+        timeStampWithDuration = {}
 
+        for timestamp in qrySet:
+
+            tmps = QrySetTimestamp(timestamp)
+            if  tmps.getUserId() not in timeStampWithDuration.keys():
+                timeStampWithDuration[tmps.getUserId()] = TimesheetList.getDctNodeSkel(tmps.getFullName())
+
+            insertCount = timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["inserted"]
+            if insertCount % 2 != 0 and insertCount > 0:
+                e_time = tmps.getTimeInSeconds() - timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_time"]
+                timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["time"] += e_time
+                timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_time"] = 0
+            else:
+                timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_time"] =  tmps.getTimeInSeconds()
+
+            timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["inserted"] = timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["inserted"] + 1
+
+        TimesheetList.setTotal(timeStampWithDuration)
+        return timeStampWithDuration
 
     def get_queryset(self):
         date = get_date_or_now(self.request)
-        enableFilter = Q() if isContentAdmin(self.request) else Q(user=get_employee_or_request(self.request))
         qrySet = Timesheets.objects.filter(
-            time__year=date.year
+            time__year=date.year,status='0'
         ).values(
             "user__id",
             "user__user__first_name",
-            "user__user__last_name",
-
+            "user__user__last_name"
         ).annotate(
             year=ExtractYear("time", output_field=IntegerField()),
             month=ExtractMonth("time", output_field=IntegerField()),
@@ -207,50 +251,12 @@ class TimesheetList(ListView):
             seconds=ExtractSecond("time", output_field=IntegerField()),
             minutes=ExtractMinute("time", output_field=IntegerField()),
             hours=ExtractHour("time", output_field=IntegerField())
-        ).filter(enableFilter)
+        ).filter(self.getFilterIfContentAdmin()).order_by("hours", "minutes", "seconds")
 
-        userId = "user__id"
+        return TimesheetList.computeAnnualHours(qrySet)
 
-        timeStampWithDuration = {}
-        for timestamp in qrySet:
-            currUserId = timestamp[userId]
-            currMonth = timestamp["month"]
-            userfullName = "%s, %s" % ( timestamp["user__user__last_name"], timestamp["user__user__first_name"])
-            timeStr = "%d-%d-%d %d:%d:%d" % (timestamp["year"], timestamp["month"], timestamp["day"], timestamp["hours"], timestamp["minutes"], timestamp["seconds"])
-            tOb = ( datetime.datetime.strptime(timeStr, "%Y-%m-%d %H:%M:%S")  - datetime.datetime(1970, 1, 1) ).total_seconds()
-
-            if  currUserId not in timeStampWithDuration.keys():
-
-                timeStampWithDuration[currUserId] = {
-                     "fullname" : userfullName,
-                     "total" : 0,
-                     "months" : {
-                         x:{
-                             'inserted':0,
-                            'time':0,
-                             'temp_time':0
-                        } for x in range(1,13)
-                     }
-                    }
-
-
-
-
-            insertCount = timeStampWithDuration[currUserId]["months"][currMonth]["inserted"]
-            if insertCount % 2 != 0 and insertCount > 0:
-                e_time = tOb - timeStampWithDuration[currUserId]["months"][currMonth]["temp_time"]
-
-                timeStampWithDuration[currUserId]["months"][currMonth]["time"] += e_time
-                timeStampWithDuration[currUserId]["months"][currMonth]["temp_time"] = 0
-            else:
-                timeStampWithDuration[currUserId]["months"][currMonth]["temp_time"] =  tOb
-
-
-            timeStampWithDuration[currUserId]["months"][currMonth]["inserted"] = timeStampWithDuration[currUserId]["months"][currMonth]["inserted"] + 1
-
-
-        for user in timeStampWithDuration:
-            for month in timeStampWithDuration[user]["months"]:
-                timeStampWithDuration[user]["total"] += timeStampWithDuration[user]["months"][month]["time"]
-
-        return timeStampWithDuration
+    @staticmethod
+    def setTotal(tsDict):
+        for user in tsDict:
+            for month in tsDict[user]["months"]:
+                tsDict[user]["total"] += tsDict[user]["months"][month]["time"]
