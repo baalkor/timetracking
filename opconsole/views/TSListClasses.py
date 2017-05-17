@@ -26,6 +26,7 @@ class QrySetTimestamp(object):
 
 
     def parseScope(self, scope):
+
         scope = scope.lower()
         if scope == "months":
             scope="month"
@@ -42,7 +43,8 @@ class QrySetTimestamp(object):
     def __init__(self, timestamps, scope="months"):
 
         scope = self.parseScope(scope)
-        self.currUserId = timestamps["user__id"],
+
+        self.currUserId = timestamps["user__id"]
         self.currScope = timestamps[scope]
         self.userfullName = self.parseFullName(timestamps)
         self.tOb = self.getTime(timestamps)

@@ -25,9 +25,7 @@
 
         <tr>
 
-            <td colspan="2">
-                <a href="/user/{{key}}">{{val.fullname}}</a>
-            </td>
+            <td colspan="2"><a href="/user/{{key}}">{{val.fullname}}</a></td>
             {% for key, values in val.months.items  %}
             <td>
                 {% if not values.inserted|divisibleby:2  %}
