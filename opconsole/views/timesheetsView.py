@@ -11,17 +11,10 @@ from datetime import datetime, timedelta
 from django.db.models import Q,F, Sum ,IntegerField
 from django.db.models.functions import  TruncSecond
 from django.db.models import Aggregate
+from TSListClasses import QrySetTimestamp
 import datetime
 import calendar
 
-
-class TestIsMyTimestampOrStaff(UserPassesTestMixin):
-    def test_func(self, request, timeid):
-        return self.request.user.is_staff() or \
-            Timesheets.object.get(pk=timeid).user.user == self.request.user
-
-class TimeDelta(Aggregate):
-    function = ""
 
 def get_date_or_now(request):
     try:
@@ -150,34 +143,6 @@ class TimestampDetail(DetailView):
         context["google_api_key"] = settings.GOOGLE_API_KEY
         return context
 
-class QrySetTimestamp(object):
-
-    currUserId = ""
-    currMonth =  0
-    userfullName = ""
-    tOb = None
-
-    def __init__(self, timestamps):
-        self.currUserId = timestamps["user__id"],
-        self.currMonth = timestamps["month"]
-        self.userfullName = "%s, %s" % (timestamps["user__user__last_name"], timestamps["user__user__first_name"])
-        timeStr = "%d-%d-%d %d:%d:%d" % ( timestamps["year"], timestamps["month"], timestamps["day"], timestamps["hours"], timestamps["minutes"], timestamps["seconds"])
-        self.tOb = datetime.datetime.strptime(timeStr, "%Y-%m-%d %H:%M:%S")
-
-    def getUserId(self): return self.currUserId
-
-    def getMonth(self):return self.currMonth
-
-    def getFullName(self):return self.userfullName
-
-    def getTimestampObj(self):
-        return self.tOb
-
-    def getTimeInSeconds(self):
-        return self.getTimeDelta(self.getTimestampObj()).total_seconds()
-
-    def getTimeDelta(self, date):
-        return (date - datetime.datetime(1970, 1, 1))
 
 
 class TimesheetList(ListView):
