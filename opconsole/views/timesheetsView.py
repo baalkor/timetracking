@@ -3,46 +3,14 @@ from django.contrib.auth.decorators import  login_required
 from django.utils.decorators import method_decorator
 from django.db.models import DateTimeField, Min, Max
 from django.db.models.functions import ExtractYear, ExtractMonth, ExtractDay, ExtractMinute, ExtractHour, ExtractSecond
-from opconsole.models import Timesheets, Employes, Device
-from django.contrib.auth.mixins import UserPassesTestMixin
-from django.shortcuts import get_object_or_404
+from opconsole.models import Timesheets, Device
 from django.conf import settings
-from datetime import datetime, timedelta
-from django.db.models import Q,F, Sum ,IntegerField
+from datetime import timedelta
+from django.db.models import Q ,IntegerField
 from django.db.models.functions import  TruncSecond
-from django.db.models import Aggregate
 from TSListClasses import QrySetTimestamp
-import datetime
+from utils import get_date_or_now, get_employee_or_request, isContentAdmin
 import calendar
-
-
-def get_date_or_now(request):
-    try:
-        date = datetime.datetime.strptime(request.GET.get('date'), "%Y-%m-%d")
-    except ( ValueError , TypeError ):
-        date = datetime.datetime.now()
-    finally:
-        return date
-def isContentAdmin(request):return request.user.groups.filter(name=settings.ADMIN_GROUP).exists()
-
-def get_employee_or_request(request):
-    try:
-
-        uid = int(request.GET.get('userId'))
-
-
-        myId = uid == request.user
-
-        isNotAllowedCheckingAnotherUserTMS = not myId and not isContentAdmin(request)
-
-        if uid == None or isNotAllowedCheckingAnotherUserTMS:
-            emp = get_object_or_404(Employes, user=request.user)
-        else:
-            emp = get_object_or_404(Employes, pk=uid)
-        return emp
-    except (TypeError, ValueError):
-        return get_object_or_404(Employes, user=request.user)
-
 
 @method_decorator(login_required, name='dispatch')
 class TimesheetView(ListView):
@@ -80,7 +48,6 @@ class TimesheetView(ListView):
             else:
                 tdelta = i["seconds"] - s_time
                 if not freeTime:
-                    print hoursAtWork
                     hoursAtWork += tdelta
                     freeTime = True
                 else:
@@ -124,9 +91,9 @@ class TimesheetView(ListView):
 
 @method_decorator(login_required, name='dispatch')
 class ManualTimesheetList(ListView):
+
     template_name = "opconsole_manual_request.html"
     model = Timesheets
-
 
     def get_queryset(self):
         return Timesheets.objects.filter(Q(deletion=True) | Q( status='6'))
@@ -173,26 +140,32 @@ class TimesheetList(ListView):
     @staticmethod
     def getDctNodeSkel(userfullName):
         return {"fullname": userfullName,"total": 0,
-            "months": {x: {'inserted': 0,'time': 0,'temp_time': 0} for x in range(1, 13)}}
+            "months": {x: {'inserted': 0,'time': 0,'temp_time': 0, "free":0, "temp_free":0} for x in range(1, 13)}}
 
 
     @staticmethod
     def computeAnnualHours(qrySet):
         timeStampWithDuration = {}
-
+        free=False
         for timestamp in qrySet:
 
             tmps = QrySetTimestamp(timestamp)
+
             if  tmps.getUserId() not in timeStampWithDuration.keys():
                 timeStampWithDuration[tmps.getUserId()] = TimesheetList.getDctNodeSkel(tmps.getFullName())
 
             insertCount = timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["inserted"]
-            if insertCount % 2 != 0 and insertCount > 0:
+            if insertCount % 2 != 0:
                 e_time = tmps.getTimeInSeconds() - timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_time"]
                 timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["time"] += e_time
-                timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_time"] = 0
+                timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_free"] = tmps.getTimeInSeconds()
             else:
-                timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_time"] =  tmps.getTimeInSeconds()
+                if insertCount > 0:
+                    diffTime =  tmps.getTimeInSeconds() - timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_free"]
+                    timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["free"] += diffTime
+
+                timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["temp_time"] = tmps.getTimeInSeconds()
+
 
             timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["inserted"] = timeStampWithDuration[tmps.getUserId()]["months"][tmps.getMonth()]["inserted"] + 1
 
