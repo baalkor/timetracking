@@ -1,16 +1,19 @@
-from django.views.generic import ListView, DetailView
-from django.contrib.auth.decorators import  login_required
-from django.utils.decorators import method_decorator
-from django.db.models import DateTimeField, Min, Max
-from django.db.models.functions import ExtractYear, ExtractMonth, ExtractDay, ExtractMinute, ExtractHour, ExtractSecond
-from opconsole.models import Timesheets, Device
-from django.conf import settings
-from datetime import timedelta
-from django.db.models import Q ,IntegerField
-from django.db.models.functions import  TruncSecond
-from TSListClasses import computeHours
-from utils import get_date_or_now, get_employee_or_request, isContentAdmin, get_request_or_fallback
 import calendar
+from datetime import timedelta
+
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.db.models import DateTimeField, Min, Max
+from django.db.models import Q, IntegerField
+from django.db.models.functions import ExtractYear, ExtractMonth, ExtractDay, ExtractMinute, ExtractHour, ExtractSecond
+from django.db.models.functions import TruncSecond
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView, DetailView
+
+from opconsole.core.computeTimestamps import computeHours
+from opconsole.models import Timesheets, Device
+from utils import get_date_or_now, get_employee_or_request, isContentAdmin, get_request_or_fallback
+
 
 @method_decorator(login_required, name='dispatch')
 class TimesheetView(ListView):
