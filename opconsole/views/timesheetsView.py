@@ -9,7 +9,7 @@ from datetime import timedelta
 from django.db.models import Q ,IntegerField
 from django.db.models.functions import  TruncSecond
 from TSListClasses import computeHours
-from utils import get_date_or_now, get_employee_or_request, isContentAdmin
+from utils import get_date_or_now, get_employee_or_request, isContentAdmin, get_request_or_fallback
 import calendar
 
 @method_decorator(login_required, name='dispatch')
@@ -139,9 +139,15 @@ class TimesheetList(ListView):
 
 
     def get_queryset(self):
-        date = get_date_or_now(self.request)
+
+        scope = get_request_or_fallback(self.request, "scope", "months", str,True)
+        if scope not in ["weeks", "days", "months"]:
+            scope = "months"
+
+
+
         qrySet = Timesheets.objects.filter(
-            time__year=date.year,status='0'
+            time__year=get_date_or_now(self.request).year,status='0'
         ).values(
             "user__id",
             "user__user__first_name",
@@ -149,13 +155,12 @@ class TimesheetList(ListView):
         ).annotate(
             year=ExtractYear("time", output_field=IntegerField()),
             month=ExtractMonth("time", output_field=IntegerField()),
-
+            day=ExtractDay("time", output_field=IntegerField())
         ).annotate(
-            day=ExtractDay("time", output_field=IntegerField()),
             seconds=ExtractSecond("time", output_field=IntegerField()),
             minutes=ExtractMinute("time", output_field=IntegerField()),
             hours=ExtractHour("time", output_field=IntegerField())
         ).filter(self.getFilterIfContentAdmin()).order_by("hours", "minutes", "seconds")
 
-        return computeHours(qrySet)
+        return computeHours(qrySet, scope)
 

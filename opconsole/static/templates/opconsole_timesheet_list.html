@@ -13,7 +13,8 @@
         </th>
         <th>Employee</th>
         {% for month in months %}
-            <th>{{month}}</th>
+
+            <th><a href="/timesheets/?scope=month&months={{month}}">{{month}}</a></th>
         {% endfor %}
 
         <th>Total</th>

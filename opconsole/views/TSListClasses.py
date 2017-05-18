@@ -43,11 +43,11 @@ class QrySetTimestamp(object):
     def __init__(self, timestamps, scope="months"):
 
         scope = self.parseScope(scope)
-
         self.currUserId = timestamps["user__id"]
-        self.currScope = timestamps[scope]
+        self.currScope = timestamps["month"]
         self.userfullName = self.parseFullName(timestamps)
         self.tOb = self.getTime(timestamps)
+
 
 
 
@@ -56,11 +56,7 @@ def genScopeDict(userfullName, scope="months"):
     return {"fullname": userfullName,"total": 0,scope: {x: {'inserted': 0,'time': 0,'temp_time': 0, "free":0, "temp_free":0} for x in range(1, 13)}}
 
 def computeHours(qrySet, scope="months"):
-
-    if scope not in ["weeks", "days", "months"]: raise RuntimeError("Invalid scope supplied %s, available scopes are : weeks, days and months(default)" % scope)
-
     timeStampWithDuration = {}
-
     for timestamp in qrySet:
 
         tmps = QrySetTimestamp(timestamp, scope)

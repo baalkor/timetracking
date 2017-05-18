@@ -3,6 +3,24 @@ from django.conf import settings
 from opconsole.models import Employes
 from django.shortcuts import get_object_or_404
 
+
+def get_request_or_fallback(request, key, fallback_value, convertFunc=int, checkId=False):
+    try:
+        if checkId and not isContentAdmin(request):
+            return fallback_value
+        value = request.GET.get(key)
+
+        if value == None :
+            return fallback_value
+        else:
+            return  convertFunc(value)
+
+
+    except (ValueError, TypeError):
+        return fallback_value
+
+
+
 def get_date_or_now(request):
     try:
         date = datetime.datetime.strptime(request.GET.get('date'), "%Y-%m-%d")
