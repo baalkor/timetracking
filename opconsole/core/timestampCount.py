@@ -1,4 +1,5 @@
-class TimestampDailyCount(object):
+from opconsole.templatetags.duration import duration
+class TimestampCount(object):
     time = 0
     free = 0
     inserted = 0
@@ -26,7 +27,7 @@ class TimestampDailyCount(object):
             return self.time
         else:
             return 0
-    def free_time(self): return self.free
+    def get_free_time(self): return self.free
 
     def getDay(self): return self.day
 
@@ -36,17 +37,15 @@ class TimestampDailyCount(object):
 
     def isEvenCount(self): return self.inserted % 2
 
-    def add(self, QrySetTimestampObj):
-        if not self.isEvenCount():
-            e_time = QrySetTimestampObj.getTimeInSeconds() - self._temp_time
-            self.time += e_time
-            self.temp_free = QrySetTimestampObj.getTimeInSeconds()
+    def add(self, tmp):
+
+        if tmp.getUserId() != self.userid: raise RuntimeError("Invalid userid")
+        tmpS = tmp.getTimeInSeconds()
+        if not self.isEvenCount() and self.inserted > 0:
+            e_time = tmpS - self._temp_time
         else:
-            if self.count() > 0:
-                diffTime = QrySetTimestampObj.getTimeInSeconds() - self._temp_free
+            if self.inserted > 0:
+                diffTime = tmpS - self._temp_free
                 self.free += diffTime
-
-            self._temp_time = QrySetTimestampObj.getTimeInSeconds()
-
-
+            self._temp_time = tmpS
         self.inserted = self.inserted+1

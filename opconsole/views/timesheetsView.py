@@ -163,7 +163,7 @@ class TimesheetList(ListView):
             seconds=ExtractSecond("time", output_field=IntegerField()),
             minutes=ExtractMinute("time", output_field=IntegerField()),
             hours=ExtractHour("time", output_field=IntegerField())
-        ).filter(self.getFilterIfContentAdmin()).order_by("hours", "minutes", "seconds")
+        ).filter(self.getFilterIfContentAdmin()).order_by("time", "user__id")
 
         return computeHours(qrySet, scope)
 
