@@ -13,6 +13,7 @@ class TimeStampsManager(object):
     year = 0
 
     def __init__(self, queryset, year):
+        self.timestamps = {}
         self.year = year
         for entry in queryset:
             parsedEntry = QrySetTimestamp(entry)
