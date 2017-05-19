@@ -1,5 +1,5 @@
 {% extends "opconsole_baselayout.html" %}
-{% load duration %}
+
 {% block content %}
 <table class="table">
     <thead>
@@ -12,35 +12,19 @@
             <button class="btn" onclick="setyear();">Go</button>
         </th>
         <th>Employee</th>
-        {% for month in months %}
-
-            <th><a href="/timesheets/?scope=month&months={{month}}">{{month}}</a></th>
+        {% for column in cols %}
+            <th><a href="/timesheets/?scope=month&months={{column}}">{{column}}</a></th>
         {% endfor %}
 
         <th>Total</th>
 
     </thead>
     <tbody>
-    {% for key, val in timesheets.items %}
-
-
-        <tr>
-
-            <td colspan="2"><a href="/user/{{key}}">{{val.fullname}}</a></td>
-            {% for key, values in val.months.items  %}
-            <td>
-                {% if not values.inserted|divisibleby:2  %}
-                    <span class=" glyphicon glyphicon-time" alt="Warning!Invalid number of timestamps"></span>
-                {% else %}
-                {{ values.time|duration }}
-                {% endif %}
-            </td>
-
-            {% endfor %}
-            <td>{{val.total|duration}} </td>
-        </tr>
-    {% endfor %}
+    {% with timesheets as tmps %}
+        {% if scope == "annualy" %}
+            {% include "dialogs/timesheet_annualy.html" %}
+        {% endif %}
+    {% endwith %}
     </tbody>
 </table>
-
 {% endblock %}

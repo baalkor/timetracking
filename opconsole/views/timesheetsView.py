@@ -1,6 +1,6 @@
 import calendar
 from datetime import timedelta
-
+from datetime import datetime
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db.models import DateTimeField, Min, Max
@@ -9,8 +9,7 @@ from django.db.models.functions import ExtractYear, ExtractMonth, ExtractDay, Ex
 from django.db.models.functions import TruncSecond
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
-
-from opconsole.core.computeTimestamps import computeHours
+from opconsole.core.timestampsManager import TimeStampsManager, TimestampDisplay
 from opconsole.models import Timesheets, Device
 from utils import get_date_or_now, get_employee_or_request, isContentAdmin, get_request_or_fallback
 
@@ -120,10 +119,10 @@ class TimesheetList(ListView):
     model = Timesheets
     context_object_name = "timesheets"
 
-    def get_context_data(self, **kwargs):
-        context = super(TimesheetList, self).get_context_data(**kwargs)
-        context["months"] = [ calendar.month_name[x] for x in range(1,13)]
-        context["month_num"] = [ x for x in range(1,13)]
+    def get_range_days(self, month): return range(1,calendar.monthrange(self.year,month)[1])
+    def get_range_months(self): return  [ calendar.month_name[x] for x in range(1,13)]
+    def get_range_months_num(self): return [ x for x in range(1,13)]
+    def get_range_available_years(self):
         values = Timesheets.objects.distinct().annotate(
             year=ExtractYear("time")
         ).aggregate(
@@ -131,10 +130,19 @@ class TimesheetList(ListView):
             Max("time")
         )
 
-        ymin = values["time__min"].year
-        ymax = values["time__max"].year
+        return range( values["time__min"].year, values["time__max"].year + 1 )
 
-        context["years"] = range(ymin  , ymax + 1)
+    def get_context_data(self, **kwargs):
+        context = super(TimesheetList, self).get_context_data(**kwargs)
+        context["scope"] = self.scope
+
+        if self.scope == "annualy":
+            context["cols"] = self.get_range_months()
+        elif self.scope == "monthly":
+            context["cols"] = self.get_range_days(self.month)
+        else:
+            context["cols"] = self.get_range_months()
+        context["years"] = self.get_range_available_years()
         return context
 
     def getFilterIfContentAdmin(self):
@@ -143,14 +151,14 @@ class TimesheetList(ListView):
 
     def get_queryset(self):
 
-        scope = get_request_or_fallback(self.request, "scope", "months", str,True)
-        if scope not in ["weeks", "days", "months"]:
-            scope = "months"
-
+        self.scope = get_request_or_fallback(self.request, "scope", "annualy", str,True)
+        self.year = get_request_or_fallback(self.request, "year", datetime.now().year, str, True)
+        self.month = get_request_or_fallback(self.request, "month", None, str, True)
+        self.day = get_request_or_fallback(self.request, "day", None, str, True)
 
 
         qrySet = Timesheets.objects.filter(
-            time__year=get_date_or_now(self.request).year,status='0'
+            time__year=self.year
         ).values(
             "user__id",
             "user__user__first_name",
@@ -165,5 +173,5 @@ class TimesheetList(ListView):
             hours=ExtractHour("time", output_field=IntegerField())
         ).filter(self.getFilterIfContentAdmin()).order_by("time", "user__id")
 
-        return computeHours(qrySet, scope)
+        return TimestampDisplay(TimeStampsManager(qrySet, self.year)).getScopedView(self.scope, self.month, self.day)
 
