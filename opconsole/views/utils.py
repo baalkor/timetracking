@@ -2,6 +2,10 @@ import datetime
 from django.conf import settings
 from opconsole.models import Employes
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
+
+def getFilterIfContentAdmin(request):
+    return Q() if isContentAdmin(request) else Q(user=get_employee_or_request(request))
 
 
 def get_request_or_fallback(request, key, fallback_value, convertFunc=int, checkId=False):

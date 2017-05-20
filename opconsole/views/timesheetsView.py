@@ -11,7 +11,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 from opconsole.core.timestampsManager import TimeStampsManager, TimestampDisplay
 from opconsole.models import Timesheets, Device
-from utils import get_date_or_now, get_employee_or_request, isContentAdmin, get_request_or_fallback
+from utils import get_date_or_now, get_employee_or_request, getFilterIfContentAdmin, get_request_or_fallback
 from datetime import datetime
 
 @method_decorator(login_required, name='dispatch')
@@ -24,51 +24,39 @@ class TimesheetView(ListView):
     def getEmployee(self):
         return get_employee_or_request(self.request)
 
-    def computeHoursDaily(self, percentage, employee,):
+    def computeHoursDaily(self, employee):
         date = self.getDate()
-        querySet = Timesheets.objects.distinct().annotate(
-            seconds=TruncSecond("time", output_field=DateTimeField())
-        ).filter(
-            status='0',
-            user=employee,
-            time__year=date.year,
-            time__month=date.month,
-            time__day=date.day
-        ).order_by("time").values("seconds")
-
-        cpt=0
-
-        s_time = None
-        e_time = None
-        hoursAtWork=timedelta()
-        pauseBreak=timedelta()
-        freeTime = False
-        for i in querySet:
-
-            if cpt % 2 == 0:
-                s_time = i["seconds"]
-            else:
-                tdelta = i["seconds"] - s_time
-                if not freeTime:
-                    hoursAtWork += tdelta
-                    freeTime = True
-                else:
-                    pauseBreak += tdelta
-                    freeTime = False
-
-            cpt = cpt + 1
+        querySet = Timesheets.objects.filter(
+            time__year=date.year
+        ).values(
+            "user__id",
+            "user__user__first_name",
+            "user__user__last_name"
+        ).annotate(
+            year=ExtractYear("time", output_field=IntegerField()),
+            month=ExtractMonth("time", output_field=IntegerField()),
+            day=ExtractDay("time", output_field=IntegerField())
+        ).annotate(
+            seconds=ExtractSecond("time", output_field=IntegerField()),
+            minutes=ExtractMinute("time", output_field=IntegerField()),
+            hours=ExtractHour("time", output_field=IntegerField())
+        ).filter(getFilterIfContentAdmin(self.request)).order_by("time", "user__id")
 
 
-        if cpt % 2 != 0: self.errors = "Odd number of valid timestamps!"
-
-        return ( hoursAtWork, pauseBreak )
+        data =  TimestampDisplay(TimeStampsManager(querySet, date.year )).getDailyView(
+            date.day,
+            date.month,
+            employee.id
+        )
+        return data[employee.id]
 
     def get_context_data(self, **kwargs):
         employee = self.getEmployee()
         hasWebDevice = Device.objects.filter(owner=employee).filter(devType='1').exists()
         context = super(TimesheetView, self).get_context_data(**kwargs)
 
-        context["totalHours"] = self.computeHoursDaily(100,employee)
+        context["totalHours"] = self.computeHoursDaily(employee)
+        print self.computeHoursDaily(employee)
         context["hasWebDevice"] = hasWebDevice
         context["currentDate"] = self.getDate()
         context["errors"] = self.errors
@@ -148,9 +136,6 @@ class TimesheetList(ListView):
         context["years"] = self.get_range_available_years()
         return context
 
-    def getFilterIfContentAdmin(self):
-        return Q() if isContentAdmin(self.request) else Q(user=get_employee_or_request(self.request))
-
 
     def get_queryset(self):
 
@@ -176,7 +161,7 @@ class TimesheetList(ListView):
             seconds=ExtractSecond("time", output_field=IntegerField()),
             minutes=ExtractMinute("time", output_field=IntegerField()),
             hours=ExtractHour("time", output_field=IntegerField())
-        ).filter(self.getFilterIfContentAdmin()).order_by("time", "user__id")
+        ).filter(getFilterIfContentAdmin(self.request)).order_by("time", "user__id")
 
 
         return TimestampDisplay(TimeStampsManager(qrySet, self.year)).getScopedView(self.scope, self.month, self.day)

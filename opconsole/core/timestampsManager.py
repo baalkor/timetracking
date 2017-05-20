@@ -97,6 +97,9 @@ class TimestampDisplay(object):
 
         return tmps
 
+    def getDailyView(self, day, month, userid=-1):
+        return  self.timeStampsManager.getDailyView(day, month, userid)
+
     def getScopedView(self, scope, month, day):
         if scope == "annualy":
             return self.sortAnnualy()
