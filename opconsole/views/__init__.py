@@ -5,6 +5,7 @@ from userView import NewUserView, ListUsers, DetailUserView
 from devicesView import NewDeviceView, ListDeviceView, DeviceDetail, AssignDeviceToZone
 from timesheetsView import ManualTimesheetList, TimestampDetail, TimesheetView, TimesheetList
 from anonamliesView import AnomaliesView
+from statisticsView import StatisticsView
 
 
 def inContentAdmin(user):

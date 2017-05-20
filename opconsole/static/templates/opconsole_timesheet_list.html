@@ -15,11 +15,11 @@
         <th>Employee</th>
         {% for column in cols %}
             {% if scope == "annualy" %}
-                <th><a href="/timesheets/?scope=monthly&months={{column.id}}">{{column.name}}</a></th>
+                <th align="center"><a href="/timesheets/?scope=monthly&months={{column.id}}">{{column.name}}</a></th>
             {% elif scope == "monthly" %}
-                <th><a href="/timesheets/?scope=daily&months={{curr_month}}&day={{column.id}}">{{column.name}}</a></th>
+                <th align="center"><a href="/timesheets/?scope=daily&months={{curr_month}}&day={{column.id}}">{{column.name}}</a></th>
             {% else %}
-                <th>{{column.name}}</th>
+                <th align="center">{{column.name}}</th>
             {% endif %}
         {% endfor %}
         <th>Total</th>
@@ -36,12 +36,12 @@
                 {% for range in  user.range  %}
                     {% if range %}
                         {% if scope == "daily" %}
-                            <td><a href="/mytimesheet/?userId={{user.id}}&date={{currentDate}}">{{ range|duration }}</a></td>
+                            <td align="center"><a href="/mytimesheet/?userId={{user.id}}&date={{currentDate}}">{{ range|duration }}</a></td>
                         {% else %}
-                            <td>{{ range|duration }}</td>
+                            <td align="center">{{ range|duration }}</td>
                         {% endif %}
                     {% else %}
-                        <td>-:-</td>
+                        <td align="center">-:-</td>
                     {% endif %}
 
                 {% endfor %}

@@ -50,7 +50,6 @@ class TimestampDisplay(object):
                 tmps[-1]["range"].append(value[userid][0])
             else:
                 tmps[-1]["range"].append(0)
-        print tmps
         return tmps
 
     def sortMonthly(self, month):
@@ -96,14 +95,11 @@ class TimestampDisplay(object):
                 else:
                     tmps[-1]["range"].append(0)
 
-        print tmps
         return tmps
 
     def getScopedView(self, scope, month, day):
-
         if scope == "annualy":
             return self.sortAnnualy()
-
         elif scope == "monthly":
             return self.sortMonthly(month)
         elif scope == "daily":

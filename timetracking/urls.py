@@ -55,7 +55,7 @@ urlpatterns = [
     url(r'^timestamp/(?P<pk>[0-9]+)/$', TimestampDetail.as_view(),name="timesheet-detail"),
     url(r'^mytimesheet/$',              TimesheetView.as_view(),name="timesheet-mine"),
 
-
+    url(r'^reports/statistics/$',       StatisticsView.as_view(),name="statistics-view"),
     url(r'^devices/$',                  ListDeviceView.as_view(),name="devices-list"),
     url(r'^devices/new/$',              NewDeviceView.as_view(),name="device-new"),
     url(r'^devices/(?P<pk>[0-9]+)/$',   DeviceDetail.as_view(),name="device-detail"),

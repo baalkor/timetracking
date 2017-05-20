@@ -113,7 +113,7 @@ class TimestampDetail(DetailView):
         return context
 
 
-
+@method_decorator(login_required, name="dispatch")
 class TimesheetList(ListView):
     template_name = "opconsole_timesheet_list.html"
     model = Timesheets
@@ -154,10 +154,10 @@ class TimesheetList(ListView):
 
     def get_queryset(self):
 
-        self.scope = get_request_or_fallback(self.request, "scope", "annualy", str,True)
-        self.year = get_request_or_fallback(self.request, "year", datetime.now().year, str, True)
-        self.month = get_request_or_fallback(self.request, "months", None, str, True)
-        self.day = get_request_or_fallback(self.request, "day", None, str, True)
+        self.scope = get_request_or_fallback(self.request, "scope", "annualy", str,False)
+        self.year = get_request_or_fallback(self.request, "year", datetime.now().year, str, False)
+        self.month = get_request_or_fallback(self.request, "months", None, str, False)
+        self.day = get_request_or_fallback(self.request, "day", None, str, False)
 
         if self.month != None : self.month = int(self.month)
         if self.day != None: self.day = int(self.day)
@@ -177,6 +177,7 @@ class TimesheetList(ListView):
             minutes=ExtractMinute("time", output_field=IntegerField()),
             hours=ExtractHour("time", output_field=IntegerField())
         ).filter(self.getFilterIfContentAdmin()).order_by("time", "user__id")
+
 
         return TimestampDisplay(TimeStampsManager(qrySet, self.year)).getScopedView(self.scope, self.month, self.day)
 
