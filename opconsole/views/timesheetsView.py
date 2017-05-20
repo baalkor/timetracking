@@ -12,7 +12,7 @@ from django.views.generic import ListView, DetailView
 from opconsole.core.timestampsManager import TimeStampsManager, TimestampDisplay
 from opconsole.models import Timesheets, Device
 from utils import get_date_or_now, get_employee_or_request, isContentAdmin, get_request_or_fallback
-
+from datetime import datetime
 
 @method_decorator(login_required, name='dispatch')
 class TimesheetView(ListView):
@@ -31,9 +31,9 @@ class TimesheetView(ListView):
         ).filter(
             status='0',
             user=employee,
-            recptTime__year=date.year,
-            recptTime__month=date.month,
-            recptTime__day=date.day
+            time__year=date.year,
+            time__month=date.month,
+            time__day=date.day
         ).order_by("time").values("seconds")
 
         cpt=0
@@ -84,9 +84,9 @@ class TimesheetView(ListView):
         employee = self.getEmployee()
         date = self.getDate()
         return Timesheets.objects.filter(user=employee).filter(
-            recptTime__year=date.year,
-            recptTime__day=date.day,
-            recptTime__month=date.month
+            time__year=date.year,
+            time__day=date.day,
+            time__month=date.month
         ).order_by("time")
 
 
@@ -119,8 +119,8 @@ class TimesheetList(ListView):
     model = Timesheets
     context_object_name = "timesheets"
 
-    def get_range_days(self, month): return range(1,calendar.monthrange(self.year,month)[1])
-    def get_range_months(self): return  [ calendar.month_name[x] for x in range(1,13)]
+    def get_range_days(self, month): return [ { "id":x, "name": x } for x in range(1,calendar.monthrange(self.year,month)[1])]
+    def get_range_months(self): return      [ { "id":x, "name":calendar.month_name[x]} for x in range(1,13)]
     def get_range_months_num(self): return [ x for x in range(1,13)]
     def get_range_available_years(self):
         values = Timesheets.objects.distinct().annotate(
@@ -139,9 +139,12 @@ class TimesheetList(ListView):
         if self.scope == "annualy":
             context["cols"] = self.get_range_months()
         elif self.scope == "monthly":
+            context["curr_month"] = self.month
             context["cols"] = self.get_range_days(self.month)
         else:
-            context["cols"] = self.get_range_months()
+            context["curr_month"] = self.month
+            context["currentDate"] = "%s-%s-%s" % (self.year, self.month,self.day)
+            context["cols"] = [ { "id": self.day, "name":  "%s-%s-%s" % (self.year, self.month,self.day) } ]
         context["years"] = self.get_range_available_years()
         return context
 
@@ -153,9 +156,11 @@ class TimesheetList(ListView):
 
         self.scope = get_request_or_fallback(self.request, "scope", "annualy", str,True)
         self.year = get_request_or_fallback(self.request, "year", datetime.now().year, str, True)
-        self.month = get_request_or_fallback(self.request, "month", None, str, True)
+        self.month = get_request_or_fallback(self.request, "months", None, str, True)
         self.day = get_request_or_fallback(self.request, "day", None, str, True)
 
+        if self.month != None : self.month = int(self.month)
+        if self.day != None: self.day = int(self.day)
 
         qrySet = Timesheets.objects.filter(
             time__year=self.year

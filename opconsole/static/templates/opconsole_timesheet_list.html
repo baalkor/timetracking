@@ -11,19 +11,46 @@
             </select>
             <button class="btn" onclick="setyear();">Go</button>
         </th>
-        <th>Employee</th>
+        <th>Employee </th>
         {% for column in cols %}
-            <th><a href="/timesheets/?scope=month&months={{column}}">{{column}}</a></th>
+            {% if scope == "annualy" %}
+                <th><a href="/timesheets/?scope=monthly&months={{column.id}}">{{column.name}}</a></th>
+            {% elif scope == "monthly" %}
+                <th><a href="/timesheets/?scope=daily&months={{curr_month}}&day={{column.id}}">{{column.name}}</a></th>
+            {% else %}
+                <th>{{column.name}}</th>
+            {% endif %}
         {% endfor %}
-
         <th>Total</th>
 
     </thead>
     <tbody>
     {% with timesheets as tmps %}
-        {% if scope == "annualy" %}
-            {% include "dialogs/timesheet_annualy.html" %}
-        {% endif %}
+    {% load duration %}
+    {% for user in timesheets %}
+        <tr>
+            <td></td>
+            <td><a href="/user/{{user.id}}">{{ user.full_name }} </a></td>
+
+            {% for range in  user.range  %}
+                {% if range %}
+                    {% if scope == "daily" %}
+                        <td><a href="/mytimesheet/?userId={{user.id}}&date={{currentDate}}">{{ range|duration }}</a></td>
+                    {% else %}
+                        <td>{{ range|duration }}</td>
+                    {% endif %}
+                {% else %}
+                    <td>00:00:00</td>
+                {% endif %}
+
+            {% endfor %}
+            <td>
+                {{user.total|duration}}
+            </td>
+        </tr>
+    {% endfor %}
+
+
     {% endwith %}
     </tbody>
 </table>

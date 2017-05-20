@@ -26,23 +26,57 @@ class TimestampDisplay(object):
         user = get_object_or_404(Employes, pk=user_id)
         return "%s, %s" % (user.user.first_name, user.user.last_name)
 
+    def sortDaily(self,day,month):
 
-    def sortMonthly(self, month):
         tmps = []
         for userid in self.timeStampsManager.getUserIds():
+            mTolal = self.timeStampsManager.getDailyView(day,month, userid)
+
+            if userid in mTolal:
+                mTolal = mTolal[userid][0]
+            else:
+                mTolal = 0
             tmps.append({
                 "id": userid,
                 "full_name": self.get_full_name(userid),
-                "total": self.timeStampsManager.getMonthly(userid)[userid][0],
+                "total": mTolal,
+                "range": []
+            })
+
+
+            value = self.timeStampsManager.getDailyView(day,month, userid)
+
+            if userid in value:
+                tmps[-1]["range"].append(value[userid][0])
+            else:
+                tmps[-1]["range"].append(0)
+        print tmps
+        return tmps
+
+    def sortMonthly(self, month):
+
+        tmps = []
+        for userid in self.timeStampsManager.getUserIds():
+            mTolal = self.timeStampsManager.getMonthly(month, userid)
+            if userid in mTolal:
+                mTolal = mTolal[userid][0]
+            else:
+                mTolal = 0
+            tmps.append({
+                "id": userid,
+                "full_name": self.get_full_name(userid),
+                "total": mTolal,
                 "range": []
             })
 
             for r in range(1,calendar.monthrange(self.timeStampsManager.year, month)[1]):
-                value = self.timeStampsManager.getDailyView(month, r, userid)
+                value = self.timeStampsManager.getDailyView(r, month, userid)
+
                 if userid in value:
                     tmps[-1]["range"].append(value[userid][0])
                 else:
                     tmps[-1]["range"].append(0)
+
         return tmps
 
     def sortAnnualy(self):
@@ -61,18 +95,20 @@ class TimestampDisplay(object):
                     tmps[-1]["range"].append(value[userid][0])
                 else:
                     tmps[-1]["range"].append(0)
+
+        print tmps
         return tmps
 
     def getScopedView(self, scope, month, day):
-
 
         if scope == "annualy":
             return self.sortAnnualy()
 
         elif scope == "monthly":
-            data = self.paddTable(self.timeStampsManager.getMonthly(month))
+            return self.sortMonthly(month)
         elif scope == "daily":
-            data = self.timeStampsManager.getDailyView(day,month)
+
+            return self.sortDaily(day,month)
         else:
             raise RuntimeError("Invalid scope %s" % scope)
 
