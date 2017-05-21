@@ -1,14 +1,13 @@
 {% extends "opconsole_baselayout.html" %}
 
 {% block content %}
-
  <div class="row">
         <div class="col-xs-6 col-md-4">
             <h3>Working hours / pause break</h3>
-            {{ workingHours.as_html }}
+            <div id="wkshour"></div>
         </div>
         <div class="col-xs-6 col-md-4">
-            <h3>Core hours</h3>
+
         </div>
         <div class="col-xs-6 col-md-4">
             <h3>Manual / normal request</h3>
@@ -16,10 +15,7 @@
  </div>
 <div class="row">
         <div class="col-xs-6 col-md-4">
-            <h3>% of sickness</h3>
-        </div>
-        <div class="col-xs-6 col-md-4">
-            <h3>Core hours - Early departures </h3>
+            <h3>Core hours</h3>
         </div>
         <div class="col-xs-6 col-md-4">
             <h3>Request denied</h3>
@@ -40,4 +36,5 @@
 
 {% block footer %}
     <script src="/static/js/flot/jquery.flot.js"></script>
+    <script src="/static/js/graphs.js"></script>
 {% endblock %}
