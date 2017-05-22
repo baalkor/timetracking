@@ -1,12 +1,9 @@
 import calendar
-from datetime import timedelta
-from datetime import datetime
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db.models import DateTimeField, Min, Max
 from django.db.models import Q, IntegerField
 from django.db.models.functions import ExtractYear, ExtractMonth, ExtractDay, ExtractMinute, ExtractHour, ExtractSecond
-from django.db.models.functions import TruncSecond
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 from opconsole.core.timestampsManager import TimeStampsManager, TimestampDisplay

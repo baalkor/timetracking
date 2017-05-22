@@ -43,19 +43,15 @@ urlpatterns = [
 
     url(r'^api/timestamp/approve/$', ApproveAskTmpsDeletionManual.as_view(), name="api-timestamp-approve-deletion"),
     url(r'^api/timestamp/reject/$', RejectAskTmpsDeletionManual.as_view(), name="api-timestamp-reject-deletion"),
-
     url(r'^login*$',                    auth_views.login, {"template_name" : "opconsole_login.html"}, name="login"),
     url(r'^logout/$',                   auth_views.logout, {'next_page': '/'},name='logout'),
     url(r'^admin/',                     admin.site.urls),
     url(r'^zones/new/$',                ZonesEditorView.as_view(),name="zone-new"),
     url(r'^user/new/$',                 NewUserView.as_view(),name="user-new"),
-
     url(r'^manual/$',                   ManualTimesheetList.as_view(), name="timesheets-manual"),
     url(r'^timesheets/$'                ,TimesheetList.as_view(), name="timesheets-list"),
     url(r'^timestamp/(?P<pk>[0-9]+)/$', TimestampDetail.as_view(),name="timesheet-detail"),
     url(r'^mytimesheet/$',              TimesheetView.as_view(),name="timesheet-mine"),
-
-    url(r'^reports/statistics/$',       StatisticsView.as_view(),name="statistics-view"),
     url(r'^devices/$',                  ListDeviceView.as_view(),name="devices-list"),
     url(r'^devices/new/$',              NewDeviceView.as_view(),name="device-new"),
     url(r'^devices/(?P<pk>[0-9]+)/$',   DeviceDetail.as_view(),name="device-detail"),

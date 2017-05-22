@@ -40,8 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap3',
     'rest_framework',
-    'opconsole.templatetags.duration',
-    'graphos'
+    'opconsole.templatetags.duration'
 ]
 
 MIDDLEWARE = [
