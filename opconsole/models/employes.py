@@ -12,4 +12,4 @@ class Employes(models.Model):
     phone    = models.CharField(max_length=255, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="django_user")
     enable = models.BooleanField(default=True)
-    holidaysAnnualCount = models.IntegerField(default=20)
+    holidaysAnnualCount = models.PositiveIntegerField(default=20)

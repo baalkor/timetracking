@@ -12,4 +12,4 @@ class UserCreationFormLocal ( UserCreationForm ):
 class AddressUserForm(ModelForm):
     class Meta:
         model = Employes
-        fields = ['address', 'zip_code', 'city', 'country']
+        fields = ['address', 'zip_code', 'city', 'country','holidaysAnnualCount']

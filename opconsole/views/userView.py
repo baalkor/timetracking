@@ -13,7 +13,7 @@ from django.contrib.auth.models import Group
 class DetailUserView(UpdateView):
     template_name = "opconsole_user_info.html"
     model = Employes
-    fields = [ 'address', 'zip_code', 'city', 'country' ]
+    fields = [ 'address', 'zip_code', 'city', 'country', 'holidaysAnnualCount' ]
     success_url = '/user/'
 
 
@@ -48,7 +48,7 @@ class NewUserView(View):
             'email': data.get("email"),
         }
         addressData = {
-
+            'holidaysAnnualCount':data.get("holidaysAnnualCount"),
             'city':data.get("city"),
             'country':data.get("country"),
             'address':data.get("address"),
@@ -78,6 +78,7 @@ class NewUserView(View):
                address=addressData["address"],
                country=addressData["country"],
                zip_code=addressData["zip_code"],
+                holidaysAnnualCount=addressData["holidaysAnnualCount"],
                user=django
             )
 
