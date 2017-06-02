@@ -13,8 +13,9 @@
     {% endif %}
     <p>
         <ul class="list-unstyled">
-            <li>Total hours : <b>{{totalHours.0|duration}}</b> [100%]</li>
-            <li>Pause hours : <b>{{totalHours.1|duration}}</b> </li>
+            <li>Total hours  : <b>{{totalHours.0|duration}}</b> [100%]</li>
+            <li>Pause hours  : <b>{{totalHours.1|duration}}</b> </li>
+            <li>Remainig days: <b>{{remainingHoliday}}</b></li>
         </ul>
     </p>
     <table id="mysheet" class="table table-bordered table-hover my-table-class">
@@ -68,9 +69,15 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6"><button class="btn" onclick="$('#dialog-form').dialog('open');">Manual timestamp request</button>
+                <td colspan="2">
+                    <button class="btn" onclick="$('#dialog-form').dialog('open');">Manual absence request</button>
+                    {% include "dialogs/opconsole_mytimesheet_absences.html" %}
+                </td>
+                <td colspan="5">
+                    <button class="btn" onclick="$('#dialog-form').dialog('open');">Manual timestamp request</button>
                     {% include "dialogs/opconsole_mytimesheet_manual.html" %}
                 </td>
+
             </tr>
         </tfoot>
     </table>

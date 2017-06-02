@@ -45,7 +45,10 @@ class TimesheetView(ListView):
             date.month,
             employee.id
         )
-        return data[employee.id]
+        if data == {}:
+            return (0,0)
+        else:
+            return data[employee.id]
 
     def get_context_data(self, **kwargs):
         employee = self.getEmployee()
@@ -53,11 +56,11 @@ class TimesheetView(ListView):
         context = super(TimesheetView, self).get_context_data(**kwargs)
 
         context["totalHours"] = self.computeHoursDaily(employee)
-        print self.computeHoursDaily(employee)
         context["hasWebDevice"] = hasWebDevice
         context["currentDate"] = self.getDate()
         context["errors"] = self.errors
         context["employeeId"] = employee.id
+        context["remainingHoliday"] = employee.holidaysAnnualCount
         context["fullname"] = "%s, %s" % ( employee.user.last_name,employee.user.first_name )
         return context
 

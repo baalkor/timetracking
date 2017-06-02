@@ -40,9 +40,9 @@ urlpatterns = [
     url(r'^api/timesheet/new/$',        TimestampReciever.as_view(),name="api-recveive-timestamp"),
     url(r'^api/timestamp/$',            TimestampDetailCtrl.as_view(),name="api-timestamp-info"),
     url(r'^api/timestamp/modification/$',AskTmpsManual.as_view(), name="api-timestamp-ask-deletion"),
-
-    url(r'^api/timestamp/approve/$', ApproveAskTmpsDeletionManual.as_view(), name="api-timestamp-approve-deletion"),
-    url(r'^api/timestamp/reject/$', RejectAskTmpsDeletionManual.as_view(), name="api-timestamp-reject-deletion"),
+    url(r'^calendars/$',                AgendaView.as_view(), name="agenda-view"),
+    url(r'^api/timestamp/approve/$'   , ApproveAskTmpsDeletionManual.as_view(), name="api-timestamp-approve-deletion"),
+    url(r'^api/timestamp/reject/$'    , RejectAskTmpsDeletionManual.as_view(), name="api-timestamp-reject-deletion"),
     url(r'^login*$',                    auth_views.login, {"template_name" : "opconsole_login.html"}, name="login"),
     url(r'^logout/$',                   auth_views.logout, {'next_page': '/'},name='logout'),
     url(r'^admin/',                     admin.site.urls),

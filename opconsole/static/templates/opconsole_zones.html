@@ -1,14 +1,11 @@
 {% extends "opconsole_baselayout.html" %}
 
 {% block content %}
-    <h1 class="mt-5">Zone liste</h1>
+    <h1 class="mt-5">Zone list</h1>
     <table class="table table-bordered">
         <thead>
-            <th>Zone</th>
-            <th>North west latitude</th>
-            <th>North west longitude</th>
-            <th>South west latitude</th>
-            <th>South west longitude</th>
+            <th>Zone name</th>
+
             <th>active</th>
 
 
@@ -17,14 +14,12 @@
             {% for zone in object_list %}
                 <tr>
                     <td><a href="/zones/{{ zone.id }}">{{ zone.name }}</a></td>
-                    <td>{{ zone.x1 }} </td>
-                    <td>{{ zone.y1 }} </td>
-                    <td>{{ zone.x2 }} </td>
-                    <td>{{ zone.y2 }} </td>
+
                     <td>{{ zone.active|yesno }} </td>
 
 
                 </tr>
             {% endfor %}
         </tbody>
+    </table>
 {% endblock %}
