@@ -25,7 +25,7 @@ from restgwy.controllers import *
 
 urlpatterns = [
     url(r'^api/zones/(?P<pk>[0-9]+)/$', ZoneDetail.as_view(), name="api-zone-detail"),
-
+    url(r'^api/zones/(?P<pk>[0-9]+)/toggle/$', ZoneToggle.as_view(), name="api-zone-toggle"),
     url(r'^api/devicezones/$',          ZonesByDevId.as_view(),name="api-zone-by-device"),
 
     url(r'^api/device/init/$',          InitProcess.as_view(),name="api-device-init"),

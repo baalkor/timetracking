@@ -1,0 +1,58 @@
+{% extends "opconsole_baselayout.html" %}
+
+{% block content %}
+    <h1 class="mt-5">Employees liste</h1>
+    <table class="table table-bordered">
+        <thead>
+            <th>first name</th>
+            <th>last name</th>
+            <th>username</th>
+            <th>email</th>
+            <th>Timesheets</th>
+            <th>Devices</th>
+            <th>Status</th>
+
+        </thead>
+        <tbody>
+            {% for employee in object_list %}
+                <tr>
+
+                    <td><a href="/user/{{ employee.id }}">{{ employee.user.first_name }}</a></td>
+                    <td>{{ employee.user.last_name }} </td>
+                    <td>{{ employee.user }} </td>
+                    <td>{{ employee.user.email }} </td>
+                    <td><a href="/mytimesheet/?userId={{ employee.id }}">Timesheet</a></td>
+                    <td>
+                        <ul class="list-unstyled">
+                            <li>
+                                <form method="post" action="/devices/new/">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="{{ employee.id }}" />
+                                    <button type="submit" class="btn">Initialize new device</button>
+                                </form>
+                            </li>
+                            {% for device in employee.devices.all %}
+                                {% if device.status != "2" %}
+                                    {% if device.devType == "1" %}
+                                        <li><a href="/devices/{{device.id}}"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span>{{device.name}}</a>
+                                    {% else %}
+                                        <li><a href="/devices/{{device.id}}">{{device.name}}</a>
+                                    {% endif %}
+                                {% else %}
+                                    <li>! pendind activation !
+                                {% endif %}
+
+                                 <button class="btn" onclick="removeDevice({{device.id}});">Remove</button></li>
+                            {% endfor %}
+
+                         </ul>
+                    </td>
+                    <td><button class="btn" onclick="userToggle({{employee.id}});">{% if employee.enable %} Disable {% else %} Enable {% endif %}</button></li></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+{% block footer %}
+    <script src="/static/js/opconsole_device_details.js"></script>
+{% endblock %}

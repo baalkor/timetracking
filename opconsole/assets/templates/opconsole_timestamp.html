@@ -1,0 +1,47 @@
+{% extends "opconsole_baselayout.html" %}
+{% block head %}
+     <link href="/static/css/zones-editor.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+  <h2>Timestamp detail :</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    <table class="table">
+        <tr>
+            <td>First name </td>
+             <td>
+                 <a href="/user/{{ object.user.id }}">
+                    {{ object.user.user.first_name }}, {{ object.user.user.last_name }}
+                 </a>
+             </td>
+        </tr>
+        <tr>
+            <td>Device </td>
+            <td><li><a href="/devices/{{object.device.id}}">{{object.device.name}}</a></td>
+        </tr>
+        <tr>
+            <td>Server time</td>
+            <td>{{ object.recptTime |date:"Y-m-d H:i" }}</td>
+        </tr>
+        <tr>
+            <td>Device time</td>
+            <td>{{ object.time |date:"Y-m-d H:i"  }}</td>
+        </tr>
+         <tr>
+            <td>Device timezone</td>
+            <td>{{ object.devTz }}</td>
+        </tr>
+    </table>
+  </form>
+  <div id="loading"></div>
+  <div id="map"></div>
+
+
+{% endblock %}
+
+{% block footer %}
+    <script src="/static/js/opconsole_timestamps.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&libraries=places&callback=initMap" async defer></script>
+{% endblock %}

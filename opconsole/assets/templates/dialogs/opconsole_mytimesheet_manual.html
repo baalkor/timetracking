@@ -1,0 +1,28 @@
+<div id="dialog-manual" class="init-dialog">
+    <p class="validateTips">All form fields are required.</p>
+    <form>
+        <ul class="list-unstyled">
+        <li><label for="manualDate">Date : </label></li>
+        <li><input type='text' id='manualDate' value="{{ currentDate|date:'Y-m-d' }}"/></li>
+        <li><label for="time">Time : </label></li>
+        <li><input type='text' id='time' /></li>
+        <li><input type="hidden" id="userId" value="{{ employeeId }}" /></li>
+        </ul>
+    </form>
+</div>
+
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>

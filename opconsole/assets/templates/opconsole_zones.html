@@ -1,0 +1,22 @@
+{% extends "opconsole_baselayout.html" %}
+
+{% block content %}
+    <h1 class="mt-5">Timestamp list</h1>
+    <table class="table table-bordered">
+        <thead>
+            <th>Zone name</th>
+
+            <th>active</th>
+
+
+        </thead>
+        <tbody>
+            {% for zone in object_list %}
+                <tr>
+                    <td><a href="/zones/{{ zone.id }}">{{ zone.name }}</a></td>
+                    <td><button class="btn" onclick="$.post('/api/zones/{{zone.id}}/toggle/', { id:{{zone.id}} }, window.location.reload());">{{ zone.active|yesno }}</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

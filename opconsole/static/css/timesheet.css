@@ -1,9 +1,0 @@
-tbody tr {
-    /* Example color */
-    background: white;
-}
-
-tbody tr:nth-child(4n+1), tbody tr:nth-child(4n+2) {
-    /* Example color */
-    background: WhiteSmoke;
-}

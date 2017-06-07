@@ -1,0 +1,50 @@
+/*!
+ * Start Bootstrap - Logo Nav (http://startbootstrap.com/template-overviews/logo-nav)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-logo-nav/blob/master/LICENSE)
+ */
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    padding-top: 54px;
+}
+
+@media (min-width: 992px) {
+    body {
+        padding-top: 56px;
+    }
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+  background-color: #f5f5f5;
+}
+
+.fcontainer {
+  padding: 0 15px;
+}
+
+.btn-primary-outline {
+  background-color: transparent;
+  border-color: #ccc;
+  border: 0px;
+}
+
+.navbar-toggler {
+    z-index: 1;
+}
+
+@media (max-width: 576px) {
+    nav > .container {
+        width: 100%;
+    }
+}

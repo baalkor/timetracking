@@ -117,7 +117,8 @@ class TimestampReciever(APIView):
     def isInZones(self,device, x,y):
         return device.zones.filter(
             x1__lte=x, x2__gte=x,
-            y1__lte=y, y2__gte=y
+            y1__lte=y, y2__gte=y,
+            active=True
         ).first()
 
 

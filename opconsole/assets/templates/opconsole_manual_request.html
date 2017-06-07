@@ -1,0 +1,39 @@
+{% extends "opconsole_baselayout.html" %}
+{% block header %}
+    <script></script>
+{% endblock %}
+{% block content %}
+
+   <h1 class="mt-5">Manual requests </h1>
+    <table class="table table-bordered">
+        <thead>
+            <th>Employee</th>
+            <th>Device</th>
+            <th>Recieved</th>
+            <th>Time</th>
+            <th>Action</th>
+            <th></th>
+            <th></th>
+        </thead>
+        <tbody>
+            {% for timestamp in object_list %}
+                <tr>
+                    <td>{{ timestamp.user.user.last_name }}, {{ timestamp.user.user.first_name }}</td>
+                    <td>{{ timestamp.device.id|default:"No device" }}</td>
+                    <td>{{ timestamp.recptTime }}</td>
+                    <td>{{ timestamp.time |date:"m/j/Y H:i"  }}</td>
+                    <td><a href="/timesheet/{{ timestamp.id }}">Watch</a></td>
+                    {% if timestamp.status == '6' %}
+                        <td>MANUAL_TMPS</td>
+                        <td><button class="btn btn-success" onclick="$.post('/api/timestamp/approve/',{id:{{timestamp.id}}, action:'manual'}, document.location.reload())">Approve</button></td>
+                        <td><button class="btn btn-danger" onclick="$.post('/api/timestamp/reject/',{id:{{timestamp.id}}, action:'manual' }, document.location.reload())">Reject</button></td>
+                    {% else %}
+                        <td>DELETE_REQUEST</td>
+                        <td><button class="btn btn-success" onclick="$.post('/api/timestamp/approve/',{id:{{timestamp.id}}, action:'deletion'}, document.location.reload())">Approve</button></td>
+                        <td><button class="btn btn-danger" onclick="$.post('/api/timestamp/reject/',{id:{{timestamp.id}}}, action:'deletion'}, document.location.reload())">Reject</button></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,17 @@
+{
+  "name": "opconsoleJS",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Clignez David",
+  "license": "Apache 2.0",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "bootstrap-datepicker": "^1.6.4",
+    "flot": "^0.8.0-alpha",
+    "ie10-viewport-bug-workaround.js": "^1.0.0",
+    "jquery-query-object": "^2.2.3",
+    "js-cookie": "^2.1.4",
+    "spin.js": "^2.3.2",
+    "tether": "^1.4.0"
+  }
+}

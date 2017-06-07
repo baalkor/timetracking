@@ -1,0 +1,25 @@
+{% extends "opconsole_baselayout.html" %}
+{% block head %}
+     <link href="/static/css/zones-editor.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+    <div class="row">
+        <div class="col">
+            <input id="pac-input" class="controls" type="text" placeholder="Search Box" />
+            <div id="map"></div>
+        </div>
+        <div class="col">
+            <button type="button"  id="btnNewZone" class="btn btn-default" onclick="newZone();">Draw zone</button>
+            <button type="button"  id="btnClearZone" class="btn btn-default" onclick="clearZone();">Clear zone</button>
+            <button type="button"  id="btnSaveZone" class="btn btn-default" onclick="saveZone();">Save zone</button>
+        </div>
+    </div>
+{% include "dialogs/opconsonsole_zones_new.html" %}
+
+{% endblock %}
+
+{% block footer %}
+    <script src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&libraries=places&callback=initMap" async defer></script>
+    <script src="/static/js/opconsole_zones_editor.js"></script>
+{% endblock %}

@@ -58,7 +58,7 @@ ROOT_URLCONF = 'timetracking.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ BASE_DIR + '/opconsole/static/templates/'],
+        'DIRS': [ BASE_DIR + '/opconsole/assets/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,11 +123,17 @@ USE_TZ = True
 
 
 
+STATIC_ROOT = os.path.join(BASE_DIR, "opconsole", "static")
+
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "opconsole", "static")
+    os.path.join(BASE_DIR, "opconsole", "assets","img"),
+    os.path.join(BASE_DIR, "opconsole", "assets","css"),
+    os.path.join(BASE_DIR, "opconsole", "assets","js"),
 ]
 
 STATIC_URL = '/static/'
+NPM_ROOT_PATH = os.path.join(BASE_DIR, "opconsole", "assets")
+
 
 BOOTSTRAP3 = {
 'jquery_url': 'http://code.jquery.com/jquery.min.js'
@@ -147,3 +153,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'npm.finders.NpmFinder'
+]

@@ -1,0 +1,130 @@
+{% extends "opconsole_baselayout.html" %}
+{% block footer %}
+
+    <script src="/static/js/opconsole_dashboard.js"></script>
+
+{% endblock %}
+{% block content %}
+
+    <div class="row">
+        <div class="col-xs-6 col-md-4">
+            <button class="btn btn-primary-outline" onclick="gotTo('calendars');">
+                <table>
+                    <tr>
+                        <td><image class="img-rounded" src="/static/img/128x128/calendar.png"></image></td>
+                    </tr>
+                    <tr>
+                        <td>Calendars</td>
+                    </tr>
+                </table>
+            </button>
+        </div>
+        <div class="col-xs-6 col-md-4">
+            <button class="btn btn-primary-outline" onclick="gotTo('reports/view');">
+                <table>
+                    <tr>
+                        <td><image class="img-rounded" src="/static/img/128x128/statistics.png"></image></td>
+                    </tr>
+                    <tr>
+                        <td>Statistics</td>
+                    </tr>
+                </table>
+            </button>
+        </div>
+        <div class="col-xs-6 col-md-4">
+            <button class="btn btn-primary-outline" onclick="gotTo('reports/export');">
+                <table>
+                    <tr>
+                        <td><image class="img-rounded" src="/static/img/128x128/print-and-export.png"></image></td>
+                    </tr>
+                    <tr>
+                        <td>Export timesheets</td>
+                    </tr>
+                </table>
+            </button>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-6 col-md-4">
+            <button class="btn btn-primary-outline" onclick="gotTo('anomalies');">
+                <table>
+                    <tr>
+                        <td><image class="img-rounded" src="/static/img/128x128/anomalies.png"></image></td>
+                    </tr>
+                    <tr>
+                        <td>View anomalies</td>
+                    </tr>
+                </table>
+            </button>
+        </div>
+        <div class="col-xs-6 col-md-4">
+            <button class="btn btn-primary-outline" onclick="gotTo('timesheets');">
+                <table>
+                    <tr>
+                        <td><image class="img-rounded" src="/static/img/128x128/timesheets.png"></image></td>
+                    </tr>
+                    <tr>
+                        <td>View timesheets</td>
+                    </tr>
+                </table>
+            </button>
+        </div>
+         <div class="col-xs-6 col-md-4">
+                <button class="btn btn-primary-outline" onclick="gotTo('manual');">
+                    <table>
+                        <tr>
+                            <td><image class="img-rounded" src="/static/img/128x128/manual-request.png"></image></td>
+                        </tr>
+                        <tr>
+                            <td>View manual request</td>
+                        </tr>
+                    </table>
+                </button>
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-md-4">
+            <button class="btn btn-primary-outline" onclick="gotTo('user');">
+                <table>
+                    <tr>
+                        <td><image class="img-rounded" src="/static/img/128x128/edit-user.png"></image></td>
+                    </tr>
+                    <tr>
+                        <td>View Employees</td>
+                    </tr>
+                </table>
+            </button>
+        </div>
+        <div class="col-xs-6 col-md-4">
+            <button class="btn btn-primary-outline" onclick="gotTo('devices');">
+                <table>
+                    <tr>
+                        <td><image class="img-rounded" src="/static/img/128x128/devices.png"></image></td>
+                    </tr>
+                    <tr>
+                        <td>View devices</td>
+                    </tr>
+                </table>
+            </button>
+        </div>
+         <div class="col-xs-6 col-md-4">
+                <button class="btn btn-primary-outline" onclick="gotTo('zones');">
+                    <table>
+                        <tr>
+                            <td><image class="img-rounded" src="/static/img/128x128/view-zones.png"></image></td>
+                        </tr>
+                        <tr>
+                            <td>View zone</td>
+                        </tr>
+                    </table>
+                </button>
+            </div>
+    </div>
+
+
+
+    <p>
+
+{% endblock %}
