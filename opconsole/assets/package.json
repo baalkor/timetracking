@@ -8,6 +8,7 @@
     "bootstrap": "^3.3.7",
     "bootstrap-datepicker": "^1.6.4",
     "flot": "^0.8.0-alpha",
+    "grunt-cli": "^1.2.0",
     "ie10-viewport-bug-workaround.js": "^1.0.0",
     "jquery-query-object": "^2.2.3",
     "js-cookie": "^2.1.4",

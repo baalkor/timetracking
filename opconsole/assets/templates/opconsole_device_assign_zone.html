@@ -1,6 +1,11 @@
 {% extends "opconsole_baselayout.html" %}
 {% block head %}
-    <script  defer=false src="/static/js/opconsole_device_assign_zone.js"></script>
+    <script language="JavaScript">
+        $(document).ready(function(){
+            getAssignedZone();
+            setUpCSRFHeader();
+        });
+    </script>
 {% endblock %}
 {% block content %}
 

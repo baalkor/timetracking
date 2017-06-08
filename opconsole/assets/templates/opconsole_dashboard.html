@@ -1,17 +1,13 @@
 {% extends "opconsole_baselayout.html" %}
-{% block footer %}
-
-    <script src="/static/js/opconsole_dashboard.js"></script>
-
-{% endblock %}
 {% block content %}
+{% load static %}
 
     <div class="row">
         <div class="col-xs-6 col-md-4">
             <button class="btn btn-primary-outline" onclick="gotTo('calendars');">
                 <table>
                     <tr>
-                        <td><image class="img-rounded" src="/static/img/128x128/calendar.png"></image></td>
+                        <td><image class="img-rounded" src="{% static 'media/calendar.png' %}"></image></td>
                     </tr>
                     <tr>
                         <td>Calendars</td>
@@ -23,7 +19,7 @@
             <button class="btn btn-primary-outline" onclick="gotTo('reports/view');">
                 <table>
                     <tr>
-                        <td><image class="img-rounded" src="/static/img/128x128/statistics.png"></image></td>
+                        <td><image class="img-rounded" src="{% static 'media/statistics.png' %}"></image></td>
                     </tr>
                     <tr>
                         <td>Statistics</td>
@@ -35,7 +31,7 @@
             <button class="btn btn-primary-outline" onclick="gotTo('reports/export');">
                 <table>
                     <tr>
-                        <td><image class="img-rounded" src="/static/img/128x128/print-and-export.png"></image></td>
+                        <td><image class="img-rounded" src="{% static 'media/print-and-export.png' %}"></image></td>
                     </tr>
                     <tr>
                         <td>Export timesheets</td>
@@ -51,7 +47,7 @@
             <button class="btn btn-primary-outline" onclick="gotTo('anomalies');">
                 <table>
                     <tr>
-                        <td><image class="img-rounded" src="/static/img/128x128/anomalies.png"></image></td>
+                        <td><image class="img-rounded" src="{% static 'media/anomalies.png' %}"></image></td>
                     </tr>
                     <tr>
                         <td>View anomalies</td>
@@ -63,7 +59,7 @@
             <button class="btn btn-primary-outline" onclick="gotTo('timesheets');">
                 <table>
                     <tr>
-                        <td><image class="img-rounded" src="/static/img/128x128/timesheets.png"></image></td>
+                        <td><image class="img-rounded" src="{% static 'media/timesheets.png' %}"></image></td>
                     </tr>
                     <tr>
                         <td>View timesheets</td>
@@ -75,7 +71,7 @@
                 <button class="btn btn-primary-outline" onclick="gotTo('manual');">
                     <table>
                         <tr>
-                            <td><image class="img-rounded" src="/static/img/128x128/manual-request.png"></image></td>
+                            <td><image class="img-rounded" src="{% static 'media/manual-request.png' %}"></image></td>
                         </tr>
                         <tr>
                             <td>View manual request</td>
@@ -89,7 +85,7 @@
             <button class="btn btn-primary-outline" onclick="gotTo('user');">
                 <table>
                     <tr>
-                        <td><image class="img-rounded" src="/static/img/128x128/edit-user.png"></image></td>
+                        <td><image class="img-rounded" src="{% static 'media/edit-user.png' %}"></image></td>
                     </tr>
                     <tr>
                         <td>View Employees</td>
@@ -101,7 +97,7 @@
             <button class="btn btn-primary-outline" onclick="gotTo('devices');">
                 <table>
                     <tr>
-                        <td><image class="img-rounded" src="/static/img/128x128/devices.png"></image></td>
+                        <td><image class="img-rounded" src="{% static 'media/devices.png' %}"></image></td>
                     </tr>
                     <tr>
                         <td>View devices</td>
@@ -113,7 +109,7 @@
                 <button class="btn btn-primary-outline" onclick="gotTo('zones');">
                     <table>
                         <tr>
-                            <td><image class="img-rounded" src="/static/img/128x128/view-zones.png"></image></td>
+                            <td><image class="img-rounded" src="{% static 'media/view-zones.png' %}"></image></td>
                         </tr>
                         <tr>
                             <td>View zone</td>

@@ -9,10 +9,11 @@
         <title>{{ title|default:"SmartTime"}}</title>
         <link rel="icon" type="image/png" href="{% static 'favicon.png' %}" />
         {% include "css-include.html" %}
+        {% include "js-include.html" %}
         {% block head %}{% endblock %}
     </head>
 
-    <body  onload="setUpCSRFHeader();">
+    <body>
 
         {% include "navbar.html" %}
         <div class="container">
@@ -22,7 +23,7 @@
 
 
 
-        {% include "js-include.html" %}
+
         <footer class="footer">
             <div class="fcontainer">
 
@@ -31,6 +32,7 @@
             {% endblock %}
             </div>
         </footer>
+
     </body>
 
 </html>

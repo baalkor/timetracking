@@ -74,10 +74,3 @@ function getDevKey() {
         console.log("unable to get devId ");
     }
 }
-
-var devKey = "";
-$(document).ready(function() {
-    var devKey = "";
-    setUpCSRFHeader();
-    getDevKey();
-});

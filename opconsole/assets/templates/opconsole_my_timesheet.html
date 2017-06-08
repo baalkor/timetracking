@@ -1,8 +1,13 @@
 {% extends "opconsole_baselayout.html" %}
 {% load duration %}
 {% block head %}
-    <link href="/static/css/timesheet.css" rel="stylesheet" />
-    <link href="/static/js/node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" />
+    <script language="JavaScript">
+        $( document ).ready(function() {
+            initWebTimestampJS();
+            computeDuration();
+            initMyTimeSheetJS();
+        });
+    </script>
 {% endblock %}
 {% block content %}
 <h2>Timesheet for {{ fullname }} the <i>{{ currentDate|date:"Y-m-d" }}</i></h2>
@@ -95,8 +100,4 @@
 
 
 
-{% endblock %}
-{% block footer %}
-        <script src="/static/js/opconsole_mytimesheet.js"></script>
-        <script src="/static/js/opconsole_webtimestamps.js"></script>
 {% endblock %}

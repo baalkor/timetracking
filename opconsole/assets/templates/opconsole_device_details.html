@@ -1,6 +1,15 @@
 {% extends "opconsole_baselayout.html" %}
 {% block head %}
-    <script  defer=false src="/static/js/opconsole_device_details.js"></script>
+
+    <script language="JavaScript">
+        var devKey = "";
+        $(document).ready(function() {
+            var devKey = "";
+            setUpCSRFHeader();
+            getDevKey();
+        });
+
+    </script>
 {% endblock %}
 {% block content %}
 

@@ -79,9 +79,3 @@ function computeDuration() {
     });
 
 }
-
-$( document ).ready(function() {
-            initWebTimestampJS();
-            computeDuration();
-            initMyTimeSheetJS();
-});

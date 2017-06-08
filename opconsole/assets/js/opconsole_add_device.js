@@ -46,7 +46,3 @@ function showFormForType() {
         $("#" + typeId).show();
    }
 }
-$(document).ready(function() {
-    setUpCSRFHeader();
-    $(".formWizard").hide();
- });

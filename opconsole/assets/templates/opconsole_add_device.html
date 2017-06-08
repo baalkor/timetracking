@@ -1,5 +1,12 @@
 {% extends "opconsole_baselayout.html" %}
-
+{% block head %}
+  <script language="JavaScript">
+    $(document).ready(function() {
+    setUpCSRFHeader();
+    $(".formWizard").hide();
+ });
+  </script>
+{% endblock %}
 {% block content %}
 
   <h2>Initialize device</h2>
@@ -19,8 +26,4 @@
 
   <input type="hidden" id="employeeId" value="{{employee.id}}" />
 
-{% endblock %}
-
-{% block footer %}
-    <script src="/static/js/opconsole_add_device.js"></script>
 {% endblock %}

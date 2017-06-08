@@ -2,14 +2,14 @@
 
 {% block content %}
 
-
+  {% load static %}
   <form method="post">
 
     <table class="table">
     <thead>
       <tr>
         <td align="right"><h2>Sign in</h2></td>
-        <td align="center"><img style="position:absolute;" src="/static/img/64x64/login.png" /></td>
+        <td align="center"><img style="position:absolute;" src="{% static 'media/login_64x64.png' %}" /></td>
 
       </tr>
       </thead>

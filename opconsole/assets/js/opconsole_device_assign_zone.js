@@ -54,9 +54,3 @@ function toggleAssigment(zoneId,element,val) {
         $("#error").text(error.message);
     });
 }
-
-$(document).ready(function(){
-    getAssignedZone();
-    setUpCSRFHeader();
-
-})
