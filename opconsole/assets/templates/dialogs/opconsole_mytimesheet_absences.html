@@ -1,12 +1,30 @@
-<div id="dialog-absense" class="init-dialog">
-    <p class="validateTips">All form fields are required.</p>
-    <form>
-        <ul class="list-unstyled">
-        <li><label for="manualDate">Date : </label></li>
-        <li><input type='text' id='manualDate' value="{{ currentDate|date:'Y-m-d' }}"/></li>
-        <li><label for="time">Time : </label></li>
-        <li><input type='text' id='time' /></li>
-        <li><input type="hidden" id="userId" value="{{ employeeId }}" /></li>
-        </ul>
-    </form>
+<div id="dialog-absense"  style="display:None;">
+    Starts from :
+<div class="input-group input-daterange">
+    <input type="text" class="form-control" value="2012-04-05">
+    <div class="input-group-addon">to</div>
+    <input type="text" class="form-control" value="2012-04-19">
+</div>
+
+    Leaving :
+    <select id="departure">
+        <option value="ALL">All day</option>
+        <option value="ALL">Mid-day</option>
+    </select>
+    Returning :
+    <select id="arrival">
+        <option value="ALL">All day</option>
+        <option value="ALL">Mid-day</option>
+    </select>
+    Reason:
+    <ul class="list-unstyled">
+    {% for abType in absencesType %}
+        <li>
+            <div class="radio">
+                <label><input type="radio" name="optabsences">{{ abType.1 }} </label>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+    <button class="btn" onclick="$('#dialog-absense').toggle();$('#btnAddAbsence').toggle();">Back</button>
 </div>

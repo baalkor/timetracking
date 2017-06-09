@@ -11,12 +11,20 @@
 {% endblock %}
 {% block content %}
 <h2>Timesheet for {{ fullname }} the <i>{{ currentDate|date:"Y-m-d" }}</i></h2>
-    <input type='text' id='datechooser' /><button class="btn" onclick="showDateAt();">Go</button>
-    {% if errors %}
-    <div class="alert alert-warning">
-      <strong>Warning!</strong> {{ errors }}
+    <label for="gotodate">Move to date :</label>
+    <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd">
+        <input id='gotodate' type="text" class="form-control" onchange="updateDate($(this).val());">
+        <div class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </div>
     </div>
+    {% if errors %}
+        <div class="alert alert-warning">
+          <strong>Warning!</strong> {{ errors }}
+        </div>
     {% endif %}
+    {% include "dialogs/opconsole_mytimesheet_table.html" %}
+
     <p>
         <ul class="list-unstyled">
             <li>Total hours  : <b>{{totalHours.0|duration}}</b> [100%]</li>
@@ -24,78 +32,13 @@
             <li>Remainig days: <b>{{remainingHoliday}}</b></li>
         </ul>
     </p>
-    <table id="mysheet" class="table table-bordered table-hover my-table-class">
-        <thead>
-            <th>Device</th>
-            <th>Recieved</th>
-            <th>Time</th>
-            <th>Duration</th>
-            <th>Status</th>
-            <th>Info</th>
-            <th>Action</th>
-        </thead>
-        <tbody>
-            {% for timestamp in timestamps %}
-                <tr>
-                    <td>{{ timestamp.device.name }}</td>
 
-                    <td>{{ timestamp.recptTime |date:"Y-m-d H:i:s" }}</td>
-                    <td><span class="time">{{ timestamp.time |date:"Y-m-d H:i:s"  }}</span></td>
-                    <td><span class="duration"></span> </td>
-                    <td>
-                        {% if timestamp.status == '0' %}
-                            SUCCESS
-                        {% elif imestamp.status == '1' %}
-                            REFUSED_WRONG_TZ
-                        {% elif timestamp.status == '2' %}
-                            REFUSED_DEV_DATA_MISMATCH
-                        {% elif imestamp.status == '3' %}
-                            REFUSED_NOT_IN_ZONE
-                        {% elif timestamp.status == '4' %}
-                            USER_DEACTIVATED
-                        {% elif timestamp.status == '5' %}
-                            DEVICE_DEACTIVATED
-                        {% else  %}
-                            WAITING_APPROVAL
-                        {% endif %}
 
-                    </td>
-                    <td><a href="/timestamp/{{ timestamp.id }}">Watch</a></td>
-                    {% if timestamp.deletion %}
-                        <td class="danger"><button class="btn" onclick="$.post('/api/timestamp/modification/',{id:{{timestamp.id}},action:'deletion'}, document.location.reload())">Un ask for deletion</button></td>
-                    {% else %}
-                        <td><button class="btn"                onclick="$.post('/api/timestamp/modification/',{id:{{timestamp.id}},action:'deletion'}, document.location.reload())">Ask for deletion</button></td>
-                    {% endif %}
-                </tr>
-            {% empty  %}
-                <tr>
-                    <td colspan="7" align="center"><i>No timestamps detected</i></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="2">
-                    <button class="btn" onclick="$('#dialog-absense').toggle()">Add absence</button>
-
-                    {% include "dialogs/opconsole_mytimesheet_absences.html" %}
-
-                </td>
-                <td colspan="5">
-                    <button class="btn" onclick="$('#dialog-manual').toggle()">Manual timestamp request</button>
-                    {% include "dialogs/opconsole_mytimesheet_manual.html" %}
-                </td>
-
-            </tr>
-        </tfoot>
-    </table>
     {% if hasWebDevice %}
         <button id="timestamp" class="btn btn-primary btn-lg" onclick="webTimestamp();">Timestamp now!</button>
         <b><span id="error"></span></b>
     {% else %}
-
-            Your current profile doesn't include any web device, ask your support team to initialize a new one.
-    </p>
+        Your current profile doesn't include any web device, ask your support team to initialize a new one.
     {% endif %}
 
 

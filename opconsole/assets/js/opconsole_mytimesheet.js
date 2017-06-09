@@ -11,45 +11,25 @@ function showDateAt() {
 }
 
 function initMyTimeSheetJS() {
+    var datepicker = $.fn.datepicker.noConflict();
+    $.fn.bootstrapDP = datepicker;
 
+    $("date").datepicker({
+      format:'yyyy-mm-dd'
+      });
+    $('.input-daterange input').each(function() {
+        $(this).datepicker('clearDates');
+        console.log('dd');
+    });
+/*
     $('#datechooser').datepicker({
-      "dateFormat":"yy-mm-dd",
+      "format":"yy-mm-dd",
 
       showButtonPanel: false
     }).on("change", function(){
         updateDate($(this).val());
     });
-
-    $("#dialog-form").dialog({
-        modal: true,
-        height: "auto",
-        width: 400,
-        title:"Manual timestamp",
-        autoOpen:false,
-        buttons: {
-        "Ask approval": function() {
-            $.post("/api/timestamp/modification/",
-            {
-                "id":$("#userId").val(),
-                "timezone":Intl.DateTimeFormat().resolvedOptions().timeZone,
-                "time": Date.parse(
-                    $("#manualDate").val() + " " + $("#time").val()
-                 ),
-                "action":"manual"
-            },function(em) {
-                $( "#dialog-form" ).dialog( "close" );
-                location.reload();
-            },location.reload()
-            );
-
-
-        },
-        Cancel: function() {
-          $( this ).dialog( "close" );
-        }
-      }
-    });
-    $("#dialog-form").hide();
+*/
 }
 
 String.prototype.toHHMMSS = function () {

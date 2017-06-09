@@ -7,7 +7,8 @@ from django.db.models.functions import ExtractYear, ExtractMonth, ExtractDay, Ex
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 from opconsole.core.timestampsManager import TimeStampsManager, TimestampDisplay
-from opconsole.models import Timesheets, Device
+from opconsole.models import Timesheets, Device, Absences
+from opconsole.models.absences import E_TYPE
 from utils import get_date_or_now, get_employee_or_request, getFilterIfContentAdmin, get_request_or_fallback
 from datetime import datetime
 
@@ -61,6 +62,7 @@ class TimesheetView(ListView):
         context["errors"] = self.errors
         context["employeeId"] = employee.id
         context["remainingHoliday"] = employee.holidaysAnnualCount
+        context["absencesType"] = E_TYPE
         context["fullname"] = "%s, %s" % ( employee.user.last_name,employee.user.first_name )
         return context
 

@@ -141,7 +141,8 @@ BOOTSTRAP3 = {
 
 LOGIN_URL = '/login'
 GOOGLE_API_KEY="AIzaSyAlXMWGO1qTvsWIxo0W5bUloL0HzknfuOY"
-LOGIN_REDIRECT_URL = 'login'
+LOGIN_REDIRECT_URL = '/mytimesheet/'
+LOGOUT_REDIRECT_URL = '/login'
 
 ADMIN_GROUP = 'contentadmin'
 WORKING_HOUR=40

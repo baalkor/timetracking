@@ -8,7 +8,7 @@ function initMap() {
     });
 }
 
-$(document).ready(function(){
+function init_timestampJS () {
     setUpCSRFHeader();
     var url = window.location.pathname;
     var tmsId = url.split("/")[2];
@@ -34,4 +34,4 @@ $(document).ready(function(){
         }
     })
 
-});
+}

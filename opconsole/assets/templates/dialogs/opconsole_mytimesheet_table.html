@@ -1,0 +1,64 @@
+    <table id="mysheet" class="table table-bordered table-hover my-table-class">
+        <thead>
+            <th>Device</th>
+            <th>Recieved</th>
+            <th>Time</th>
+            <th>Duration</th>
+            <th>Status</th>
+            <th>Info</th>
+            <th>Action</th>
+        </thead>
+        <tbody>
+            {% for timestamp in timestamps %}
+                <tr>
+                    <td>{{ timestamp.device.name }}</td>
+
+                    <td>{{ timestamp.recptTime |date:"Y-m-d H:i:s" }}</td>
+                    <td><span class="time">{{ timestamp.time |date:"Y-m-d H:i:s"  }}</span></td>
+                    <td><span class="duration"></span> </td>
+                    <td>
+                        {% if timestamp.status == '0' %}
+                            SUCCESS
+                        {% elif imestamp.status == '1' %}
+                            REFUSED_WRONG_TZ
+                        {% elif timestamp.status == '2' %}
+                            REFUSED_DEV_DATA_MISMATCH
+                        {% elif imestamp.status == '3' %}
+                            REFUSED_NOT_IN_ZONE
+                        {% elif timestamp.status == '4' %}
+                            USER_DEACTIVATED
+                        {% elif timestamp.status == '5' %}
+                            DEVICE_DEACTIVATED
+                        {% else  %}
+                            WAITING_APPROVAL
+                        {% endif %}
+
+                    </td>
+                    <td><a href="/timestamp/{{ timestamp.id }}">Watch</a></td>
+                    {% if timestamp.deletion %}
+                        <td class="danger"><button class="btn" onclick="$.post('/api/timestamp/modification/',{id:{{timestamp.id}},action:'deletion'}, document.location.reload())">Un ask for deletion</button></td>
+                    {% else %}
+                        <td><button class="btn"                onclick="$.post('/api/timestamp/modification/',{id:{{timestamp.id}},action:'deletion'}, document.location.reload())">Ask for deletion</button></td>
+                    {% endif %}
+                </tr>
+            {% empty  %}
+                <tr>
+                    <td colspan="7" align="center"><i>No timestamps detected</i></td>
+                </tr>
+            {% endfor %}
+                </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <button class="btn" id="btnAddAbsence" onclick="$('#dialog-absense').toggle(); $(this).toggle();">Add absence</button>
+                    {% include "dialogs/opconsole_mytimesheet_absences.html" %}
+
+                </td>
+                <td colspan="5">
+                    <button class="btn" onclick="$('#dialog-manual').toggle()">Manual timestamp request</button>
+                    {% include "dialogs/opconsole_mytimesheet_manual.html" %}
+                </td>
+
+            </tr>
+        </tfoot>
+    </table>

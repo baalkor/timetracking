@@ -44,7 +44,7 @@ urlpatterns = [
     url(r'^api/timestamp/approve/$'   , ApproveAskTmpsDeletionManual.as_view(), name="api-timestamp-approve-deletion"),
     url(r'^api/timestamp/reject/$'    , RejectAskTmpsDeletionManual.as_view(), name="api-timestamp-reject-deletion"),
     url(r'^login*$',                    auth_views.login, {"template_name" : "opconsole_login.html"}, name="login"),
-    url(r'^logout/$',                   auth_views.logout, {'next_page': '/'},name='logout'),
+    url(r'^logout/$',                   auth_views.logout),
     url(r'^admin/',                     admin.site.urls),
     url(r'^zones/new/$',                ZonesEditorView.as_view(),name="zone-new"),
     url(r'^user/new/$',                 NewUserView.as_view(),name="user-new"),
