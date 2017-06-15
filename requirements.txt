@@ -1,3 +1,6 @@
+setuptools>=35
 Django==1.11
 pytz==2017.2
 djangorestframework==3.6.2
+django-bootstrap3>=8.1.0
+django-npm-36==1.0.0

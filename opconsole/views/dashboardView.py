@@ -1,13 +1,15 @@
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render
-from django.contrib.auth.decorators import permission_required
-from django.utils.decorators import method_decorator
-from opconsole.models import Device, Employes
-import datetime
 
 
-@method_decorator(permission_required('opconsole.add_employes', raise_exception=True), name='dispatch')
-class DashboardView(TemplateView):
+
+
+class DashboardView(PermissionRequiredMixin, TemplateView):
     template_name = "opconsole_dashboard.html"
+    permission_required = 'opconsole.add_employes'
+
     def get(self, request, *args, **kwargs):
+
         return render(request, self.template_name)

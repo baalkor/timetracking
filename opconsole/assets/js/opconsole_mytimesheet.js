@@ -16,20 +16,7 @@ function initMyTimeSheetJS() {
 
     $("date").datepicker({
       format:'yyyy-mm-dd'
-      });
-    $('.input-daterange input').each(function() {
-        $(this).datepicker('clearDates');
-        console.log('dd');
     });
-/*
-    $('#datechooser').datepicker({
-      "format":"yy-mm-dd",
-
-      showButtonPanel: false
-    }).on("change", function(){
-        updateDate($(this).val());
-    });
-*/
 }
 
 String.prototype.toHHMMSS = function () {

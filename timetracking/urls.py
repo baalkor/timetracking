@@ -22,8 +22,9 @@ from django.contrib.auth import views as auth_views
 from rest_framework.urlpatterns import format_suffix_patterns
 from opconsole.views import *
 from restgwy.controllers import *
+from django.contrib.auth.decorators import login_required
 
-urlpatterns = [
+urlpatterns =  format_suffix_patterns([
     url(r'^api/zones/(?P<pk>[0-9]+)/$', ZoneDetail.as_view(), name="api-zone-detail"),
     url(r'^api/zones/(?P<pk>[0-9]+)/toggle/$', ZoneToggle.as_view(), name="api-zone-toggle"),
     url(r'^api/devicezones/$',          ZonesByDevId.as_view(),name="api-zone-by-device"),
@@ -63,7 +64,4 @@ urlpatterns = [
     url(r'about/$',                     TemplateView.as_view(template_name='about.html'), name="about"),
     url(r'anomalies/$',                 AnomaliesView.as_view(), name="anomalies-show"),
     url(r'^$',                          DashboardView.as_view(),name="dashboard-view")
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-
-urlpatterns = format_suffix_patterns(urlpatterns)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
