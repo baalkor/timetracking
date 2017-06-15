@@ -11,9 +11,6 @@ function showDateAt() {
 }
 
 function initMyTimeSheetJS() {
-    var datepicker = $.fn.datepicker.noConflict();
-    $.fn.bootstrapDP = datepicker;
-
     $("date").datepicker({
       format:'yyyy-mm-dd'
     });
@@ -45,4 +42,16 @@ function computeDuration() {
         }
     });
 
+}
+
+
+function sendabsenceRequest() {
+    var absense_data = {};
+    $(".absence-data").each(function(index, element ) {
+        absense_data[element.id] = element.value;
+    });
+
+    absense_data['type'] = $('input[name=optabsences]:checked').val()
+
+    console.log(absense_data);
 }

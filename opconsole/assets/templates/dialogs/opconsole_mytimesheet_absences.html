@@ -1,37 +1,60 @@
 <div id="dialog-absense"  style="display:None;">
     Starts from :
     <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd">
-        <input id='gotodate' type="text" class="form-control">
+        <input id='from' type="text" class="form-control absence-data">
         <div class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
         </div>
     </div>
-	    <div class="input-group-addon">to</div>
+    <div class="input-group-addon">to</div>
     <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd">
-        <input id='gotodate' type="text" class="form-control">
+        <input id='to' type="text" class="form-control absence-data">
         <div class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
         </div>
     </div>
     Leaving :
-    <select id="departure">
+    <select class="absence-data" id="departure">
         <option value="ALL">All day</option>
         <option value="MID">Mid-day</option>
     </select>
     Returning :
-    <select id="arrival">
+    <select class="absence-data" id="arrival">
         <option value="ALL">All day</option>
         <option value="MID">Mid-day</option>
     </select>
-    Reason:
-    <ul class="list-unstyled">
-    {% for abType in absencesType %}
-        <li>
-            <div class="radio">
-                <label><input type="radio" name="optabsences">{{ abType.1 }} </label>
-            </div>
-        </li>
-    {% endfor %}
-    </ul>
-    <button class="btn" onclick="$('#dialog-absense').toggle();$('#btnAddAbsence').toggle();">Back</button>
+    <table class="table">
+        <thead>
+            <th>Reason</th>
+            <th>Justification</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <ul class="list-unstyled">
+                        {% for abType in absencesType %}
+                            <li>
+                                <div class="radio">
+                                    <label><input id="{{ abType.1 }}" class="absence-data-radio" type="radio" name="optabsences" value="{{ abType.1 }}">{{ abType.1 }}</label>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <textarea id="absense_justification" class="absence-data">
+                        Please enter your justificaion
+                    </textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button class="btn" onclick="$('#dialog-absense').toggle();$('#btnAddAbsence').toggle();">Back</button>
+                </td>
+                <td>
+                    <button class="btn" onclick="sendabsenceRequest();">Send request</button>
+                </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
