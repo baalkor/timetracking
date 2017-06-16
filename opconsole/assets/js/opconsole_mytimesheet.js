@@ -40,6 +40,18 @@ function computeDuration() {
 
 }
 
+function sendmanualRequest(userid){
+
+    $.ajax({
+        url:"/api/timestamp/modification/",
+        method:"POST",
+        data:{ "userid" : userid, "date":$("#manual_date").val(), "time" : $("#manual_time").val(), "action":"manual" }
+    }).then(function(success){
+        $("#dialog-manual").hide();
+    }).catch(function(failure){
+         alert(failure);
+    });
+}
 
 function sendabsenceRequest(userid) {
     var absense_data = {};
@@ -53,8 +65,8 @@ function sendabsenceRequest(userid) {
 	    method:"POST",
 	    data:absense_data
    }).then(function(success){
-	console.log("Request sent");
+	    $("#dialog-absense").hide();
    }).catch(function(failure){
-	console.log("Failure request sent");
+	    alert(failure);
    });
 }

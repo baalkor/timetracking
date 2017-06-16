@@ -1,6 +1,10 @@
 {% extends "opconsole_baselayout.html" %}
-{% block header %}
-    <script></script>
+{% block head %}
+    <script language="JavaScript">
+        $(document).ready(function(){
+            setUpCSRFHeader();
+        })
+    </script>
 {% endblock %}
 {% block content %}
 
@@ -32,6 +36,39 @@
                         <td><button class="btn btn-success" onclick="$.post('/api/timestamp/approve/',{id:{{timestamp.id}}, action:'deletion'}, document.location.reload())">Approve</button></td>
                         <td><button class="btn btn-danger" onclick="$.post('/api/timestamp/reject/',{id:{{timestamp.id}}}, action:'deletion'}, document.location.reload())">Reject</button></td>
                     {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+   <h1 class="mt-5">Absence requests </h1>
+    <table class="table table-bordered">
+        <thead>
+            <th>Employee</th>
+            <th>Type</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Duration</th>
+        </thead>
+
+        <tbody>
+            {% for absence in absences %}
+                <tr>
+                    <td>{{absence.user.user.last_name }}, {{ absence.user.user.first_name }}</td>
+                    <td>
+                        {% if absence.type == '0' %}
+                            SICKNESS
+                        {% elif absence.type == '1' %}
+                            HOLIDAY
+                        {% else %}
+                            MOVING
+                        {% endif %}
+                    </td>
+                    <td>{{absence.From }}</td>
+                    <td>{{absence.to }}</td>
+                    <td>{{ absence.From|timesince:absence.to }}</td>
+
+                    <td><button class="btn btn-success" onclick="$.post('/api/absence/approve/',{ id:{{absence.id}} }, document.location.reload() )">Approve</button></td>
+                    <td><button class="btn btn-danger" onclick="$.post('/api/absence/reject/'  ,{ id:{{absence.id}} }, document.location.reload())">Reject</button></td>
                 </tr>
             {% endfor %}
         </tbody>

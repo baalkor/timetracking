@@ -87,6 +87,12 @@ class ManualTimesheetList(ListView):
     template_name = "opconsole_manual_request.html"
     model = Timesheets
 
+    def get_context_data(self, **kwargs):
+        context = super(ManualTimesheetList, self).get_context_data(**kwargs)
+        context["absences"] = Absences.objects.filter(accepted=False)
+        return context
+
+
     def get_queryset(self):
         return Timesheets.objects.filter(Q(deletion=True) | Q( status='6'))
 

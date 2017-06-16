@@ -55,7 +55,7 @@
 
                 </td>
                 <td colspan="5">
-                    <button class="btn" onclick="$('#dialog-manual').toggle()">Manual timestamp request</button>
+                    <button class="btn" id="btnManual" onclick="$('#dialog-manual').toggle(); $(this).toggle();">Manual timestamp request</button>
                     {% include "dialogs/opconsole_mytimesheet_manual.html" %}
                 </td>
 
