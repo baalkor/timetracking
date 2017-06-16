@@ -15,13 +15,13 @@
     </div>
     Leaving :
     <select class="absence-data" id="departure">
-        <option value="ALL">All day</option>
-        <option value="MID">Mid-day</option>
+        <option value="08:00:00">All day</option>
+        <option value="12:00:00">Mid-day</option>
     </select>
     Returning :
     <select class="absence-data" id="arrival">
-        <option value="ALL">All day</option>
-        <option value="MID">Mid-day</option>
+        <option value="08:00:00">All day</option>
+        <option value="12:00:00">Mid-day</option>
     </select>
     <table class="table">
         <thead>
@@ -35,7 +35,7 @@
                         {% for abType in absencesType %}
                             <li>
                                 <div class="radio">
-                                    <label><input id="{{ abType.1 }}" class="absence-data-radio" type="radio" name="optabsences" value="{{ abType.1 }}">{{ abType.1 }}</label>
+                                    <label><input id="{{ abType.1 }}" class="absence-data-radio" type="radio" name="optabsences" value="{{ abType.0 }}">{{ abType.1 }}</label>
                                 </div>
                             </li>
                         {% endfor %}
@@ -52,7 +52,7 @@
                     <button class="btn" onclick="$('#dialog-absense').toggle();$('#btnAddAbsence').toggle();">Back</button>
                 </td>
                 <td>
-                    <button class="btn" onclick="sendabsenceRequest();">Send request</button>
+                    <button class="btn" onclick="sendabsenceRequest({{employeeId}});">Send request</button>
                 </td>
         </tr>
         </tbody>

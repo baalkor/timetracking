@@ -36,7 +36,7 @@ urlpatterns =  format_suffix_patterns([
     url(r'^api/device/remove/$',        DeviceRemoval.as_view(),name="api-device-remove"),
     url(r'^api/device/info/$',          DeviceInfo.as_view(),name="api-device-info"),
     url(r'^api/device/toggle/$',        DeviceStatusToggle.as_view(),name="api-device-status-toggle"),
-
+    url(r'^api/absences/add/$',        AddAbsence.as_view(),name="api-absence-add"),
     url(r'^api/user/toggle/$',          UserToggle.as_view(),name="api-user-status-toggle"),
     url(r'^api/timesheet/new/$',        TimestampReciever.as_view(),name="api-recveive-timestamp"),
     url(r'^api/timestamp/$',            TimestampDetailCtrl.as_view(),name="api-timestamp-info"),

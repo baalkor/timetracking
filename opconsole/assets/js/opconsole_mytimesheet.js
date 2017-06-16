@@ -1,8 +1,5 @@
-
 function updateDate(newVal) {
-
     var newUrl = $.query.set("date", newVal).toString();
-
     location.href = newUrl;
 }
 
@@ -30,7 +27,6 @@ String.prototype.toHHMMSS = function () {
 
 
 function computeDuration() {
-
     $(".time").each(function(index,elem){
         console.log(index);
         if ( index % 2 !== 0 ) {
@@ -45,13 +41,20 @@ function computeDuration() {
 }
 
 
-function sendabsenceRequest() {
+function sendabsenceRequest(userid) {
     var absense_data = {};
     $(".absence-data").each(function(index, element ) {
         absense_data[element.id] = element.value;
     });
-
+    absense_data["userid"] = userid;
     absense_data['type'] = $('input[name=optabsences]:checked').val()
-
-    console.log(absense_data);
+    $.ajax({
+	    url:"/api/absences/add/",
+	    method:"POST",
+	    data:absense_data
+   }).then(function(success){
+	console.log("Request sent");
+   }).catch(function(failure){
+	console.log("Failure request sent");
+   });
 }
